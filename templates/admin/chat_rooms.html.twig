@@ -1,0 +1,451 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration - Chat Rooms{% endblock %}
+
+{% block body %}
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4">
+                <i class="fas fa-comments"></i> Conversations des Visiteurs
+            </h1>
+            <p class="text-muted mb-4">
+                <i class="fas fa-info-circle"></i> 
+                Répondez directement aux messages des visiteurs depuis cette interface. 
+                Vos réponses apparaîtront automatiquement avec le nom "Admin".
+            </p>
+            
+            {% if rooms|length > 0 %}
+                <div class="row">
+                    {% for room in rooms %}
+                        <div class="col-lg-6 col-xl-4 mb-4">
+                            <div class="card room-card">
+                                <div class="card-header {% if room.hasUnreadAdmin %}bg-success{% else %}bg-primary{% endif %} text-white">
+                                    <h5 class="mb-0">
+                                        <i class="fas fa-user"></i> {{ room.name }}
+                                        <span class="badge bg-light {% if room.hasUnreadAdmin %}text-success{% else %}text-primary{% endif %} ms-2">
+                                            Room #{{ room.id }}
+                                        </span>
+                                        {% if room.hasUnreadAdmin %}
+                                            <span class="badge bg-warning text-dark ms-2">
+                                                <i class="fas fa-bell"></i> Nouveau
+                                            </span>
+                                        {% endif %}
+                                        {% if room.messageCount > 0 %}
+                                            <small class="badge bg-light {% if room.hasUnreadAdmin %}text-success{% else %}text-primary{% endif %} ms-2">
+                                                {{ room.messageCount }} message{{ room.messageCount > 1 ? 's' : '' }}
+                                            </small>
+                                        {% endif %}
+                                    </h5>
+                                </div>
+                                
+                                <div class="card-body p-0">
+                                    <!-- Messages de la room -->
+                                    <div class="messages-container" style="height: 300px; overflow-y: auto; border-bottom: 1px solid #dee2e6;">
+                                        {% if room.messages|length > 0 %}
+                                            <div class="p-3">
+                                                {% for message in room.messages %}
+                                                    <div class="message mb-2 {% if message.sender == 'Admin' %}admin-message{% else %}user-message{% endif %}" data-message-id="{{ message.id }}">
+                                                        <div class="message-bubble">
+                                                            <div class="d-flex justify-content-between align-items-start">
+                                                                <div class="flex-grow-1">
+                                                                    <strong class="sender">{{ message.sender }}</strong>
+                                                                    <small class="text-muted ms-2">{{ message.timestamp|date('d/m H:i') }}</small>
+                                                                    <div class="content mt-1">{{ message.content }}</div>
+                                                                </div>
+                                                                <div class="message-actions ms-2">
+                                                                    <button class="btn btn-sm btn-outline-danger delete-message-btn" 
+                                                                            data-message-id="{{ message.id }}"
+                                                                            data-bs-toggle="tooltip" 
+                                                                            title="Supprimer ce message">
+                                                                        <i class="fas fa-trash-alt"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        {% else %}
+                                            <div class="p-3 text-muted text-center">
+                                                <i class="fas fa-comment-slash"></i>
+                                                <p class="mb-0">Aucun message dans cette conversation</p>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <!-- Formulaire de réponse rapide -->
+                                    <div class="p-3 bg-light">
+                                        <form method="POST" action="{{ path('chat_send', {'roomId': room.id}) }}" class="quick-reply-form">
+                                            <input type="hidden" name="username" value="Admin">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('chat_message') }}">
+                                            <div class="input-group">
+                                                <input type="text" name="message" class="form-control" 
+                                                       placeholder="Répondre en tant qu'Admin..." 
+                                                       required>
+                                                <button class="btn btn-primary" type="submit">
+                                                    <i class="fas fa-paper-plane"></i> Envoyer
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                
+                                <div class="card-footer d-flex justify-content-between">
+                                    <a href="{{ path('chat_private', {'roomId': room.id}) }}" 
+                                       class="btn btn-outline-primary btn-sm">
+                                        <i class="fas fa-external-link-alt"></i> Ouvrir en plein écran
+                                    </a>
+                                    <button class="btn btn-outline-danger btn-sm delete-room-btn" 
+                                            data-room-id="{{ room.id }}"
+                                            data-room-name="{{ room.name }}"
+                                            data-bs-toggle="tooltip" 
+                                            title="Supprimer cette conversation">
+                                        <i class="fas fa-trash-alt"></i> Supprimer conversation
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="text-center mt-5">
+                    <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                    <h3 class="text-muted">Aucune conversation de visiteur</h3>
+                    <p class="text-muted">
+                        Les conversations des visiteurs apparaîtront ici automatiquement.<br>
+                        <small>Seules les conversations avec des messages sont affichées.</small>
+                    </p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+.room-card {
+    border: none;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    transition: all 0.15s ease-in-out;
+}
+
+.room-card:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+.message {
+    margin-bottom: 10px;
+}
+
+.message-bubble {
+    padding: 8px 12px;
+    border-radius: 10px;
+    max-width: 85%;
+}
+
+.user-message .message-bubble {
+    background-color: #e3f2fd;
+    margin-left: 0;
+    border-bottom-left-radius: 4px;
+}
+
+.admin-message {
+    text-align: right;
+}
+
+.admin-message .message-bubble {
+    background-color: #e8f5e8;
+    margin-left: auto;
+    border-bottom-right-radius: 4px;
+}
+
+.sender {
+    font-size: 0.85em;
+    color: #495057;
+}
+
+.content {
+    color: #212529;
+    word-wrap: break-word;
+}
+
+.messages-container {
+    background-color: #fafafa;
+}
+
+.quick-reply-form input[type="text"] {
+    border-radius: 20px;
+}
+
+.quick-reply-form .btn {
+    border-radius: 20px;
+}
+
+.messages-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.messages-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.messages-container::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+.messages-container::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+.message-actions {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.message:hover .message-actions {
+    opacity: 1;
+}
+
+.delete-message-btn {
+    border: none !important;
+    background: transparent !important;
+    color: #dc3545 !important;
+    padding: 2px 6px !important;
+    font-size: 0.75em !important;
+}
+
+.delete-message-btn:hover {
+    background: #dc3545 !important;
+    color: white !important;
+}
+
+.delete-room-btn:hover {
+    background: #dc3545 !important;
+    border-color: #dc3545 !important;
+    color: white !important;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Auto-scroll vers le bas pour chaque container de messages
+    document.querySelectorAll('.messages-container').forEach(function(container) {
+        container.scrollTop = container.scrollHeight;
+    });
+    
+    // Gérer la soumission des formulaires en AJAX
+    document.querySelectorAll('.quick-reply-form').forEach(function(form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const messageInput = this.querySelector('input[name="message"]');
+            const submitButton = this.querySelector('button[type="submit"]');
+            const messagesContainer = this.closest('.card').querySelector('.messages-container .p-3') || 
+                                    this.closest('.card').querySelector('.messages-container');
+            
+            // Le token CSRF est déjà dans le FormData via le champ hidden du formulaire
+            
+            // Désactiver le bouton pendant l'envoi
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi...';
+            
+            fetch(this.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Ajouter le message localement
+                    const now = new Date();
+                    const timestamp = now.toLocaleDateString('fr-FR', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                    
+                    const messageHtml = `
+                        <div class="message mb-2 admin-message">
+                            <div class="message-bubble">
+                                <strong class="sender">Admin</strong>
+                                <small class="text-muted ms-2">${timestamp}</small>
+                                <div class="content mt-1">${messageInput.value}</div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    if (messagesContainer.querySelector('.text-muted.text-center')) {
+                        // Première conversation - remplacer le message "Aucun message"
+                        messagesContainer.innerHTML = '<div class="p-3">' + messageHtml + '</div>';
+                    } else {
+                        // Ajouter à la conversation existante
+                        const messagesDiv = messagesContainer.querySelector('.p-3') || messagesContainer;
+                        messagesDiv.insertAdjacentHTML('beforeend', messageHtml);
+                    }
+                    
+                    // Vider le champ et scroll vers le bas
+                    messageInput.value = '';
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                    
+                    // Réactiver le bouton
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = '<i class="fas fa-paper-plane"></i> Envoyer';
+                } else {
+                    alert('Erreur lors de l\'envoi du message');
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = '<i class="fas fa-paper-plane"></i> Envoyer';
+                }
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+                alert('Erreur lors de l\'envoi du message');
+                submitButton.disabled = false;
+                submitButton.innerHTML = '<i class="fas fa-paper-plane"></i> Envoyer';
+            });
+        });
+    });
+    
+    // Gestion de la suppression des messages
+    document.querySelectorAll('.delete-message-btn').forEach(function(button) {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const messageId = this.getAttribute('data-message-id');
+            const messageElement = document.querySelector(`[data-message-id="${messageId}"]`);
+            
+            if (confirm('Êtes-vous sûr de vouloir supprimer ce message ? Cette action est irréversible.')) {
+                fetch(`/admin/message/${messageId}/delete`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Animation de suppression
+                        messageElement.style.transition = 'all 0.3s ease';
+                        messageElement.style.opacity = '0';
+                        messageElement.style.transform = 'translateX(-100%)';
+                        
+                        setTimeout(() => {
+                            messageElement.remove();
+                            
+                            // Vérifier s'il reste des messages dans cette conversation
+                            const messagesContainer = messageElement.closest('.messages-container');
+                            const remainingMessages = messagesContainer.querySelectorAll('.message');
+                            
+                            if (remainingMessages.length === 0) {
+                                // Plus de messages, afficher le message "Aucun message"
+                                const messagesDiv = messagesContainer.querySelector('.p-3');
+                                if (messagesDiv) {
+                                    messagesDiv.innerHTML = `
+                                        <div class="p-3 text-muted text-center">
+                                            <i class="fas fa-comment-slash"></i>
+                                            <p class="mb-0">Aucun message dans cette conversation</p>
+                                        </div>
+                                    `;
+                                }
+                            }
+                        }, 300);
+                        
+                        // Afficher un message de succès
+                        showNotification('Message supprimé avec succès', 'success');
+                    } else {
+                        showNotification(data.error || 'Erreur lors de la suppression', 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur:', error);
+                    showNotification('Erreur lors de la suppression du message', 'error');
+                });
+            }
+        });
+    });
+    
+    // Gestion de la suppression des conversations
+    document.querySelectorAll('.delete-room-btn').forEach(function(button) {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const roomId = this.getAttribute('data-room-id');
+            const roomName = this.getAttribute('data-room-name');
+            const roomCard = this.closest('.card');
+            
+            if (confirm(`Êtes-vous sûr de vouloir supprimer la conversation "${roomName}" ?\n\nTous les messages seront définitivement perdus. Cette action est irréversible.`)) {
+                fetch(`/admin/room/${roomId}/delete`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Animation de suppression de la carte
+                        roomCard.style.transition = 'all 0.5s ease';
+                        roomCard.style.opacity = '0';
+                        roomCard.style.transform = 'scale(0.8)';
+                        
+                        setTimeout(() => {
+                            roomCard.remove();
+                            
+                            // Vérifier s'il reste des conversations
+                            const remainingCards = document.querySelectorAll('.room-card');
+                            if (remainingCards.length === 0) {
+                                // Recharger la page pour afficher le message "Aucune conversation"
+                                window.location.reload();
+                            }
+                        }, 500);
+                        
+                        showNotification('Conversation supprimée avec succès', 'success');
+                    } else {
+                        showNotification(data.error || 'Erreur lors de la suppression', 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur:', error);
+                    showNotification('Erreur lors de la suppression de la conversation', 'error');
+                });
+            }
+        });
+    });
+    
+    // Fonction pour afficher les notifications
+    function showNotification(message, type) {
+        const alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
+        const notification = document.createElement('div');
+        notification.className = `alert ${alertClass} alert-dismissible fade show position-fixed`;
+        notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+        notification.innerHTML = `
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // Auto-suppression après 5 secondes
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.remove();
+            }
+        }, 5000);
+    }
+    
+    // Initialiser les tooltips Bootstrap
+    if (typeof bootstrap !== 'undefined') {
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    }
+});
+</script>
+{% endblock %}

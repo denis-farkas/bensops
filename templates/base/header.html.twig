@@ -1,0 +1,340 @@
+{# templates/base/header.html.twig #}
+<nav class="custom-navbar">
+    <div class="container mx-auto" style="max-width: 1440px">
+        <a class="navbar-brand" href="{{ path('app_home') }}">
+            <img class="logo" src="/build/images/logo-cropped.png" alt="BENSOPS" />
+        </a>
+        <button class="menu-toggle" id="menuToggle" type="button" aria-label="Toggle navigation">
+            <span class="hamburger-icon"></span>
+        </button>
+        <div class="nav-menu" id="navMenu">
+            <div class="nav-links">
+                <a class="nav-link {% if app.request.get('_route') == 'app_home' %}active{% endif %}" href="{{ path('app_home') }}" {% if app.request.get('_route') == 'app_home' %}style="color: #FF6B00;"{% endif %}>ACCUEIL</a>
+                <a class="nav-link {% if app.request.get('_route') == 'app_cabinet' %}active{% endif %}" href="{{ path('app_cabinet') }}" {% if app.request.get('_route') == 'app_cabinet' %}style="color: #FF6B00;"{% endif %}>LE CABINET</a>
+
+                <div class="dropdown">
+                    {% set particuliersActive = app.request.get('_route') in ['app_divorce', 'app_garde', 'app_pension', 'app_travail', 'app_moral', 'app_solvable', 'app_disparue'] %}
+                    <button class="dropdown-btn nav-link {% if particuliersActive %}active{% endif %}" aria-expanded="false" {% if particuliersActive %}style="color: #FF6B00;"{% endif %}>PARTICULIERS <span class="dropdown-arrow">▼</span></button>
+                    <div class="dropdown-content">
+                        <a class="dropdown-item {% if app.request.get('_route') == 'app_divorce' %}active{% endif %}" href="{{ path('app_divorce') }}" {% if app.request.get('_route') == 'app_divorce' %}style="color: #FF6B00;"{% endif %}>Divorce conflictuel</a>
+                        <a class="dropdown-item {% if app.request.get('_route') == 'app_garde' %}active{% endif %}" href="{{ path('app_garde') }}" {% if app.request.get('_route') == 'app_garde' %}style="color: #FF6B00;"{% endif %}>Garde d'enfant</a>
+                        <a class="dropdown-item {% if app.request.get('_route') == 'app_pension' %}active{% endif %}" href="{{ path('app_pension') }}" {% if app.request.get('_route') == 'app_pension' %}style="color: #FF6B00;"{% endif %}>Pension alimentaire</a>
+                        <a class="dropdown-item {% if app.request.get('_route') == 'app_travail' %}active{% endif %}" href="{{ path('app_travail') }}" {% if app.request.get('_route') == 'app_travail' %}style="color: #FF6B00;"{% endif %}>Violations du droit du travail</a>
+                        <a class="dropdown-item {% if app.request.get('_route') == 'app_moral' %}active{% endif %}" href="{{ path('app_moral') }}" {% if app.request.get('_route') == 'app_moral' %}style="color: #FF6B00;"{% endif %}>Enquête de moralité</a>
+                        <a class="dropdown-item {% if app.request.get('_route') == 'app_solvable' %}active{% endif %}" href="{{ path('app_solvable') }}" {% if app.request.get('_route') == 'app_solvable' %}style="color: #FF6B00;"{% endif %}>Enquête de solvabilité</a>
+                        <a class="dropdown-item {% if app.request.get('_route') == 'app_disparue' %}active{% endif %}" href="{{ path('app_disparue') }}" {% if app.request.get('_route') == 'app_disparue' %}style="color: #FF6B00;"{% endif %}>Personnes disparues ou introuvables</a>
+                    </div>
+                </div>
+
+                <div class="dropdown">
+                    {% set entreprisesActive = app.request.get('_route') in ['app_antecedent', 'app_maladie', 'app_concurrence', 'app_personnel', 'app_vols', 'app_mystere', 'app_espion', 'app_securite'] %}
+                    <button class="dropdown-btn nav-link {% if entreprisesActive %}active{% endif %}" aria-expanded="false" {% if entreprisesActive %}style="color: #FF6B00;"{% endif %}>ENTREPRISES <span class="dropdown-arrow">▼</span></button>
+                    <div class="dropdown-content">
+                        <a class="dropdown-item {% if app.request.get('_route') == 'app_antecedent' %}active{% endif %}" href="{{ path('app_antecedent') }}" {% if app.request.get('_route') == 'app_antecedent' %}style="color: #FF6B00;"{% endif %}>Analyse des antécédents</a>
+                        <a class="dropdown-item {% if app.request.get('_route') == 'app_maladie' %}active{% endif %}" href="{{ path('app_maladie') }}" {% if app.request.get('_route') == 'app_maladie' %}style="color: #FF6B00;"{% endif %}>Suspicion d'arrêt maladie abusif</a>
+                        <a class="dropdown-item {% if app.request.get('_route') == 'app_concurrence' %}active{% endif %}" href="{{ path('app_concurrence') }}" {% if app.request.get('_route') == 'app_concurrence' %}style="color: #FF6B00;"{% endif %}>Concurrence déloyale</a>
+                        <a class="dropdown-item {% if app.request.get('_route') == 'app_personnel' %}active{% endif %}" href="{{ path('app_personnel') }}" {% if app.request.get('_route') == 'app_personnel' %}style="color: #FF6B00;"{% endif %}>Enquête sur le personnel</a>
+                        <a class="dropdown-item {% if app.request.get('_route') == 'app_vols' %}active{% endif %}" href="{{ path('app_vols') }}" {% if app.request.get('_route') == 'app_vols' %}style="color: #FF6B00;"{% endif %}>Enquête sur les vols</a>
+                        <a class="dropdown-item {% if app.request.get('_route') == 'app_mystere' %}active{% endif %}" href="{{ path('app_mystere') }}" {% if app.request.get('_route') == 'app_mystere' %}style="color: #FF6B00;"{% endif %}>Client mystère</a>
+                        <a class="dropdown-item {% if app.request.get('_route') == 'app_espion' %}active{% endif %}" href="{{ path('app_espion') }}" {% if app.request.get('_route') == 'app_espion' %}style="color: #FF6B00;"{% endif %}>Espionnage industriel</a>
+                        <a class="dropdown-item {% if app.request.get('_route') == 'app_securite' %}active{% endif %}" href="{{ path('app_securite') }}" {% if app.request.get('_route') == 'app_securite' %}style="color: #FF6B00;"{% endif %}>Sécurité des locaux</a>
+                    </div>
+                </div>
+
+                <a class="nav-link {% if app.request.get('_route') == 'app_tarif' %}active{% endif %}" href="{{ path('app_tarif') }}" {% if app.request.get('_route') == 'app_tarif' %}style="color: #FF6B00;"{% endif %}>TARIFS</a>
+                <a class="nav-link {% if app.request.get('_route') == 'app_contact' %}active{% endif %}" href="{{ path('app_contact') }}" {% if app.request.get('_route') == 'app_contact' %}style="color: #FF6B00;"{% endif %}>CONTACTS</a>
+                <a class="nav-link {% if app.request.get('_route') == 'app_article' %}active{% endif %}" href="{{ path('app_article') }}" {% if app.request.get('_route') == 'app_article' %}style="color: #FF6B00;"{% endif %}>RESSOURCES</a>
+            </div>
+        </div>
+    </div>
+</nav>
+                                                <!-- Ancienne navbar supprimée, seule la nouvelle structure reste -->
+        </div>
+    </div>
+</nav>
+
+<style>
+    /* Navbar */
+    .custom-navbar {
+        background: white;
+        position: sticky;
+        top: 0;
+        z-index: 1050;
+        padding: 0.5rem 1rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .custom-navbar .container {
+        position: relative;
+    }
+    
+    .custom-navbar .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .navbar-brand img.logo {
+        width: 120px;
+        height: auto;
+    }
+    
+    /* Menu toggle button (hamburger) */
+    .menu-toggle {
+        display: none;
+        background: transparent;
+        border: none;
+        padding: 0.5rem;
+        cursor: pointer;
+    }
+    
+    .hamburger-icon {
+        display: block;
+        width: 25px;
+        height: 2px;
+        background: #00437a;
+        position: relative;
+        transition: 0.3s;
+    }
+    
+    .hamburger-icon::before,
+    .hamburger-icon::after {
+        content: '';
+        display: block;
+        width: 25px;
+        height: 2px;
+        background: #00437a;
+        position: absolute;
+        transition: 0.3s;
+    }
+    
+    .hamburger-icon::before { top: -8px; }
+    .hamburger-icon::after { top: 8px; }
+    
+    .menu-toggle.active .hamburger-icon {
+        background: transparent;
+    }
+    
+    .menu-toggle.active .hamburger-icon::before {
+        transform: rotate(45deg);
+        top: 0;
+    }
+    
+    .menu-toggle.active .hamburger-icon::after {
+        transform: rotate(-45deg);
+        top: 0;
+    }
+    
+    /* Nav menu - Desktop par défaut */
+    .nav-menu {
+        display: flex;
+        flex: 1;
+        position: static;
+    }
+    .nav-links {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        justify-content: flex-end;
+        gap: 0.1rem;
+    }
+    .nav-link {
+        color: #00437a;
+        font-weight: normal;
+        text-decoration: none;
+        padding: 0.5rem 0.7rem;
+        display: block;
+        white-space: nowrap;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+    }
+    .nav-link:hover,
+    .nav-link.active {
+        color: #FF6B00 !important;
+    }
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+    .dropdown-btn {
+        color: #00437a;
+        font-weight: normal;
+        font-family: inherit;
+        text-decoration: none;
+        padding: 0.5rem 0.7rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+    }
+    .dropdown-btn.active,
+    .dropdown-btn:hover {
+        color: #FF6B00 !important;
+    }
+    .dropdown-arrow {
+        font-size: 0.7rem;
+        margin-left: 0.3rem;
+    }
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        min-width: 250px;
+        background: white;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        z-index: 9999;
+        padding: 1rem 0.5rem;
+        border-radius: 0 0 8px 8px;
+    }
+    .dropdown.open .dropdown-content {
+        display: block;
+    }
+    .dropdown-item {
+        color: #00437a;
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        display: block;
+        border-radius: 4px;
+        font-size: 1rem;
+    }
+    .dropdown-item:hover,
+    .dropdown-item.active {
+        background-color: #f1f1f1;
+        color: #FF6B00 !important;
+    }
+    .custom-navbar {
+        overflow: visible;
+    }
+    
+    .nav-item.dropdown:hover .dropdown-menu {
+        display: block;
+    }
+    
+    .dropdown-menu .row {
+        display: flex;
+        gap: 2rem;
+    }
+    
+    .dropdown-menu .col {
+        flex: 1;
+    }
+    
+    .dropdown-menu ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .dropdown-item {
+        color: #00437a;
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        display: block;
+    }
+    
+    .dropdown-item:hover,
+    .dropdown-item.active {
+        background-color: #f1f1f1;
+        color: #FF6B00 !important;
+    }
+    
+    /* Mobile styles */
+    @media (max-width: 991.98px) {
+        .menu-toggle {
+            display: block;
+        }
+        .nav-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-top: 1px solid rgba(0,0,0,.125);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            z-index: 1060;
+        }
+        .nav-menu.active {
+            max-height: 1000px;
+            overflow-y: auto;
+        }
+        .nav-links {
+            flex-direction: column;
+            padding: 1rem 0;
+            gap: 0;
+            align-items: center;
+            justify-content: center;
+        }
+        .nav-link, .dropdown-btn {
+            padding: 1rem 1.5rem;
+            width: 100%;
+            text-align: center;
+        }
+        .dropdown-content {
+            position: static;
+            width: 100%;
+            box-shadow: none;
+            padding: 0.5rem 0;
+            background: #f8f9fa;
+            border-radius: 0;
+        }
+        .dropdown.open .dropdown-content {
+            display: block;
+        }
+        .dropdown-item {
+            padding: 0.5rem 1.5rem;
+            font-size: 0.95rem;
+        }
+    }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const menuToggle = document.getElementById('menuToggle');
+    const navMenu = document.getElementById('navMenu');
+    const dropdowns = document.querySelectorAll('.dropdown');
+    if (!menuToggle || !navMenu) return;
+
+    // Toggle mobile menu
+    menuToggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        this.classList.toggle('active');
+        navMenu.classList.toggle('active');
+    });
+
+    // Dropdown toggle (desktop & mobile)
+    dropdowns.forEach(dropdown => {
+        const btn = dropdown.querySelector('.dropdown-btn');
+        if (btn) {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                // Ferme les autres dropdowns
+                dropdowns.forEach(d => { if (d !== dropdown) d.classList.remove('open'); });
+                const isOpen = dropdown.classList.toggle('open');
+                btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+            });
+        }
+    });
+
+    // Ferme les dropdowns si clic hors navbar
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.custom-navbar')) {
+            navMenu.classList.remove('active');
+            menuToggle.classList.remove('active');
+            dropdowns.forEach(dropdown => {
+                dropdown.classList.remove('open');
+                const btn = dropdown.querySelector('.dropdown-btn');
+                if (btn) btn.setAttribute('aria-expanded', 'false');
+            });
+        }
+    });
+});
+</script>

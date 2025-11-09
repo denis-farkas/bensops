@@ -1,0 +1,180 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mentions légales - BENSOPS{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    .legal-header {
+        background-color: #004373;
+        color: white;
+        padding: 3rem 0;
+        margin-bottom: 2rem;
+        position: relative;
+        overflow: hidden;
+    }
+    .legal-header::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 30%;
+        height: 100%;
+        background: linear-gradient(45deg, transparent, rgba(231, 88, 26, 0.1));
+        z-index: 1;
+    }
+    .legal-header h1 {
+        font-weight: 600;
+        margin-bottom: 0;
+        position: relative;
+        z-index: 2;
+    }
+    .legal-header h1::after {
+        content: '';
+        display: block;
+        width: 60px;
+        height: 3px;
+        background-color: #e7581a;
+        margin-top: 15px;
+    }
+    .logo-link {
+        display: inline-block;
+        padding: 10px;
+        border-radius: 10px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        position: relative;
+        z-index: 2;
+    }
+    .legal-header .logo-legal {
+        max-width: 200px;
+        height: auto;
+        filter: brightness(0.45) grayscale(18%) drop-shadow(0 0 2px #003366);
+        transition: all 0.5s ease;
+    }
+    .logo-link:hover .logo-legal {
+        filter: brightness(0.95) grayscale(0%) drop-shadow(0 0 0 #000);
+        background: #e7581a;
+        border-radius: 12px;
+        box-shadow: 0 0 0 6px #e7581a, 0 0 32px 0 #e7581a99;
+        transform: scale(1.05);
+        transition: all 0.3s cubic-bezier(.4,2,.6,1);
+    }
+    .logo-link:hover {
+        background: #e7581a;
+        border-radius: 12px;
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px #e7581a99, 0 2px 18px 0 #e7581a;
+        transition: all 0.3s cubic-bezier(.4,2,.6,1);
+    }
+    .legal-content h2 {
+        color: #004373;
+        font-weight: 600;
+        margin-top: 2rem;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+    }
+    .legal-content h2::before {
+        content: '';
+        display: inline-block;
+        width: 4px;
+        height: 24px;
+        background-color: #e7581a;
+        margin-right: 15px;
+        border-radius: 2px;
+    }
+    .legal-content p {
+        line-height: 1.6;
+        color: #333;
+    }
+    .bg-light {
+        border-left: 3px solid #e7581a;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .bg-light:hover {
+        transform: translateX(5px);
+        box-shadow: 0 5px 15px rgba(231, 88, 26, 0.1);
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="legal-header">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h1 class="mb-4">Mentions légales</h1>
+            </div>
+            <div class="col-md-6">
+                <a href="{{ path('app_home') }}" class="logo-link">
+                    <img src="{{ asset('build/images/logo-cropped.png') }}" alt="BENSOPS" class="cabinet-image logo-legal">
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container legal-content">
+    <div class="mb-5">
+        <h2>Informations légales & Coordonnées</h2>
+        <div class="bg-light p-4 rounded">
+            <p><strong>BENSOPS - Cabinet de détective privé</strong></p>
+            <p>N° SIRET : 82410353500079</p>
+            <p>Siège social : Marseille / Paris - FRANCE</p>
+            <p>Code APE/NAF : 8030Z (Activités d'enquête)</p>
+            <p>Forme juridique : Entreprise individuelle profession libérale (EI)</p>
+            <p>Email : sne@bensops.fr</p>
+            <p>Tél : 04.65.57.41.76</p>
+        </div>
+    </div>
+
+    <h2 class="mb-3">Agrément de dirigeant, Autorisation établissement et Carte professionnelle</h2>
+        <div class="mb-5 bg-light p-4 rounded" style="border-left: 3px solid #e7581a;">
+            <p>L'activité d'« agent de recherches privées » et/ou « enquêteur de droit privé » et/ou « détective privé », est une profession règlementée par la loi n°2003-239 du 18 mars 2003 et régie par les dispositions du Livre VI – Titre II du Code de la sécurité intérieure (CSI).</p>
+            <p>L'article <a href="https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000025506411" target="_blank" rel="noopener" style="color:#e7581a;text-decoration:underline;">L621-1 du Code de la sécurité intérieure</a> dispose : «Est soumise aux dispositions du présent titre la profession libérale qui consiste, pour une personne, à recueillir, même sans faire état de sa qualité ni révéler l'objet de sa mission, des informations ou renseignements destinés à des tiers, en vue de la défense de leurs intérêts".</p>
+            <p>Le cabinet certifie être en règle vis-à-vis des obligations réglementaires et déclaratives relatives à sa profession. Il dispose ainsi de l'« Autorisation d'exercer » pour l'établissement, et son dirigeant bénéficie à titre individuel de l'« Agrément personnel du dirigeant » ainsi que de la « Carte professionnelle. »</p>
+        </div>
+
+    <div class="mb-5">
+        <h2>CNAPS et Vérification des autorisations</h2>
+        <div class="bg-light p-4 rounded">
+            <p>Conformément aux dispositions du Code de la sécurité intérieure (CSI), les numéros d'autorisation figurent sur l'ensemble des documents émis par le Cabinet. La vérification des présents titres et autorisations peut être demandée auprès du Conseil National des Activités Privées de Sécurité (CNAPS).</p>
+
+            <div class="mt-4 p-3 bg-light rounded" style="border-left: 3px solid #e7581a;">
+                    <p class="mb-2"><strong><a href="https://teleservices-cnaps.interieur.gouv.fr/teleservices/ihm/#/home" target="_blank" rel="noopener" style="color:#e7581a;text-decoration:underline;">CNAPS – Délégation territoriale Sud-Est</a></strong></p>
+                <p class="mb-0">6, allée Turcat Mery – CS 30028<br>
+                13295 MARSEILLE Cedex 08<br>
+                Tél : 01.48.22.20.40</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-5">
+        <h2>Assurance Responsabilité Civile Professionnelle</h2>
+        <div class="bg-light p-4 rounded">
+            <p>Conformément à l'article <a href="https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000025503132/LEGISCTA000025506415/" target="_blank" rel="noopener" style="color:#e7581a;text-decoration:underline;"> L622-5 du CSI</a>, le cabinet a souscrit une assurance en responsabilité civile professionnelle couvrant les risques inhérents à l'activité d'enquête privée.</p>
+        </div>
+    </div>
+
+    <div class="mb-5">
+        <h2>Code de déontologie</h2>
+        <div class="bg-light p-4 rounded">
+            <p>BENSOPS est soumis à la déontologie des personnes physiques ou morales exerçant des activités privées de sécurité <a href="https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000025503132/LEGISCTA000029656360/" target="_blank" rel="noopener" style="color:#e7581a;text-decoration:underline;">Articles R631-1 à R631-32 - Décret n°2012-870 du 10 juillet 2012</a>.</p>
+        </div>
+    </div>
+
+    <div class="mb-5">
+    <h2>Article&nbsp;<a href="https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000025506223/2022-06-14" target="_blank" rel="noopener" style="color:#e7581a;text-decoration:underline;">L612-14 du CSI</a></h2>
+        <div class="bg-light p-4 rounded">
+            <p style="color: #e7581a;">« L'autorisation d'exercice ne confère aucune prérogative de puissance publique à l'entreprise ou aux personnes qui en bénéficient. »</p>
+        </div>
+    </div>
+
+    <div class="mb-5">
+        <h2>Droit au recours à la Médiation</h2>
+        <div class="bg-light p-4 rounded">
+            <p>En application de l'<a href="https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000032224805/2022-01-08" target="_blank" rel="noopener" style="color:#e7581a;text-decoration:underline;">article L.612-1 du Code de la consommation</a>, tout consommateur a le droit de recourir gratuitement à un médiateur de la consommation en vue de la résolution amiable du litige qui l'oppose à un professionnel.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

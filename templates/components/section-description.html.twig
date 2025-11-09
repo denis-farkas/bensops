@@ -1,0 +1,47 @@
+<div class="d-flex justify-content-evenly align-items-center my-5 py-5 mx-auto flex-wrap" id="description">
+    <div class="col-md-5 col-sm-12 d-flex justify-content-center align-items-center" id="description-image"> 
+        <a href="https://www.actu-juridique.fr/professions/autres-professions/detectives-prives-les-petites-mains-liees-de-la-justice/" target="_blank" rel="noopener noreferrer" aria-label="Article externes sur les détectives privés - Actu Juridique" class="external-image-link">
+            <img class="img-description " src='{{ asset('build/images/justice.png') }}' alt="secretaire"/>
+        </a> 
+    </div>
+    <div class="col-md-5 col-sm-12 d-flex flex-column justify-content-start align-items-start p-4" id="right"> 
+        <h2 class="titre-description">BENSOPS — Expertise d'investigation judiciaire et conformité juridique</h2>
+        <p class="txt-description">BENSOPS intervient en qualité d'
+            <a href="https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000025506411" target="_blank" rel="noopener noreferrer" class="external-link" aria-label="Consulter la définition légale d'agence d'investigation sur Legifrance">
+                agence d'investigation privée
+                <svg class="external-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" width="14" height="14" aria-hidden="true">
+                    <path d="M14 3h7v7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10 14L21 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M21 21H3V3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
+            auprès des professionnels du droit, des entreprises et des particuliers. Nous recueillons, analysons et documentons des éléments probants destinés à être produits devant les juridictions ou intégrés à des démarches de résolution amiable.</p>
+        <p class="txt-description">Nos investigations sont conduites selon une méthodologie rigoureuse et dans le strict respect des règles de droit et des obligations déontologiques : licéité des moyens de collecte, protection des données personnelles et garanties procédurales. Nous remettons des rapports circonstanciés, étayés par des pièces et des chronologies exploitables par vos conseils.</p>
+        <p class="txt-description">Appuyés par un réseau d'enquêteurs agréés et par des partenaires juridiques, nous opérons avec discrétion, réactivité et traçabilité, tant sur le territoire national qu'à l'international. Notre objectif est d'apporter des éléments probatoires fiables pour sécuriser vos décisions et renforcer la tenue de vos dossiers.</p>
+    </div>
+
+
+</div>
+    <style>
+        /* Harmonious external link styling for the legal reference */
+        .external-link { color: #0b2b46; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 0.35rem; }
+        .external-link .external-icon { color: #0b2b46; opacity: 0.85; margin-left: 0.15rem; }
+        .external-link:hover, .external-link:focus { text-decoration: underline; color: #072133; }
+        .external-link:focus { outline: 3px solid rgba(11,43,70,0.12); outline-offset: 2px; border-radius: 3px; }
+    </style>
+    <style>
+        /* small style to indicate image is clickable and accessible */
+        .external-image-link { display:inline-block; border-radius:8px; overflow:hidden; background: rgba(255,255,255,0.02); }
+        .external-image-link:focus { outline: 3px solid rgba(11,43,70,0.08); outline-offset: 3px; }
+        .external-image-link img { display:block; opacity: 0.88; filter: grayscale(8%); border-radius:6px; transition: opacity 320ms ease, transform 320ms ease, filter 320ms ease; }
+        .external-image-link:hover img, .external-image-link:focus img { transform: scale(1.02); filter: none; opacity: 1; }
+        @media (max-width: 575px) {
+            .external-image-link img { opacity: 0.92; transform: none; }
+            /* Centrer le contenu sur mobile */
+            #right { 
+                justify-content: center !important; 
+                align-items: center !important; 
+                text-align: center !important; 
+            }
+        }
+    </style>

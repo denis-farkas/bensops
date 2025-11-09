@@ -1,0 +1,591 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Suspicion d'arrêt maladie abusif{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    .maladie-luxe {
+        position: relative;
+        padding: 5rem 0 6rem;
+        background: radial-gradient(120% 120% at 0% 0%, #0a1020 0%, #050714 55%, #01030a 100%);
+        color: rgba(230, 239, 255, 0.92);
+        overflow: hidden;
+    }
+    .maladie-luxe::before,
+    .maladie-luxe::after {
+        content: "";
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(52px);
+        opacity: 0.55;
+        pointer-events: none;
+    }
+    .maladie-luxe::before {
+        width: 620px;
+        height: 620px;
+        top: -210px;
+        left: -180px;
+        background: radial-gradient(circle, rgba(231, 88, 26, 0.34) 0%, rgba(231, 88, 26, 0) 70%);
+    }
+    .maladie-luxe::after {
+        width: 520px;
+        height: 520px;
+        bottom: -220px;
+        right: -160px;
+        background: radial-gradient(circle, rgba(0, 67, 122, 0.32) 0%, rgba(0, 67, 122, 0) 70%);
+    }
+    .maladie-shell {
+        position: relative;
+        z-index: 1;
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+    }
+    .maladie-hero {
+        text-align: center;
+        margin-bottom: 3.5rem;
+    }
+    .maladie-hero .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1.4rem;
+        border-radius: 999px;
+        border: 1px solid rgba(231, 88, 26, 0.5);
+        background: linear-gradient(135deg, rgba(231, 88, 26, 0.2), rgba(192, 136, 8, 0.12));
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        color: #ffbf99;
+        margin-bottom: 1.6rem;
+    }
+    .maladie-hero h1 {
+        font-size: 3rem;
+        font-weight: 650;
+        color: #ffffff;
+        margin-bottom: 1.2rem;
+    }
+    .maladie-hero p {
+        max-width: 760px;
+        margin: 0 auto 1rem;
+        font-size: 1.04rem;
+        line-height: 1.8;
+        color: rgba(230, 239, 255, 0.78);
+    }
+    .maladie-metrics {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1.2rem;
+        margin-top: 2.4rem;
+    }
+    .maladie-metric {
+        background: rgba(10, 31, 28, 0.76);
+        border-radius: 20px;
+        border: 1px solid rgba(231, 88, 26, 0.18);
+        padding: 1.5rem 1.3rem;
+        text-align: center;
+        box-shadow: 0 34px 54px rgba(0, 0, 0, 0.45);
+    }
+    .maladie-metric strong {
+        display: block;
+        font-size: 1.9rem;
+        color: #ffffff;
+    }
+    .maladie-metric span {
+        font-size: 0.92rem;
+        color: rgba(230, 239, 255, 0.72);
+    }
+    .maladie-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3.2rem;
+    }
+    .maladie-card {
+        padding: 2.3rem;
+        border-radius: 26px;
+        background: linear-gradient(210deg, rgba(231, 88, 26, 0.08), rgba(10, 31, 28, 0.72));
+        border: 1px solid rgba(231, 88, 26, 0.12);
+        box-shadow: 0 34px 52px rgba(0, 0, 0, 0.46);
+    }
+    .maladie-card h2 {
+        font-size: 0.95rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #ffbf99;
+        margin-bottom: 1rem;
+    }
+    .maladie-card h3 {
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: #ffffff;
+        margin-bottom: 1.1rem;
+    }
+    .maladie-card p,
+    .maladie-card li {
+        color: rgba(230, 239, 255, 0.8);
+        line-height: 1.75;
+    }
+    .maladie-card ul {
+        padding-left: 1.1rem;
+        margin-bottom: 0;
+    }
+    .maladie-scenarios {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.8rem;
+        margin-bottom: 3rem;
+    }
+    .maladie-scenario {
+        background: rgba(13, 41, 38, 0.74);
+        border-radius: 24px;
+        padding: 1.9rem;
+        border: 1px solid rgba(231, 88, 26, 0.12);
+        box-shadow: 0 32px 54px rgba(0, 0, 0, 0.48);
+        color: rgba(230, 239, 255, 0.78);
+    }
+    .maladie-scenario strong {
+        display: block;
+        font-size: 1.14rem;
+        color: #ffbf99;
+        margin-bottom: 0.5rem;
+    }
+    .maladie-assurance {
+        margin: 3.3rem 0;
+        padding: 2.6rem 2.2rem;
+        border-radius: 26px;
+        background: rgba(13, 41, 38, 0.6);
+        border: 1px solid rgba(231, 88, 26, 0.15);
+        box-shadow: 0 34px 56px rgba(0, 0, 0, 0.5);
+    }
+    .maladie-assurance-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1.6rem;
+    }
+    .maladie-assurance-item {
+        background: rgba(10, 31, 28, 0.74);
+        border-radius: 20px;
+        padding: 1.8rem;
+        border: 1px solid rgba(231, 88, 26, 0.12);
+        color: rgba(230, 239, 255, 0.78);
+    }
+    .maladie-assurance-item h3 {
+        font-size: 1.12rem;
+        font-weight: 600;
+        color: #ffbf99;
+        margin-bottom: 0.6rem;
+    }
+    .maladie-process {
+        margin: 3.6rem 0 3.3rem;
+        padding: 2.8rem 2.4rem;
+        border-radius: 28px;
+        background: linear-gradient(140deg, rgba(7, 28, 48, 0.8), rgba(10, 31, 28, 0.75));
+        border: 1px solid rgba(231, 88, 26, 0.12);
+        box-shadow: 0 36px 60px rgba(0, 0, 0, 0.52);
+    }
+    .maladie-process h2 {
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        font-size: 0.85rem;
+        color: rgba(231, 88, 26, 0.62);
+        margin-bottom: 2rem;
+    }
+    .maladie-steps {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1.6rem;
+    }
+    .maladie-step {
+        display: flex;
+        gap: 1.1rem;
+        padding: 1.6rem 1.4rem;
+        border-radius: 20px;
+        background: rgba(13, 41, 38, 0.48);
+        border: 1px solid rgba(231, 88, 26, 0.12);
+    }
+    .maladie-step-index {
+        width: 52px;
+        height: 52px;
+        border-radius: 16px;
+        background: rgba(231, 88, 26, 0.22);
+        color: #ffbf99;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+    .maladie-step-title {
+        font-weight: 600;
+        color: #ffffff;
+        margin-bottom: 0.35rem;
+    }
+    .maladie-step-text {
+        color: rgba(230, 239, 255, 0.76);
+        line-height: 1.6;
+    }
+    .maladie-proof {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.8rem;
+        margin-bottom: 3rem;
+    }
+    .maladie-proof-card {
+        padding: 2rem;
+        border-radius: 24px;
+        background: rgba(13, 41, 38, 0.74);
+        border: 1px solid rgba(231, 88, 26, 0.15);
+        box-shadow: 0 30px 52px rgba(0, 0, 0, 0.5);
+    }
+    .maladie-proof-card h3 {
+        font-size: 1.18rem;
+        font-weight: 600;
+        color: #ffbf99;
+        margin-bottom: 0.7rem;
+    }
+    .maladie-proof-card p {
+        color: rgba(230, 239, 255, 0.8);
+        line-height: 1.7;
+        margin-bottom: 0;
+    }
+    .maladie-legal {
+        margin: 3.4rem 0;
+        padding: 2.8rem 2.4rem;
+        border-radius: 30px;
+        background: linear-gradient(165deg, rgba(10, 31, 28, 0.84), rgba(13, 41, 38, 0.64));
+        border: 1px solid rgba(231, 88, 26, 0.18);
+        box-shadow: 0 38px 64px rgba(0, 0, 0, 0.55);
+    }
+    .maladie-legal-header {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+        margin-bottom: 2.6rem;
+    }
+    .maladie-legal-highlight {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.95rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: #ffbf99;
+    }
+    .maladie-legal-highlight::before {
+        content: "";
+        width: 28px;
+        height: 2px;
+        background: #ffbf99;
+        opacity: 0.7;
+    }
+    .maladie-legal-header h2 {
+        font-size: 2.05rem;
+        font-weight: 620;
+        color: #ffffff;
+    }
+    .maladie-legal-header p {
+        color: rgba(230, 239, 255, 0.8);
+        max-width: 780px;
+        line-height: 1.7;
+    }
+    .maladie-legal-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1.6rem;
+    }
+    .maladie-legal-card {
+        padding: 1.9rem;
+        border-radius: 24px;
+        background: rgba(13, 41, 38, 0.82);
+        border: 1px solid rgba(231, 88, 26, 0.15);
+        box-shadow: 0 30px 54px rgba(0, 0, 0, 0.5);
+    }
+    .maladie-legal-card h3 {
+        font-size: 1.12rem;
+        font-weight: 600;
+        color: #ffbf99;
+        margin-bottom: 0.6rem;
+    }
+    .maladie-legal-card p {
+        color: rgba(230, 239, 255, 0.78);
+        line-height: 1.7;
+        margin-bottom: 0;
+    }
+    .maladie-legal-footnote {
+        margin-top: 2.4rem;
+        font-size: 0.86rem;
+        color: rgba(230, 239, 255, 0.68);
+        line-height: 1.7;
+    }
+    .maladie-cta {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 1.6rem;
+        align-items: center;
+        padding: 2.6rem 2.3rem;
+        border-radius: 28px;
+        background: linear-gradient(145deg, rgba(231, 88, 26, 0.12), rgba(10, 31, 28, 0.6));
+        border: 1px solid rgba(231, 88, 26, 0.15);
+        box-shadow: 0 34px 56px rgba(0, 0, 0, 0.52);
+    }
+    .maladie-cta h3 {
+        font-size: 1.88rem;
+        font-weight: 620;
+        color: #ffffff;
+        margin-bottom: 0.6rem;
+    }
+    .maladie-cta p {
+        color: rgba(230, 239, 255, 0.78);
+        margin-bottom: 0;
+    }
+    .maladie-cta-actions {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+    .maladie-cta-actions a:nth-child(3) {
+        min-width: 280px;
+        flex: 0 1 auto;
+    }
+    .maladie-btn-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.85rem 1.9rem;
+        border-radius: 999px;
+        background: linear-gradient(120deg, #e7581a, #c08808);
+        color: #ffffff;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-decoration: none;
+        box-shadow: 0 26px 48px rgba(231, 88, 26, 0.32);
+    }
+    .maladie-btn-secondary {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.85rem 1.6rem;
+        border-radius: 999px;
+        border: 1px solid rgba(231, 88, 26, 0.24);
+        background: rgba(231, 88, 26, 0.08);
+        color: #ffbf99;
+        text-decoration: none;
+    }
+    .maladie-btn-primary:hover {
+        color: #ffffff;
+    }
+    .maladie-btn-secondary:hover {
+        color: #ffffff;
+    }
+    @media (max-width: 991px) {
+        .maladie-hero h1 {
+            font-size: 2.5rem;
+        }
+        .maladie-process {
+            padding: 2.4rem 1.9rem;
+        }
+        .maladie-legal {
+            padding: 2.4rem 1.9rem;
+        }
+    }
+    @media (max-width: 575px) {
+        .maladie-shell {
+            padding: 0 1rem;
+        }
+        .maladie-hero h1 {
+            font-size: 2.1rem;
+        }
+        .maladie-cta {
+            grid-template-columns: 1fr;
+        }
+        .maladie-cta-actions {
+            flex-direction: column;
+            width: 100%;
+        }
+        .maladie-btn-primary,
+        .maladie-btn-secondary {
+            justify-content: center;
+            width: 100%;
+        }
+        .maladie-legal {
+            padding: 2.1rem 1.5rem;
+        }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .maladie-metric,
+        .maladie-card,
+        .maladie-step,
+        .maladie-proof-card,
+        .maladie-legal-card,
+        .maladie-cta {
+            transition: none !important;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<section class="maladie-luxe">
+    <div class="maladie-shell">
+        <header class="maladie-hero">
+            <span class="badge">Protection sociale</span>
+            <h1>Cellule premium contre les arrêts maladie frauduleux</h1>
+            <p>Protégez vos marges et votre climat social. Nous mobilisons médecins conseils, analystes RH et enquêteurs terrain pour objectiver les arrêts suspects tout en respectant strictement le cadre légal.</p>
+            <p>Inspirée des protocoles des principales firmes de risk management internationales, notre approche combine données RH, surveillance discrète autorisée et expertise médicale.</p>
+            <div class="maladie-metrics">
+                <div class="maladie-metric">
+                    <strong>-32&nbsp;%</strong>
+                    <span>De baisse moyenne des absences non justifiées après mission</span>
+                </div>
+                <div class="maladie-metric">
+                    <strong>72&nbsp;h</strong>
+                    <span>Pour produire un rapport probatoire opposable</span>
+                </div>
+                <div class="maladie-metric">
+                    <strong>100&nbsp;%</strong>
+                    <span>Conformité déontologique et CNAPS garantie</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="maladie-grid">
+            <article class="maladie-card">
+                <h2>Analyse</h2>
+                <h3>Audit RH & médico-légal complet</h3>
+                <p>Analyse croisée multidisciplinaire :</p>
+                <ul>
+                    <li><strong>RH :</strong> Historique arrêts, motifs invoqués, rythmes patterns, pics anomalies saisonniers.</li>
+                    <li><strong>Médical :</strong> Conformité certificats, doctor shopping repérage, incohérences temporelles détectées.</li>
+                    <li><strong>Expert :</strong> Consultation médecin conseil, avis aptitude réelle, restrictions professionnelles validées.</li>
+                </ul>
+            </article>
+
+            <article class="maladie-card">
+                <h2>Investigation</h2>
+                <h3>Surveillance ciblée & terrain légalisée</h3>
+                <p>Dispositif discret strictement cadré :</p>
+                <ul>
+                    <li><strong>Terrain :</strong> Filatures autorisées, captation photo/vidéo légale, respect strict vie privée.</li>
+                    <li><strong>Vérifications :</strong> Contrôles domiciliaires légaux, obligations présence confirmées, absences documentées.</li>
+                    <li><strong>Preuves :</strong> Activité parallèle détectée, travail dissimulé confirmé, sport compétitif horodaté.</li>
+                </ul>
+            </article>
+
+            <article class="maladie-card">
+                <h2>Rapport</h2>
+                <h3>Dossier probant & juridiquement exploitable</h3>
+                <p>Livrables décisionnels :</p>
+                <ul>
+                    <li><strong>Synthèse :</strong> Rapport chiffré, chronologie complète, annexes médias horodatées certifiées.</li>
+                    <li><strong>Juridique :</strong> Préconisations légales précises : mise à pied, rupture, action CPAM/URSSAF.</li>
+                    <li><strong>Exécution :</strong> Accompagnement entretien disciplinaire, support défense prud'homale, suivi outcomes.</li>
+                </ul>
+            </article>
+        </div>
+
+        <section class="maladie-assurance" aria-label="Nos garanties">
+            <div class="maladie-assurance-grid">
+                <div class="maladie-assurance-item">
+                    <h3>Excellence & Respect légal absolu</h3>
+                    <p>Mandats écrits certifiés, charte RGPD stricte, traçabilité CNIL garantie, procédures CNAPS validées.</p>
+                </div>
+                <div class="maladie-assurance-item">
+                    <h3>Pluridisciplinaire & discrétion</h3>
+                    <p>Agents santé spécialisés, médecins conseils reconnus, aucun contact direct salarié, confidentialité blindée.</p>
+                </div>
+                <div class="maladie-assurance-item">
+                    <h3>Réactivité & exploitabilité</h3>
+                    <p>Rapport juridiquement recevable, support contentieux, accompagnement entretien disciplinaire complet.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="maladie-process" aria-label="Méthodologie">
+            <h2>Notre méthodologie BENSOPS</h2>
+            <div class="maladie-steps">
+                <div class="maladie-step">
+                    <div class="maladie-step-index">01</div>
+                    <div>
+                        <div class="maladie-step-title">Analyse stratégique</div>
+                        <div class="maladie-step-text">Analyse des faits contexte, validation juridique stricte, signature mandat et NDA.</div>
+                    </div>
+                </div>
+                <div class="maladie-step">
+                    <div class="maladie-step-index">02</div>
+                    <div>
+                        <div class="maladie-step-title">Investigation data & médical</div>
+                        <div class="maladie-step-text">Collecte dossiers RH horodatés, consultation médecin expert agréé indépendant.</div>
+                    </div>
+                </div>
+                <div class="maladie-step">
+                    <div class="maladie-step-index">03</div>
+                    <div>
+                        <div class="maladie-step-title">Observation intensive</div>
+                        <div class="maladie-step-text">Surveillance discrète légale, preuves matérielles horodatées, documentation multisource.</div>
+                    </div>
+                </div>
+                <div class="maladie-step">
+                    <div class="maladie-step-index">04</div>
+                    <div>
+                        <div class="maladie-step-title">Restitution & suivi</div>
+                        <div class="maladie-step-text">Remise rapport sécurisée, stratégie disciplinaire recommandée, suivi post-mission légal.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="maladie-legal" aria-label="Cadre légal des arrêts maladie">
+            <div class="maladie-legal-header">
+                <span class="maladie-legal-highlight">Cadre juridique</span>
+                <h2>Encadrez vos décisions disciplinaires avec des preuves irréprochables</h2>
+                <p>BENSOPS sécurise vos actions en s’appuyant sur le Code du travail, les règles CPAM et la jurisprudence. L’objectif&nbsp;: démontrer la faute, la désorganisation et l’intention frauduleuse sans violer la vie privée du salarié.</p>
+            </div>
+            <div class="maladie-legal-grid">
+                <article class="maladie-legal-card">
+                    <h3>Le cadre de l’arrêt</h3>
+                    <p>Nous vérifions le respect des obligations&nbsp;: avis à l’employeur sous 48&nbsp;h, présence aux créneaux 9h-11h et 14h-16h, autorisation CPAM pour sortir du département, conformité des mentions médicales (sorties libres justifiées).</p>
+                </article>
+                <article class="maladie-legal-card">
+                    <h3>Licenciement & désorganisation</h3>
+                    <p><a href="https://www.legifrance.gouv.fr/codes/article/LEGIARTI000006901077" target="_blank" rel="noopener" style="color: #ffbf99; text-decoration: underline;"><strong>Article L1132-1</strong></a> : Interdit la discrimination liée à l'état de santé. Nous établissons la faute grave (fraude, désorganisation) pour justifier une action disciplinaire.</p>
+                    <p><a href="https://www.legifrance.gouv.fr/codes/article/LEGIARTI000006902602" target="_blank" rel="noopener" style="color: #ffbf99; text-decoration: underline;"><strong>Article L1226-9</strong></a> : Limite les ruptures pendant suspension du contrat à faute grave ou cas de force majeure. Nos preuves étayent la faute grave.</p>
+                </article>
+                <article class="maladie-legal-card">
+                    <h3>Surveillance autorisée</h3>
+                    <p>Filatures, constats et captations sont conduits par nos détectives agréés CNAPS dans le respect des libertés individuelles. Les éléments sont ensuite validés par commissaire de justice pour maximiser la recevabilité devant le conseil de prud’hommes.</p>
+                </article>
+                <article class="maladie-legal-card">
+                    <h3>Obligation de loyauté</h3>
+                    <p>Même sans clause spécifique, est une obligation légale qui s'applique à tous les salariés et est fondée sur <a href="https://www.legalplace.fr/guides/obligation-loyaute/" target="_blank" rel="noopener" style="color: #ffbf99; text-decoration: underline;"><strong>l'article L1222-1</strong></a> du Code du travail. Cette obligation implique que le salarié doit agir de bonne faith et ne pas nuire aux intérêts de son employeur. Nous documentons les écarts, y compris activités acceptées par la jurisprudence, pour éviter les contestations.</p>
+                </article>
+            </div>
+            <p class="maladie-legal-footnote">Nos rapports, complétés si besoin par un contrôle CPAM ou un constat d’huissier, ont déjà été jugés licites (Cass. soc., 6&nbsp;déc. 2007, n°&nbsp;06-43392). Ils servent de base à la suspension des indemnités, aux sanctions disciplinaires ou aux négociations confidentielles avec le salarié.</p>
+        </section>
+
+        <section class="maladie-cta" aria-label="Contact">
+            <div>
+                <h3>Activez la cellule santé & conformité</h3>
+                <p>Choisissez le canal qui vous convient pour débuter votre enquête. Nous garantissons une réponse rapide et professionnelle.</p>
+            </div>
+            <div class="maladie-cta-actions">
+                <a class="maladie-btn-primary" href="mailto:sne@bensops.fr">
+                    <i class="fas fa-envelope"></i>
+                    Écrire au cabinet
+                </a>
+                <a class="maladie-btn-primary" href="tel:0465574176">
+                    <i class="fas fa-phone"></i>
+                    Ligne directe
+                </a>
+                <a class="maladie-btn-primary" href="{{ path('calendar') }}">
+                    <i class="fas fa-calendar-alt"></i>
+                    Programmer un rendez-vous
+                </a>
+            </div>
+        </section>
+    </div>
+</section>
+{% endblock %}

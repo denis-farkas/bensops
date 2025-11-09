@@ -1,0 +1,543 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Suspicion du personnel{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    .personnel-luxe {
+        position: relative;
+        padding: 5rem 0 6rem;
+        background: radial-gradient(120% 120% at 0% 0%, #0a1020 0%, #050714 45%, #01030a 100%);
+        color: rgba(230, 239, 255, 0.92);
+        overflow: hidden;
+    }
+    .personnel-luxe::before,
+    .personnel-luxe::after {
+        content: "";
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(50px);
+        opacity: 0.58;
+        pointer-events: none;
+    }
+    .personnel-luxe::before {
+        width: 620px;
+        height: 620px;
+        top: -210px;
+        left: -190px;
+        background: radial-gradient(circle, rgba(231, 88, 26, 0.34) 0%, rgba(231, 88, 26, 0) 70%);
+    }
+    .personnel-luxe::after {
+        width: 520px;
+        height: 520px;
+        bottom: -220px;
+        right: -160px;
+        background: radial-gradient(circle, rgba(0, 67, 122, 0.32) 0%, rgba(0, 67, 122, 0) 70%);
+    }
+    .personnel-shell {
+        position: relative;
+        z-index: 1;
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+    }
+    .personnel-hero {
+        text-align: center;
+        margin-bottom: 3.5rem;
+    }
+    .personnel-hero .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1.4rem;
+        border-radius: 999px;
+        border: 1px solid rgba(231, 88, 26, 0.38);
+        background: rgba(8, 32, 38, 0.72);
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        color: #ffbf99;
+        margin-bottom: 1.6rem;
+    }
+    .personnel-hero h1 {
+        font-size: 3rem;
+        font-weight: 650;
+        color: #ffffff;
+        margin-bottom: 1.2rem;
+    }
+    .personnel-hero p {
+        max-width: 780px;
+        margin: 0 auto 1rem;
+        font-size: 1.05rem;
+        line-height: 1.8;
+        color: rgba(230, 239, 255, 0.76);
+    }
+    .personnel-metrics {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1.2rem;
+        margin-top: 2.4rem;
+    }
+    .personnel-metric {
+        background: rgba(10, 31, 28, 0.76);
+        border-radius: 20px;
+        border: 1px solid rgba(231, 88, 26, 0.24);
+        padding: 1.5rem 1.3rem;
+        text-align: center;
+        box-shadow: 0 34px 54px rgba(0, 0, 0, 0.45);
+    }
+    .personnel-metric strong {
+        display: block;
+        font-size: 1.9rem;
+        color: #ffffff;
+    }
+    .personnel-metric span {
+        font-size: 0.92rem;
+        color: rgba(230, 239, 255, 0.72);
+    }
+    .personnel-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3.2rem;
+    }
+    .personnel-card {
+        padding: 2.3rem;
+        border-radius: 26px;
+        background: linear-gradient(210deg, rgba(231, 88, 26, 0.12), rgba(0, 67, 122, 0.12));
+        border: 1px solid rgba(231, 88, 26, 0.18);
+        box-shadow: 0 34px 52px rgba(0, 0, 0, 0.46);
+    }
+    .personnel-card h2 {
+        font-size: 0.95rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #ffbf99;
+        margin-bottom: 1rem;
+    }
+    .personnel-card h3 {
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: #ffffff;
+        margin-bottom: 1.1rem;
+    }
+    .personnel-card p,
+    .personnel-card li {
+        color: rgba(230, 239, 255, 0.8);
+        line-height: 1.75;
+    }
+    .personnel-card ul {
+        padding-left: 1.1rem;
+        margin-bottom: 0;
+    }
+    .personnel-scenarios {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.8rem;
+        margin-bottom: 3rem;
+    }
+    .personnel-scenario {
+        background: rgba(13, 41, 38, 0.76);
+        border-radius: 24px;
+        padding: 1.9rem;
+        border: 1px solid rgba(231, 88, 26, 0.24);
+        box-shadow: 0 32px 54px rgba(0, 0, 0, 0.48);
+        color: rgba(230, 239, 255, 0.78);
+    }
+    .personnel-scenario strong {
+        display: block;
+        font-size: 1.14rem;
+        color: #ffbf99;
+        margin-bottom: 0.5rem;
+    }
+    .personnel-assurance {
+        margin: 3.3rem 0;
+        padding: 2.6rem 2.2rem;
+        border-radius: 26px;
+        background: rgba(13, 41, 38, 0.6);
+        border: 1px solid rgba(231, 88, 26, 0.28);
+        box-shadow: 0 34px 56px rgba(0, 0, 0, 0.5);
+    }
+    .personnel-assurance-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1.6rem;
+    }
+    .personnel-assurance-item {
+        background: rgba(13, 41, 38, 0.78);
+        border-radius: 20px;
+        padding: 1.8rem;
+        border: 1px solid rgba(231, 88, 26, 0.18);
+        color: rgba(230, 239, 255, 0.78);
+    }
+    .personnel-assurance-item h3 {
+        font-size: 1.12rem;
+        font-weight: 600;
+        color: #ffbf99;
+        margin-bottom: 0.6rem;
+    }
+    .personnel-process {
+        margin: 3.6rem 0 3.3rem;
+        padding: 2.8rem 2.4rem;
+        border-radius: 28px;
+        background: rgba(13, 41, 38, 0.48);
+        border: 1px solid rgba(231, 88, 26, 0.18);
+        box-shadow: 0 36px 60px rgba(0, 0, 0, 0.52);
+    }
+    .personnel-process h2 {
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        font-size: 0.85rem;
+        color: rgba(231, 88, 26, 0.62);
+        margin-bottom: 2rem;
+    }
+    .personnel-steps {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1.6rem;
+    }
+    .personnel-step {
+        display: flex;
+        gap: 1.1rem;
+        padding: 1.6rem 1.4rem;
+        border-radius: 20px;
+        background: rgba(13, 41, 38, 0.48);
+        border: 1px solid rgba(231, 88, 26, 0.18);
+    }
+    .personnel-step-index {
+        width: 52px;
+        height: 52px;
+        border-radius: 16px;
+        background: rgba(231, 88, 26, 0.22);
+        color: #ffbf99;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+    .personnel-step-title {
+        font-weight: 600;
+        color: #ffffff;
+        margin-bottom: 0.35rem;
+    }
+    .personnel-step-text {
+        color: rgba(230, 239, 255, 0.76);
+        line-height: 1.6;
+    }
+    .personnel-legal {
+        margin: 3.4rem 0;
+        padding: 2.8rem 2.4rem;
+        border-radius: 30px;
+        background: linear-gradient(165deg, rgba(13, 41, 38, 0.88), rgba(13, 41, 38, 0.64));
+        border: 1px solid rgba(231, 88, 26, 0.24);
+        box-shadow: 0 38px 64px rgba(0, 0, 0, 0.55);
+    }
+    .personnel-legal-intro {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+        margin-bottom: 2.6rem;
+    }
+    .personnel-legal-intro h2 {
+        font-size: 2.05rem;
+        font-weight: 620;
+        color: #ffffff;
+    }
+    .personnel-legal-intro p {
+        color: rgba(230, 239, 255, 0.8);
+        max-width: 900px;
+        line-height: 1.7;
+    }
+    .personnel-legal-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1.6rem;
+    }
+    .personnel-legal-card {
+        padding: 1.9rem;
+        border-radius: 24px;
+        background: rgba(13, 41, 38, 0.82);
+        border: 1px solid rgba(231, 88, 26, 0.24);
+        box-shadow: 0 30px 54px rgba(0, 0, 0, 0.5);
+    }
+    .personnel-legal-card h3 {
+        font-size: 1.12rem;
+        font-weight: 600;
+        color: #ffbf99;
+        margin-bottom: 0.6rem;
+    }
+    .personnel-legal-card p {
+        color: rgba(230, 239, 255, 0.78);
+        line-height: 1.7;
+        margin-bottom: 0;
+    }
+    .personnel-proof {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.8rem;
+        margin-bottom: 3rem;
+    }
+    .personnel-proof-card {
+        padding: 2rem;
+        border-radius: 24px;
+        background: rgba(13, 41, 38, 0.74);
+        border: 1px solid rgba(231, 88, 26, 0.24);
+        box-shadow: 0 30px 52px rgba(0, 0, 0, 0.5);
+    }
+    .personnel-legal-card h3 {
+        font-size: 1.18rem;
+        font-weight: 600;
+        color: #ffbf99;
+        margin-bottom: 0.7rem;
+    }
+    .personnel-cta {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 1.6rem;
+        align-items: center;
+        padding: 2.6rem 2.3rem;
+        border-radius: 28px;
+        background: linear-gradient(145deg, rgba(231, 88, 26, 0.18), rgba(0, 67, 122, 0.16));
+        border: 1px solid rgba(231, 88, 26, 0.24);
+        box-shadow: 0 34px 56px rgba(0, 0, 0, 0.52);
+    }
+    .personnel-cta h3 {
+        font-size: 1.88rem;
+        font-weight: 620;
+        color: #ffffff;
+        margin-bottom: 0.6rem;
+    }
+    .personnel-cta p {
+        color: rgba(230, 239, 255, 0.78);
+        margin-bottom: 0;
+    }
+    .personnel-cta-actions {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+    .personnel-cta-actions a:nth-child(3) {
+        min-width: 280px;
+        flex: 0 1 auto;
+    }
+    .personnel-btn-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.85rem 1.9rem;
+        border-radius: 999px;
+        background: linear-gradient(120deg, #e7581a, #c08808);
+        color: #ffffff;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-decoration: none;
+        box-shadow: 0 26px 48px rgba(231, 88, 26, 0.32);
+    }
+    .personnel-btn-secondary {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.85rem 1.6rem;
+        border-radius: 999px;
+        border: 1px solid rgba(231, 88, 26, 0.24);
+        background: rgba(231, 88, 26, 0.08);
+        color: #ffbf99;
+        text-decoration: none;
+    }
+    .personnel-btn-primary:hover {
+        color: #ffffff;
+    }
+    .personnel-btn-secondary:hover {
+        color: #ffffff;
+    }
+    @media (max-width: 991px) {
+        .personnel-hero h1 {
+            font-size: 2.5rem;
+        }
+        .personnel-process {
+            padding: 2.4rem 1.9rem;
+        }
+    }
+    @media (max-width: 575px) {
+        .personnel-shell {
+            padding: 0 1rem;
+        }
+        .personnel-hero h1 {
+            font-size: 2.1rem;
+        }
+        .personnel-cta {
+            grid-template-columns: 1fr;
+        }
+        .personnel-cta-actions {
+            flex-direction: column;
+            width: 100%;
+        }
+        .personnel-btn-primary,
+        .personnel-btn-secondary {
+            justify-content: center;
+            width: 100%;
+        }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .personnel-metric,
+        .personnel-card,
+        .personnel-step,
+        .personnel-proof-card,
+        .personnel-cta {
+            transition: none !important;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<section class="personnel-luxe">
+    <div class="personnel-shell">
+                <header class="personnel-hero">
+            <span class="badge">Protection interne</span>
+            <h1>Investigations ciblées sur les comportements à risque et les vols internes</h1>
+            <p>Lorsqu'un cadre, un collaborateur clé ou une équipe soulève des doutes (détournement d'actifs, trafic, vol de secrets commerciaux), nous intervenons avec la rigueur d'agences internationales pour établir des faits indiscutables.</p>
+            <p>Notre dispositif associe intelligence humaine, analyses digitales et procédures disciplinaires pour sécuriser votre gouvernance et stopper les pertes financières.</p>
+            <div class="personnel-metrics">
+                <div class="personnel-metric">
+                    <strong>35&nbsp;%</strong>
+                    <span>Des vols internes restent non-détectés par les entreprises</span>
+                </div>
+                <div class="personnel-metric">
+                    <strong>95&nbsp;%</strong>
+                    <span>Des dossiers concluent à une décision RH éclairée</span>
+                </div>
+                <div class="personnel-metric">
+                    <strong>48&nbsp;h</strong>
+                    <span>Pour livrer un rapport flash après activation</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="personnel-grid">
+            <article class="personnel-card">
+                <h2>Analyse</h2>
+                <h3>Screening comportemental multidimensionnel</h3>
+                <p>Accès SI audit, logs horaires, emails contexte légal, historique RH. Détection anomalies usage, conflits d'intérêts, double activité.</p>
+            </article>
+
+            <article class="personnel-card">
+                <h2>Investigation</h2>
+                <h3>Dispositifs terrain & numériques coordonnés</h3>
+                <p>Filatures ciblées, observations in situ, analyse OSINT transactions, réseaux sociaux monitoring, tests intégrité comportement.</p>
+            </article>
+
+            <article class="personnel-card">
+                <h2>Rapport</h2>
+                <h3>Dossier probatoire & exécution</h3>
+                <p>Rapport horodaté notarié, pièces exploitables justice, témoignages certifiés. Stratégie disciplinaire & plan remédiation.</p>
+            </article>
+        </div>
+
+        <section class="personnel-assurance" aria-label="Nos garanties">
+            <div class="personnel-assurance-grid">
+                <div class="personnel-assurance-item">
+                    <h3>Confidentialité totale</h3>
+                    <p>Process cloisonné, accès ultra-limité direction, restitution sécurisée, CNAPS validée.</p>
+                </div>
+                <div class="personnel-assurance-item">
+                    <h3>Conformité légale</h3>
+                    <p>Respect Code travail strict, RGPD, consultation avocat validation, exploitabilité juridique garantie.</p>
+                </div>
+                <div class="personnel-assurance-item">
+                    <h3>Réactivité 24/7</h3>
+                    <p>Gestion sensible contexte, accompagnement managers, support immédiat urgence.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="personnel-process" aria-label="Méthodologie">
+            <h2>Notre méthodologie BENSOPS</h2>
+            <div class="personnel-steps">
+                <div class="personnel-step">
+                    <div class="personnel-step-index">01</div>
+                    <div>
+                        <div class="personnel-step-title">Analyse stratégique</div>
+                        <div class="personnel-step-text">NDAs sécurisés, recueil faits complets, cadrage strict service juridique.</div>
+                    </div>
+                </div>
+                <div class="personnel-step">
+                    <div class="personnel-step-index">02</div>
+                    <div>
+                        <div class="personnel-step-title">Investigation data</div>
+                        <div class="personnel-step-text">Analyse documentaire, interviews ciblées, détection signaux faibles.</div>
+                    </div>
+                </div>
+                <div class="personnel-step">
+                    <div class="personnel-step-index">03</div>
+                    <div>
+                        <div class="personnel-step-title">Opérations terrain</div>
+                        <div class="personnel-step-text">Surveillance discrète légale, tests intégrité, recoupement preuves multiples.</div>
+                    </div>
+                </div>
+                <div class="personnel-step">
+                    <div class="personnel-step-index">04</div>
+                    <div>
+                        <div class="personnel-step-title">Restitution & exécution</div>
+                        <div class="personnel-step-text">Rapport certifié, accompagnement disciplinaire, support judiciaire complet.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="personnel-legal" aria-label="Cadre juridique des vols internes">
+            <div class="personnel-legal-intro">
+                <h2>Cadre juridique : investigations licites et recevabilité en justice</h2>
+                <p>Face aux vols en entreprise (marchandises, matières premières, liquidités, abus de biens sociaux), les forces de l'ordre sont débordées et classent souvent les plaintes sans suite. Seul le détective privé est habilité à mener investigations discrètes reconnues par la jurisprudence. Nos rapports établissent preuves recevables devant les juridictions.</p>
+            </div>
+            <div class="personnel-legal-grid">
+                <article class="personnel-legal-card">
+                    <h3>Droit du détective privé (Cass. 2016)</h3>
+                    <p><strong>Cour de cassation, chambre commerciale, 6 décembre 2016 :</strong> Le détective privé est le seul professionnel habilité à agir « sans faire état de sa qualité ni révéler l'objet de sa mission ». Seul cadre légal pour investigations discrètes.</p>
+                </article>
+                <article class="personnel-legal-card">
+                    <h3>Constat flagrant délit (Cass. Soc. 2007)</h3>
+                    <p>Un constat d'huissier initié par la filature d'un détective privé est jugé licite comme moyen de preuve. Nos rapports, coordonnés avec officier de police judiciaire et huissier, sont recevables en justice pénale.</p>
+                </article>
+                <article class="personnel-legal-card">
+                    <h3>Infiltration en entreprise (Megnin-Bernard 2011)</h3>
+                    <p>La cour de cassation a reconnu l'infiltration licite pour confondre un salarié voleur : 50 000€ confisqué. Jurisprudence confirmée : infiltration agréée CNAPS = preuve incontestable.</p>
+                </article>
+                <article class="personnel-legal-card">
+                    <h3>Récupération frais d'enquête (Alençon 2010)</h3>
+                    <p>L'employé coupable condamné à rembourser l'employeur pour frais et honoraires du détective. Votre investissement enquête est couvert par jugement.</p>
+                </article>
+                <article class="personnel-legal-card">
+                    <h3>Double peine fiscale : prévention par enquête</h3>
+                    <p>Les vols causent marges incohérentes déclenchant contrôles fiscaux. Enquête précoce = détection vol + ajustements comptables avant audit, réduction risque fiscal.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="personnel-cta" aria-label="Contact">
+            <div>
+                <h3>Confiez-nous votre enquête interne confidentielle</h3>
+                <p>Choisissez le canal qui vous convient pour débuter votre enquête. Nous garantissons une réponse rapide et professionnelle.</p>
+            </div>
+            <div class="personnel-cta-actions">
+                <a class="personnel-btn-primary" href="mailto:sne@bensops.fr">
+                    <i class="fas fa-envelope"></i>
+                    Écrire au cabinet
+                </a>
+                <a class="personnel-btn-primary" href="tel:0465574176">
+                    <i class="fas fa-phone"></i>
+                    Ligne directe
+                </a>
+                <a class="personnel-btn-primary" href="{{ path('calendar') }}">
+                    <i class="fas fa-calendar-alt"></i>
+                    Programmer un rendez-vous
+                </a>
+            </div>
+        </section>
+    </div>
+</section>
+{% endblock %}

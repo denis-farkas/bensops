@@ -1,0 +1,608 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Protection contre l'espionnage industriel{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    .espion-luxe {
+        position: relative;
+        padding: 5rem 0 6rem;
+        background: radial-gradient(120% 120% at 0% 0%, #0a1020 0%, #050714 55%, #01030a 100%);
+        color: rgba(230, 239, 255, 0.92);
+        overflow: hidden;
+    }
+    .espion-luxe::before,
+    .espion-luxe::after {
+        content: "";
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(52px);
+        opacity: 0.55;
+        pointer-events: none;
+    }
+    .espion-luxe::before {
+        width: 620px;
+        height: 620px;
+        top: -210px;
+        left: -180px;
+        background: radial-gradient(circle, rgba(231, 88, 26, 0.34) 0%, rgba(231, 88, 26, 0) 70%);
+    }
+    .espion-luxe::after {
+        width: 520px;
+        height: 520px;
+        bottom: -220px;
+        right: -160px;
+        background: radial-gradient(circle, rgba(0, 67, 122, 0.32) 0%, rgba(0, 67, 122, 0) 70%);
+    }
+    .espion-shell {
+        position: relative;
+        z-index: 1;
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+    }
+    .espion-hero {
+        text-align: center;
+        margin-bottom: 3.5rem;
+    }
+    .espion-hero .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1.4rem;
+        border-radius: 999px;
+        border: 1px solid rgba(231, 88, 26, 0.5);
+        background: linear-gradient(135deg, rgba(231, 88, 26, 0.2), rgba(192, 136, 8, 0.12));
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        color: #ffbf99;
+        margin-bottom: 1.6rem;
+    }
+    .espion-hero h1 {
+        font-size: 3rem;
+        font-weight: 650;
+        color: #ffffff;
+        margin-bottom: 1.2rem;
+    }
+    .espion-hero p {
+        max-width: 780px;
+        margin: 0 auto 1rem;
+        font-size: 1.05rem;
+        line-height: 1.8;
+        color: rgba(230, 239, 255, 0.76);
+    }
+    .espion-metrics {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1.2rem;
+        margin-top: 2.4rem;
+    }
+    .espion-metric {
+        background: rgba(10, 31, 28, 0.78);
+        border-radius: 20px;
+        border: 1px solid rgba(231, 88, 26, 0.18);
+        padding: 1.5rem 1.3rem;
+        text-align: center;
+        box-shadow: 0 34px 54px rgba(0, 0, 0, 0.45);
+    }
+    .espion-metric strong {
+        display: block;
+        font-size: 1.9rem;
+        color: #ffffff;
+    }
+    .espion-metric span {
+        font-size: 0.92rem;
+        color: rgba(230, 239, 255, 0.72);
+    }
+    .espion-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3.2rem;
+    }
+    .espion-card {
+        padding: 2.3rem;
+        border-radius: 26px;
+        background: linear-gradient(210deg, rgba(231, 88, 26, 0.08), rgba(10, 31, 28, 0.72));
+        border: 1px solid rgba(231, 88, 26, 0.12);
+        box-shadow: 0 34px 52px rgba(0, 0, 0, 0.46);
+    }
+    .espion-card h2 {
+        font-size: 0.95rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #ffbf99;
+        margin-bottom: 1rem;
+    }
+    .espion-card h3 {
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: #ffffff;
+        margin-bottom: 1.1rem;
+    }
+    .espion-card p,
+    .espion-card li {
+        color: rgba(230, 239, 255, 0.8);
+        line-height: 1.75;
+    }
+    .espion-card ul {
+        padding-left: 1.1rem;
+        margin-bottom: 0;
+    }
+    .espion-scenarios {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.8rem;
+        margin-bottom: 3rem;
+    }
+    .espion-scenario {
+        background: rgba(13, 41, 38, 0.78);
+        border-radius: 24px;
+        padding: 1.9rem;
+        border: 1px solid rgba(231, 88, 26, 0.12);
+        box-shadow: 0 32px 54px rgba(0, 0, 0, 0.48);
+        color: rgba(230, 239, 255, 0.78);
+    }
+    .espion-scenario strong {
+        display: block;
+        font-size: 1.14rem;
+        color: #ffbf99;
+        margin-bottom: 0.5rem;
+    }
+    .espion-assurance {
+        margin: 3.3rem 0;
+        padding: 2.6rem 2.2rem;
+        border-radius: 26px;
+        background: rgba(13, 41, 38, 0.6);
+        border: 1px solid rgba(231, 88, 26, 0.15);
+        box-shadow: 0 34px 56px rgba(0, 0, 0, 0.5);
+    }
+    .espion-assurance-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1.6rem;
+    }
+    .espion-assurance-item {
+        background: rgba(10, 31, 28, 0.78);
+        border-radius: 20px;
+        padding: 1.8rem;
+        border: 1px solid rgba(231, 88, 26, 0.12);
+        color: rgba(230, 239, 255, 0.78);
+    }
+    .espion-assurance-item h3 {
+        font-size: 1.12rem;
+        font-weight: 600;
+        color: #ffbf99;
+        margin-bottom: 0.6rem;
+    }
+    .espion-process {
+        margin: 3.6rem 0 3.3rem;
+        padding: 2.8rem 2.4rem;
+        border-radius: 28px;
+        background: linear-gradient(140deg, rgba(7, 28, 48, 0.8), rgba(10, 31, 28, 0.75));
+        border: 1px solid rgba(231, 88, 26, 0.12);
+        box-shadow: 0 36px 60px rgba(0, 0, 0, 0.52);
+    }
+    .espion-process h2 {
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        font-size: 0.85rem;
+        color: rgba(231, 88, 26, 0.62);
+        margin-bottom: 2rem;
+    }
+    .espion-steps {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1.6rem;
+    }
+    .espion-step {
+        display: flex;
+        gap: 1.1rem;
+        padding: 1.6rem 1.4rem;
+        border-radius: 20px;
+        background: rgba(13, 41, 38, 0.48);
+        border: 1px solid rgba(231, 88, 26, 0.12);
+    }
+    .espion-step-index {
+        width: 52px;
+        height: 52px;
+        border-radius: 16px;
+        background: rgba(231, 88, 26, 0.22);
+        color: #ffbf99;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+    .espion-step-title {
+        font-weight: 600;
+        color: #ffffff;
+        margin-bottom: 0.35rem;
+    }
+    .espion-step-text {
+        color: rgba(230, 239, 255, 0.76);
+        line-height: 1.6;
+    }
+    .espion-cta {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 1.6rem;
+        align-items: center;
+        padding: 2.6rem 2.3rem;
+        border-radius: 28px;
+        background: linear-gradient(145deg, rgba(231, 88, 26, 0.12), rgba(10, 31, 28, 0.6));
+        border: 1px solid rgba(231, 88, 26, 0.15);
+        box-shadow: 0 34px 56px rgba(0, 0, 0, 0.52);
+    }
+    .espion-cta h3 {
+        font-size: 1.88rem;
+        font-weight: 620;
+        color: #ffffff;
+        margin-bottom: 0.6rem;
+    }
+    .espion-cta p {
+        color: rgba(230, 239, 255, 0.78);
+        margin-bottom: 0;
+    }
+    .espion-cta-actions {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+    .espion-cta-actions a:nth-child(3) {
+        min-width: 280px;
+        flex: 0 1 auto;
+    }
+    .espion-btn-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.85rem 1.9rem;
+        border-radius: 999px;
+        background: linear-gradient(120deg, #e7581a, #c08808);
+        color: #ffffff;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-decoration: none;
+        box-shadow: 0 26px 48px rgba(231, 88, 26, 0.32);
+    }
+    .espion-btn-secondary {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.85rem 1.6rem;
+        border-radius: 999px;
+        border: 1px solid rgba(231, 88, 26, 0.24);
+        background: rgba(231, 88, 26, 0.08);
+        color: #ffbf99;
+        text-decoration: none;
+    }
+    .espion-btn-primary:hover {
+        color: #ffffff;
+    }
+    .espion-btn-secondary:hover {
+        color: #ffffff;
+    }
+    .espion-legal-intro {
+        margin: 3.4rem 0;
+        padding: 3rem 0;
+    }
+    .espion-legal-intro-header {
+        max-width: 1180px;
+        margin: 0 auto 2.8rem;
+        text-align: center;
+        padding: 0 1.5rem;
+    }
+    .espion-legal-intro-header h2 {
+        font-size: 2.15rem;
+        font-weight: 660;
+        color: #ffffff;
+        margin: 0 0 1rem 0;
+        letter-spacing: 0.02em;
+    }
+    .espion-legal-intro-header p {
+        color: rgba(230, 239, 255, 0.82);
+        line-height: 1.8;
+        margin: 0 auto;
+        max-width: 860px;
+    }
+    .espion-legal-intro-text {
+        position: relative;
+        padding: 2rem 2.2rem;
+        border-radius: 20px;
+        background: linear-gradient(135deg, rgba(231, 88, 26, 0.14), rgba(255, 255, 255, 0.05));
+        border: 1px solid rgba(231, 88, 26, 0.22);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        color: rgba(230, 239, 255, 0.92) !important;
+        font-size: 1.05rem !important;
+        line-height: 1.8 !important;
+    }
+    .espion-legal-intro-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.9rem;
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+    }
+    .espion-legal-intro-card {
+        position: relative;
+        padding: 2.2rem 2.1rem;
+        border-radius: 24px;
+        background: linear-gradient(190deg, rgba(13, 41, 38, 0.9), rgba(10, 31, 28, 0.88));
+        border: 1px solid rgba(231, 88, 26, 0.15);
+        box-shadow: 0 30px 56px rgba(0, 0, 0, 0.5);
+        overflow: hidden;
+    }
+    .espion-legal-intro-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 24px;
+        background: linear-gradient(120deg, rgba(231, 88, 26, 0.12), rgba(192, 136, 8, 0.08));
+        opacity: 0.4;
+        pointer-events: none;
+    }
+    .espion-legal-intro-card h3 {
+        position: relative;
+        font-size: 1.22rem;
+        font-weight: 620;
+        color: #ffbf99;
+        margin-bottom: 0.9rem;
+        letter-spacing: 0.01em;
+    }
+    .espion-legal-intro-card p {
+        position: relative;
+        color: rgba(230, 239, 255, 0.8);
+        line-height: 1.72;
+        margin: 0;
+    }
+    .espion-legal-intro-card strong {
+        color: #ffbf99;
+    }
+    .espion-legal-intro-card:nth-child(5) {
+        grid-column: 1 / -1;
+        max-width: 50%;
+        margin: 0 auto;
+    }
+    .espion-legal-intro-footnote {
+        margin-top: 2.8rem;
+        padding: 2rem 2.2rem;
+        border-radius: 24px;
+        background: linear-gradient(135deg, rgba(231, 88, 26, 0.18), rgba(13, 41, 38, 0.86));
+        border: 1px solid rgba(231, 88, 26, 0.28);
+        color: rgba(230, 239, 255, 0.85);
+        line-height: 1.78;
+        text-align: center;
+        max-width: 1180px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .espion-legal-intro-footnote strong {
+        color: #ffbf99;
+    }
+    @media (max-width: 991px) {
+        .espion-hero h1 {
+            font-size: 2.5rem;
+        }
+        .espion-process {
+            padding: 2.4rem 1.9rem;
+        }
+        .espion-legal-intro-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+    @media (max-width: 575px) {
+        .espion-shell {
+            padding: 0 1rem;
+        }
+        .espion-hero h1 {
+            font-size: 2.1rem;
+        }
+        .espion-cta {
+            grid-template-columns: 1fr;
+        }
+        .espion-cta-actions {
+            flex-direction: column;
+            width: 100%;
+        }
+        .espion-btn-primary,
+        .espion-btn-secondary {
+            justify-content: center;
+            width: 100%;
+        }
+        .espion-legal-intro-grid {
+            padding: 0 1rem;
+        }
+        .espion-legal-intro-card {
+            padding: 1.5rem 1.2rem;
+        }
+        .espion-legal-intro-card:nth-child(5) {
+            max-width: 100%;
+            grid-column: auto;
+        }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .espion-metric,
+        .espion-card,
+        .espion-step,
+        .espion-proof-card,
+        .espion-cta {
+            transition: none !important;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<section class="espion-luxe">
+    <div class="espion-shell">
+        <header class="espion-hero">
+            <span class="badge">Counter intelligence</span>
+            <h1>Neutralisez l’espionnage industriel avant l’atteinte à vos secrets stratégiques</h1>
+            <p>Nous combinons cyberdéfense, protection physique et contre-mesures HUMINT selon les standards des agences internationales spécialisées.</p>
+            <p>Notre cellule pluridisciplinaire protège vos innovations, données R&D et plans de croissance.</p>
+            <div class="espion-metrics">
+                <div class="espion-metric">
+                    <strong>30&nbsp;j</strong>
+                    <span>Pour déployer un dispositif complet de contre-ingérence</span>
+                </div>
+                <div class="espion-metric">
+                    <strong>98&nbsp;%</strong>
+                    <span>Des attaques identifiées avant exfiltration effective</span>
+                </div>
+                <div class="espion-metric">
+                    <strong>12</strong>
+                    <span>Industries sensibles sécurisées (aéro, défense, biotech…)</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="espion-grid">
+            <article class="espion-card">
+                <h2>Analyse</h2>
+                <h3>Audit 360° des vulnérabilités</h3>
+                <p>Évaluation physique (accès, biométrie), numérique (cybersécurité, données), HUMINT (partenaires, consultants). Chaque point faible est documenté.</p>
+            </article>
+
+            <article class="espion-card">
+                <h2>Investigation</h2>
+                <h3>Contre-mesures actives avancées</h3>
+                <p>Balayage RF, TSCM professionnel, détection caméras clandestines, veille dark web, honeypots, surveillance ciblée équipes clés.</p>
+            </article>
+
+            <article class="espion-card">
+                <h2>Rapport</h2>
+                <h3>Plan de résilience stratégique</h3>
+                <p>Protocoles crise détaillés, formation sécurité informationnelle, charte top management, dispositif veille 24/7, reporting direction.</p>
+            </article>
+        </div>
+
+        <section class="espion-scenarios" aria-label="Scénarios traités">
+            <article class="espion-scenario">
+                <strong>Salon international</strong>
+                <p>Repérage d'agents concurrents, interception prototypes, preuves documentées.</p>
+            </article>
+            <article class="espion-scenario">
+                <strong>Intrusion numérique</strong>
+                <p>Détection spear phishing sur R&D, neutralisation, sensibilisation équipes.</p>
+            </article>
+            <article class="espion-scenario">
+                <strong>Fuite interne</strong>
+                <p>Enquête consultant externe, preuve exfiltration, procédure judiciaire engagée.</p>
+            </article>
+        </section>
+
+        <section class="espion-assurance" aria-label="Nos garanties">
+            <div class="espion-assurance-grid">
+                <div class="espion-assurance-item">
+                    <h3>Confidentialité absolue</h3>
+                    <p>Infrastructure compartimentée, NDAs renforcés, accès ultra-restreint, CNAPS validée.</p>
+                </div>
+                <div class="espion-assurance-item">
+                    <h3>Expertise certifiée</h3>
+                    <p>Ex-officiers renseignement, cybersécurité certifiée, ingénieurs TSCM internationaux.</p>
+                </div>
+                <div class="espion-assurance-item">
+                    <h3>Couverture 24/7</h3>
+                    <p>Cellule permanente, alertes temps réel, intervention urgence, monitoring continu 365j/an.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="espion-process" aria-label="Méthodologie">
+            <h2>Notre méthodologie BENSOPS</h2>
+            <div class="espion-steps">
+                <div class="espion-step">
+                    <div class="espion-step-index">01</div>
+                    <div>
+                        <div class="espion-step-title">Analyse stratégique</div>
+                        <div class="espion-step-text">Cartographie actifs critiques, analyse menaces internes/externes contextualisées.</div>
+                    </div>
+                </div>
+                <div class="espion-step">
+                    <div class="espion-step-index">02</div>
+                    <div>
+                        <div class="espion-step-title">Investigation intensive</div>
+                        <div class="espion-step-text">TSCM déploiement, cybersécurité audit, contrôles HUMINT coordonnés compartimentés.</div>
+                    </div>
+                </div>
+                <div class="espion-step">
+                    <div class="espion-step-index">03</div>
+                    <div>
+                        <div class="espion-step-title">Surveillance continue</div>
+                        <div class="espion-step-text">Monitoring 24/7 SOC, veille stratégique temps réel, tests intrusions réguliers.</div>
+                    </div>
+                </div>
+                <div class="espion-step">
+                    <div class="espion-step-index">04</div>
+                    <div>
+                        <div class="espion-step-title">Réponse & résilience</div>
+                        <div class="espion-step-text">Plan crise opérationnel, actions judiciaires coordonnées, amélioration défenses continue.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="espion-legal-intro" aria-label="Cadre juridique">
+            <div class="espion-shell">
+                <div class="espion-legal-intro-header">
+                    <h2>Cadre juridique & réglementation</h2>
+                    <p class="espion-legal-intro-text">Les attaques informatiques et l'espionnage industriel sont sanctionnés par le droit français et international. BENSOPS maîtrise ce cadre légal pour sécuriser vos actions et maximiser les recours judiciaires.</p>
+                </div>
+                <div class="espion-legal-intro-grid">
+                    <article class="espion-legal-intro-card">
+                        <h3><a href="https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000006417945/2021-12-09" target="_blank" rel="noopener" style="color: #ffbf99; text-decoration: underline;">Article 226-13 CP</a></h3>
+                        <p>Violation du secret professionnel et de la confidentialité des données d'entreprise.</p>
+                    </article>
+                    <article class="espion-legal-intro-card">
+                        <h3><a href="https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000006418343/" target="_blank" rel="noopener" style="color: #ffbf99; text-decoration: underline;">Article 410-1 CP</a></h3>
+                        <p>Tentative d'accès à des informations couvertes par le secret défense ou d'importance stratégique.</p>
+                    </article>
+                    <article class="espion-legal-intro-card">
+                        <h3><a href="https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000006418127?etatTexte=VIGUEUR&etatTexte=VIGUEUR_DIFF" target="_blank" rel="noopener" style="color: #ffbf99; text-decoration: underline;">Article 311-1 CP</a></h3>
+                        <p>Soustraction et détournement de propriété intellectuelle, brevets, secrets commerciaux.</p>
+                    </article>
+                    <article class="espion-legal-intro-card">
+                        <h3><a href="https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000042780042/2024-05-07" target="_blank" rel="noopener" style="color: #ffbf99; text-decoration: underline;">Article 435-1 CP</a></h3>
+                        <p>Corruption d'agents pour accès à informations confidentielles ou sabotage d'opérations.</p>
+                    </article>
+                    <article class="espion-legal-intro-card">
+                        <h3>Tribunal correctionnel de Clermont-Ferrand</h3>
+                        <p><strong>Affaire Michelin - Jugement du 21 juin 2010 :</strong> « En gardant en sa possession des données qu'il savait ne lui être communiquées que pour les besoins de son activité professionnelle et en faisant un usage à des fins totalement étrangères, Monsieur X s'est rendu coupable du délit d'abus de confiance ».</p>
+                    </article>
+                </div>
+                <div class="espion-legal-intro-footnote">
+                    <strong>Mandat BENSOPS :</strong> nos équipes documentent chaque atteinte à la sécurité de l'information avec preuves irréfutables, préparent vos dossiers juridiques et coordonnent les actions avec les autorités compétentes (gendarmerie, police judiciaire, parquet) et les assurances cyber.
+                </div>
+            </div>
+        </section>
+
+        <section class="espion-cta" aria-label="Contact">
+            <div>
+                <h3>Activez votre cellule contre-espionnage</h3>
+                <p>Choisissez le canal qui vous convient pour débuter votre enquête. Nous garantissons une réponse rapide et professionnelle.</p>
+            </div>
+            <div class="espion-cta-actions">
+                <a class="espion-btn-primary" href="mailto:sne@bensops.fr">
+                    <i class="fas fa-envelope"></i>
+                    Écrire au cabinet
+                </a>
+                <a class="espion-btn-primary" href="tel:0465574176">
+                    <i class="fas fa-phone"></i>
+                    Ligne directe
+                </a>
+                <a class="espion-btn-primary" href="{{ path('calendar') }}">
+                    <i class="fas fa-calendar-alt"></i>
+                    Programmer un rendez-vous
+                </a>
+            </div>
+        </section>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,583 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Opérations de client mystère{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    .mystere-luxe {
+        position: relative;
+        padding: 5rem 0 6rem;
+        background: radial-gradient(120% 120% at 0% 0%, #0a1020 0%, #050714 45%, #01030a 100%);
+        color: rgba(230, 239, 255, 0.92);
+        overflow: hidden;
+    }
+    .mystere-luxe::before,
+    .mystere-luxe::after {
+        content: "";
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(50px);
+        opacity: 0.58;
+        pointer-events: none;
+    }
+    .mystere-luxe::before {
+        width: 620px;
+        height: 620px;
+        top: -210px;
+        left: -190px;
+        background: radial-gradient(circle, rgba(231, 88, 26, 0.34) 0%, rgba(231, 88, 26, 0) 70%);
+    }
+    .mystere-luxe::after {
+        width: 520px;
+        height: 520px;
+        bottom: -220px;
+        right: -160px;
+        background: radial-gradient(circle, rgba(0, 67, 122, 0.32) 0%, rgba(0, 67, 122, 0) 70%);
+    }
+    .mystere-shell {
+        position: relative;
+        z-index: 1;
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+    }
+    .mystere-hero {
+        text-align: center;
+        margin-bottom: 3.5rem;
+    }
+    .mystere-hero .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1.4rem;
+        border-radius: 999px;
+        border: 1px solid rgba(231, 88, 26, 0.38);
+        background: rgba(8, 32, 38, 0.72);
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        color: #ffbf99;
+        margin-bottom: 1.6rem;
+    }
+    .mystere-hero h1 {
+        font-size: 3rem;
+        font-weight: 650;
+        color: #ffffff;
+        margin-bottom: 1.2rem;
+    }
+    .mystere-hero p {
+        max-width: 780px;
+        margin: 0 auto 1rem;
+        font-size: 1.05rem;
+        line-height: 1.8;
+        color: rgba(230, 239, 255, 0.76);
+    }
+    .mystere-metrics {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1.2rem;
+        margin-top: 2.4rem;
+    }
+    .mystere-metric {
+        background: rgba(10, 31, 28, 0.78);
+        border-radius: 20px;
+        border: 1px solid rgba(231, 88, 26, 0.24);
+        padding: 1.5rem 1.3rem;
+        text-align: center;
+        box-shadow: 0 34px 54px rgba(0, 0, 0, 0.45);
+    }
+    .mystere-metric strong {
+        display: block;
+        font-size: 1.9rem;
+        color: #ffffff;
+    }
+    .mystere-metric span {
+        font-size: 0.92rem;
+        color: rgba(230, 239, 255, 0.72);
+    }
+    .mystere-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3.2rem;
+    }
+    .mystere-card {
+        padding: 2.3rem;
+        border-radius: 26px;
+        background: linear-gradient(210deg, rgba(231, 88, 26, 0.12), rgba(0, 67, 122, 0.12));
+        border: 1px solid rgba(231, 88, 26, 0.18);
+        box-shadow: 0 34px 52px rgba(0, 0, 0, 0.46);
+    }
+    .mystere-card h2 {
+        font-size: 0.95rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #ffbf99;
+        margin-bottom: 1rem;
+    }
+    .mystere-card h3 {
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: #ffffff;
+        margin-bottom: 1.1rem;
+    }
+    .mystere-card p,
+    .mystere-card li {
+        color: rgba(230, 239, 255, 0.8);
+        line-height: 1.75;
+    }
+    .mystere-card ul {
+        padding-left: 1.1rem;
+        margin-bottom: 0;
+    }
+    .mystere-scenarios {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.8rem;
+        margin-bottom: 3rem;
+    }
+    .mystere-scenario {
+        background: rgba(13, 41, 38, 0.76);
+        border-radius: 24px;
+        padding: 1.9rem;
+        border: 1px solid rgba(231, 88, 26, 0.24);
+        box-shadow: 0 32px 54px rgba(0, 0, 0, 0.48);
+        color: rgba(230, 239, 255, 0.78);
+    }
+    .mystere-scenario strong {
+        display: block;
+        font-size: 1.14rem;
+        color: #ffbf99;
+        margin-bottom: 0.5rem;
+    }
+    .mystere-assurance {
+        margin: 3.3rem 0;
+        padding: 2.6rem 2.2rem;
+        border-radius: 26px;
+        background: rgba(13, 41, 38, 0.6);
+        border: 1px solid rgba(231, 88, 26, 0.28);
+        box-shadow: 0 34px 56px rgba(0, 0, 0, 0.5);
+    }
+    .mystere-assurance-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1.6rem;
+    }
+    .mystere-assurance-item {
+        background: rgba(13, 41, 38, 0.78);
+        border-radius: 20px;
+        padding: 1.8rem;
+        border: 1px solid rgba(231, 88, 26, 0.18);
+        color: rgba(230, 239, 255, 0.78);
+    }
+    .mystere-assurance-item h3 {
+        font-size: 1.12rem;
+        font-weight: 600;
+        color: #ffbf99;
+        margin-bottom: 0.6rem;
+    }
+    .mystere-process {
+        margin: 3.6rem 0 3.3rem;
+        padding: 2.8rem 2.4rem;
+        border-radius: 28px;
+        background: rgba(13, 41, 38, 0.48);
+        border: 1px solid rgba(231, 88, 26, 0.18);
+        box-shadow: 0 36px 60px rgba(0, 0, 0, 0.52);
+    }
+    .mystere-process h2 {
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        font-size: 0.85rem;
+        color: rgba(231, 88, 26, 0.62);
+        margin-bottom: 2rem;
+    }
+    .mystere-steps {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1.6rem;
+    }
+    .mystere-step {
+        display: flex;
+        gap: 1.1rem;
+        padding: 1.6rem 1.4rem;
+        border-radius: 20px;
+        background: rgba(13, 41, 38, 0.48);
+        border: 1px solid rgba(231, 88, 26, 0.18);
+    }
+    .mystere-step-index {
+        width: 52px;
+        height: 52px;
+        border-radius: 16px;
+        background: rgba(231, 88, 26, 0.22);
+        color: #ffbf99;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+    .mystere-step-title {
+        font-weight: 600;
+        color: #ffffff;
+        margin-bottom: 0.35rem;
+    }
+    .mystere-step-text {
+        color: rgba(230, 239, 255, 0.76);
+        line-height: 1.6;
+    }
+    .mystere-legal {
+        margin: 3.4rem 0;
+        padding: 2.8rem 2.4rem;
+        border-radius: 30px;
+        background: linear-gradient(165deg, rgba(13, 41, 38, 0.88), rgba(13, 41, 38, 0.64));
+        border: 1px solid rgba(231, 88, 26, 0.24);
+        box-shadow: 0 38px 64px rgba(0, 0, 0, 0.55);
+    }
+    .mystere-legal-intro {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+        margin-bottom: 2.6rem;
+    }
+    .mystere-legal-intro h2 {
+        font-size: 2.05rem;
+        font-weight: 620;
+        color: #ffffff;
+    }
+    .mystere-legal-intro p {
+        color: rgba(230, 239, 255, 0.8);
+        max-width: 900px;
+        line-height: 1.7;
+    }
+    .mystere-legal-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1.6rem;
+    }
+    .mystere-legal-card {
+        padding: 1.9rem;
+        border-radius: 24px;
+        background: rgba(13, 41, 38, 0.82);
+        border: 1px solid rgba(231, 88, 26, 0.24);
+        box-shadow: 0 30px 54px rgba(0, 0, 0, 0.5);
+    }
+    .mystere-legal-card h3 {
+        font-size: 1.12rem;
+        font-weight: 600;
+        color: #ffbf99;
+        margin-bottom: 0.6rem;
+    }
+    .mystere-legal-card p {
+        color: rgba(230, 239, 255, 0.78);
+        line-height: 1.7;
+        margin-bottom: 0;
+    }
+    .mystere-proof {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.8rem;
+        margin-bottom: 3rem;
+    }
+    .mystere-proof-card {
+        padding: 2rem;
+        border-radius: 24px;
+        background: rgba(13, 41, 38, 0.74);
+        border: 1px solid rgba(231, 88, 26, 0.24);
+        box-shadow: 0 30px 52px rgba(0, 0, 0, 0.5);
+    }
+    .mystere-proof-card h3 {
+        font-size: 1.18rem;
+        font-weight: 600;
+        color: #ffbf99;
+        margin-bottom: 0.7rem;
+    }
+    .mystere-cta {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 1.6rem;
+        align-items: center;
+        padding: 2.6rem 2.3rem;
+        border-radius: 28px;
+        background: linear-gradient(145deg, rgba(231, 88, 26, 0.18), rgba(0, 67, 122, 0.16));
+        border: 1px solid rgba(231, 88, 26, 0.24);
+        box-shadow: 0 34px 56px rgba(0, 0, 0, 0.52);
+    }
+    .mystere-cta h3 {
+        font-size: 1.88rem;
+        font-weight: 620;
+        color: #ffffff;
+        margin-bottom: 0.6rem;
+    }
+    .mystere-cta p {
+        color: rgba(230, 239, 255, 0.78);
+        margin-bottom: 0;
+    }
+    .mystere-cta-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.2rem;
+    }
+    .mystere-btn-primary {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.8rem;
+        padding: 1.1rem 2.4rem;
+        border-radius: 999px;
+        background: linear-gradient(120deg, #e7581a, #c08808);
+        color: #ffffff;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-decoration: none;
+        box-shadow: 0 26px 48px rgba(231, 88, 26, 0.32);
+        font-size: 1.02rem;
+        white-space: nowrap;
+    }
+    .mystere-btn-primary:nth-child(3) {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+    .mystere-btn-secondary {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.85rem 1.6rem;
+        border-radius: 999px;
+        border: 1px solid rgba(231, 88, 26, 0.24);
+        background: rgba(231, 88, 26, 0.08);
+        color: #ffbf99;
+        text-decoration: none;
+    }
+    .mystere-btn-primary:hover {
+        color: #ffffff;
+        transform: translateY(-2px);
+        box-shadow: 0 32px 56px rgba(231, 88, 26, 0.42);
+    }
+    .mystere-btn-secondary:hover {
+        color: #ffffff;
+    }
+    @media (max-width: 991px) {
+        .mystere-hero h1 {
+            font-size: 2.5rem;
+        }
+        .mystere-process {
+            padding: 2.4rem 1.9rem;
+        }
+    }
+    @media (max-width: 575px) {
+        .mystere-shell {
+            padding: 0 1rem;
+        }
+        .mystere-hero h1 {
+            font-size: 2.1rem;
+        }
+        .mystere-cta {
+            grid-template-columns: 1fr;
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+        .mystere-cta > div {
+            text-align: center;
+        }
+        .mystere-cta-actions {
+            flex-direction: column;
+            width: 100%;
+            align-items: center;
+            justify-content: center;
+        }
+        .mystere-btn-primary,
+        .mystere-btn-secondary {
+            justify-content: center;
+            width: 100%;
+        }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .mystere-metric,
+        .mystere-card,
+        .mystere-step,
+        .mystere-proof-card,
+        .mystere-cta {
+            transition: none !important;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<section class="mystere-luxe">
+    <div class="mystere-shell">
+        <header class="mystere-hero">
+            <span class="badge">Seul un détective privé peut en faire une mission fiable et légale.</span>
+            <h1>Enquêtes discrètes et mystères à élucider</h1>
+            <p>Disparitions suspectes, comportements énigmatiques, phénomènes inexpliqués : notre équipe d'enquêteurs CNAPS déploie tous les moyens légaux pour clarifier situations délicates et produire des preuves documentées.</p>
+            <p>Investigation complète : filatures, surveillance, interviews, analyses comportementales et rapports probatoires.</p>
+            <div class="mystere-metrics">
+                <div class="mystere-metric">
+                    <strong>48h</strong>
+                    <span>Mise en place enquête & premiers éléments collectés</span>
+                </div>
+                <div class="mystere-metric">
+                    <strong>98%</strong>
+                    <span>Clarification des dossiers avec preuves documentées</span>
+                </div>
+                <div class="mystere-metric">
+                    <strong>CNAPS</strong>
+                    <span>Enquêteurs certifiés & agréés - Preuves recevables légalement</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="mystere-grid">
+            <article class="mystere-card">
+                <h2>Analyse</h2>
+                <h3>Diagnostic de situation</h3>
+                <p>Immersion approfondie dans le contexte : entretiens confidentiels, étude des antécédents, identification des zones d'ombre et des contradictions. Établissement d'hypothèses de travail sérieuses.</p>
+            </article>
+
+            <article class="mystere-card">
+                <h2>Investigation</h2>
+                <h3>Opérations terrain coordonnées</h3>
+                <p>Filatures discrètes, surveillance immobile, interviews de témoins, reconnaissances des lieux. Collecte méthodique de preuves sans intrusion ni violation légale.</p>
+            </article>
+
+            <article class="mystere-card">
+                <h2>Rapport</h2>
+                <h3>Documentation et clarification</h3>
+                <p>Rapport détaillé avec chronologie des découvertes, preuves vidéo/audio, témoignages corroborés. Solutions pour élucider le mystère et proposer suite adaptée.</p>
+            </article>
+        </div>        <section class="mystere-scenarios" aria-label="Scénarios traités">
+            <article class="mystere-scenario">
+                <strong>Disparitions ou fuites</strong>
+                <p>Localisation de personnes disparues, tracing de patrimoine volé. Filatures et surveillance pour retrouver traces fiables.</p>
+            </article>
+            <article class="mystere-scenario">
+                <strong>Comportements suspects</strong>
+                <p>Conjoint infidèle, comportements énigmatiques, indices contradictoires. Investigation discrète pour clarifier suspicions.</p>
+            </article>
+            <article class="mystere-scenario">
+                <strong>Phénomènes inexpliqués</strong>
+                <p>Incidents répétés sans auteur évident, malveillance sourde. Enquête complète pour établir responsabilités et motifs.</p>
+            </article>
+        </section>
+
+        <section class="mystere-assurance" aria-label="Nos garanties">
+            <div class="mystere-assurance-grid">
+                <div class="mystere-assurance-item">
+                    <h3>Confidentialité absolue</h3>
+                    <p>Enquêteurs discrets, identités protégées, données confidentielles. Respect du secret professionnel et obligation légale.</p>
+                </div>
+                <div class="mystere-assurance-item">
+                    <h3>Légalité garantie</h3>
+                    <p>Agents certifiés CNAPS, respect droit à la vie privée, conformité Code pénal. Preuves recevables si poursuite légale.</p>
+                </div>
+                <div class="mystere-assurance-item">
+                    <h3>Efficacité & Discrétion</h3>
+                    <p>Mise en place rapide, avancées régulières, rapports clairs et documentés. Élucidation mesurable du mystère.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="mystere-process" aria-label="Méthodologie">
+            <h2>Notre méthodologie d'enquête</h2>
+            <div class="mystere-steps">
+                <div class="mystere-step">
+                    <div class="mystere-step-index">01</div>
+                    <div>
+                        <div class="mystere-step-title">Diagnostic initial</div>
+                        <div class="mystere-step-text">Entretien confidential, collecte données historiques, identification des zones d'ombre.</div>
+                    </div>
+                </div>
+                <div class="mystere-step">
+                    <div class="mystere-step-index">02</div>
+                    <div>
+                        <div class="mystere-step-title">Surveillance discrète</div>
+                        <div class="mystere-step-text">Filatures, observations, reconnaissances. Déroulement adapté sans risquer l'enquête.</div>
+                    </div>
+                </div>
+                <div class="mystere-step">
+                    <div class="mystere-step-index">03</div>
+                    <div>
+                        <div class="mystere-step-title">Collecte de preuves</div>
+                        <div class="mystere-step-text">Vidéos, interviews témoins, analyses documentaires. Constitution dossier solide.</div>
+                    </div>
+                </div>
+                <div class="mystere-step">
+                    <div class="mystere-step-index">04</div>
+                    <div>
+                        <div class="mystere-step-title">Rapport & solutions</div>
+                        <div class="mystere-step-text">Documentation complète, conclusions étayées, recommandations suite appropriée.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mystere-legal" aria-label="Cadre juridique">
+            <div class="mystere-legal-intro">
+                <h2>Qu'est-ce qu'une infiltration en entreprise ?</h2>
+                <p>Une infiltration en entreprise est l'action de placer discrètement un enquêteur au sein d'une organisation pour identifier des enjeux liés aux comportements et actions internes. L'objectif n'est pas d'espionner les salariés, mais de détecter des pertes, des fraudes ou des comportements déviants.</p>
+            </div>
+            <div class="mystere-legal-grid">
+                <article class="mystere-legal-card">
+                    <h3>Cas d'usage</h3>
+                    <p><strong>Espionnage industriel :</strong> Identifier les fuites d'informations et les taupes. <strong>Concurrence déloyale :</strong> Détecter manœuvres illicites nuisant à l'entreprise. <strong>Vol interne :</strong> Documenter démarques ou détournements sophistiqués. <strong>Harcèlement :</strong> Prouver harcèlement moral ou sexuel répété.</p>
+                </article>
+                <article class="mystere-legal-card">
+                    <h3>Méthodologie</h3>
+                    <p><strong>Préparation :</strong> Création d'une couverture crédible et histoire adaptée. <strong>Enquête :</strong> Collecte d'informations sans révéler la qualité d'enquêteur. <strong>Exfiltration :</strong> Sortie de l'entreprise de manière crédible et planifiée. <strong>Rapport :</strong> Documentation des preuves pour plainte ou défense en justice.</p>
+                </article>
+                <article class="mystere-legal-card">
+                    <h3>Légalité & Éthique</h3>
+                    <p>Le détective privé est habilité à « recueillir, sans faire état de sa qualité, ni révéler l'objet de sa mission, des renseignements destinés à la défense des intérêts du client ». Chaque infiltration exige subtilité, patience et créativité, en se fondant dans la masse sans manipuler.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="mystere-legal" aria-label="Cadre juridique détaillé">
+            <div class="mystere-legal-intro">
+                <h2>Cadre juridique : enquêteur agréé CNAPS</h2>
+                <p>BENSOPS intervient dans le respect strict de la loi. Nos enquêteurs sont certifiés CNAPS et respectent le droit à la vie privée, le secret professionnel et la législation en vigueur. Les méthodes d'investigation (filatures, surveillance) sont légales et les preuves recevables en cas de litige ou procédure pénale.</p>
+            </div>
+            <div class="mystere-legal-grid">
+                <article class="mystere-legal-card">
+                    <h3>Droit du détective privé</h3>
+                    <p>Certification CNAPS obligatoire pour tout enquêteur privé. Nos agents bénéficient de formation continue et respectent code déontologie et encadrement légal strict.</p>
+                </article>
+                <article class="mystere-legal-card">
+                    <h3>Droit à la vie privée</h3>
+                    <p>Filatures et surveillance respectent frontières légales. Pas d'intrusion domicile, pas d'accès communications privées sans accord juridique ou autorisation judiciaire.</p>
+                </article>
+                <article class="mystere-legal-card">
+                    <h3>Preuves recevables</h3>
+                    <p>Vidéos datées, photos documentées, rapports notariés sont acceptables auprès des tribunaux civils et pénaux si enquête menée en conformité légale.</p>
+                </article>
+                <article class="mystere-legal-card">
+                    <h3>Confidentialité & Secret pro</h3>
+                    <p>Détectives privés soumis obligation confidentialité équivalente avocats. Données collectées protégées, accès ultra-restreint, transmission client uniquement.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="mystere-cta" aria-label="Contact">
+            <div>
+                <h3>Élucidez vos mystères</h3>
+                <p>Contactez nos enquêteurs CNAPS pour une consultation confidentielle et un devis d'investigation.</p>
+            </div>
+            <div class="mystere-cta-actions">
+                <a class="mystere-btn-primary" href="mailto:sne@bensops.fr">
+                    <i class="fas fa-envelope"></i>
+                    Écrire au cabinet
+                </a>
+                <a class="mystere-btn-primary" href="tel:0465574176">
+                    <i class="fas fa-phone"></i>
+                    Ligne directe
+                </a>
+                <a class="mystere-btn-primary" href="{{ path('calendar') }}">
+                    <i class="fas fa-calendar-alt"></i>
+                    Programmer un rendez-vous
+                </a>
+            </div>
+        </section>
+    </div>
+</section>
+{% endblock %}

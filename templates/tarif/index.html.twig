@@ -1,0 +1,402 @@
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Tarifs Détective Privé - ARP{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    .tarif-canvas {
+        position: relative;
+        background: radial-gradient(circle at 15% 20%, rgba(231, 88, 26, 0.15), transparent 45%),
+                    radial-gradient(circle at 85% 10%, rgba(255, 255, 255, 0.08), transparent 55%),
+                    linear-gradient(160deg, #001a2f 0%, #012341 45%, #001220 100%);
+        padding: 5rem 0 6rem;
+        overflow: hidden;
+    }
+    .tarif-canvas::before,
+    .tarif-canvas::after {
+        content: '';
+        position: absolute;
+        width: 420px;
+        height: 420px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(231, 88, 26, 0.32) 0%, rgba(231, 88, 26, 0) 65%);
+        filter: blur(6px);
+        opacity: 0.55;
+        z-index: 0;
+    }
+    .tarif-canvas::before {
+        top: -180px;
+        right: -120px;
+    }
+    .tarif-canvas::after {
+        bottom: -160px;
+        left: -160px;
+    }
+    .tarif-shell {
+        position: relative;
+        z-index: 1;
+    }
+    .tarif-hero {
+        text-align: center;
+        color: #f5f9ff;
+        max-width: 860px;
+        margin: 0 auto 3.5rem;
+        padding: 0 1rem;
+    }
+    .tarif-hero h1 {
+        font-size: 2.8rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        margin-bottom: 1.2rem;
+        color: #ffffff;
+    }
+    .tarif-hero h1 span {
+        color: #e7581a;
+    }
+    .tarif-hero p {
+        font-size: 1.15rem;
+        line-height: 1.8;
+        color: rgba(229, 239, 255, 0.85);
+    }
+    .tarif-hero-highlight {
+        color: #e7581a;
+        font-weight: 600;
+    }
+    .tarif-ribbon {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        background: linear-gradient(90deg, rgba(231, 88, 26, 0.22), rgba(231, 88, 26, 0));
+        border: 1px solid rgba(231, 88, 26, 0.35);
+        border-radius: 999px;
+        padding: 0.4rem 1rem;
+        margin-bottom: 1.8rem;
+        font-size: 0.95rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #ffd7c2;
+    }
+    .tarif-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+        gap: 1.8rem;
+        margin-bottom: 3.5rem;
+    }
+    .tarif-card {
+        position: relative;
+        padding: 2.4rem 2rem;
+        border-radius: 22px;
+        background: linear-gradient(200deg, rgba(255, 255, 255, 0.07), rgba(0, 28, 47, 0.35));
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 28px 45px rgba(0, 0, 0, 0.28);
+        backdrop-filter: blur(8px);
+        color: #f1f6ff;
+        overflow: hidden;
+    }
+    .tarif-card::before {
+        content: '';
+        position: absolute;
+        inset: 12px;
+        border-radius: 18px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        pointer-events: none;
+    }
+    .tarif-card header {
+        margin-bottom: 1.8rem;
+    }
+    .tarif-tag {
+        display: inline-block;
+        font-size: 0.78rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: #92b5ff;
+        background: rgba(146, 181, 255, 0.12);
+        border: 1px solid rgba(146, 181, 255, 0.25);
+        padding: 0.32rem 0.75rem;
+        border-radius: 999px;
+        margin-bottom: 0.9rem;
+    }
+    .tarif-card h2,
+    .tarif-card h3 {
+        font-size: 1.55rem;
+        font-weight: 600;
+        margin: 0;
+        color: #ffffff;
+    }
+    .tarif-lines {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 1.1rem;
+    }
+    .tarif-line {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 0.8rem;
+        align-items: center;
+        padding: 1rem 1.1rem;
+        border-radius: 16px;
+        background: rgba(0, 26, 47, 0.55);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .tarif-label {
+        font-weight: 500;
+        font-size: 0.98rem;
+        color: rgba(229, 239, 255, 0.85);
+    }
+    .tarif-prices {
+        display: grid;
+        gap: 0.35rem;
+        text-align: right;
+    }
+    .tarif-price {
+        font-weight: 600;
+        letter-spacing: 0.03em;
+        font-size: 1.05rem;
+    }
+    .tarif-price span {
+        display: block;
+        font-size: 0.75rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: rgba(229, 239, 255, 0.55);
+    }
+    .south {
+        color: #ffb47d;
+    }
+    .idf {
+        color: #82c1ff;
+    }
+    .tarif-strategic-note {
+        color: #e7581a !important;
+        font-weight: 600 !important;
+    }
+    .tarif-legend {
+        display: flex;
+        justify-content: center;
+        gap: 1.8rem;
+        flex-wrap: wrap;
+        margin-bottom: 2.5rem;
+        color: rgba(229, 239, 255, 0.78);
+    }
+    .tarif-legend span {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.92rem;
+    }
+    .tarif-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+    }
+    .tarif-includes {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.6rem;
+        margin-bottom: 3.2rem;
+        color: rgba(229, 239, 255, 0.88);
+    }
+    .tarif-bubble {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 18px;
+        padding: 1.6rem 1.8rem;
+        box-shadow: 0 16px 34px rgba(0, 0, 0, 0.22);
+        backdrop-filter: blur(6px);
+    }
+    .tarif-bubble strong {
+        display: block;
+        margin-bottom: 0.8rem;
+        letter-spacing: 0.08em;
+        color: #e7581a;
+        font-weight: 600;
+    }
+    .tarif-bubble ul {
+        padding-left: 1.1rem;
+        margin: 0;
+        display: grid;
+        gap: 0.5rem;
+    }
+    .tarif-note {
+        text-align: center;
+        color: rgba(229, 239, 255, 0.88);
+        font-size: 1.02rem;
+        line-height: 1.72;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 2.2rem 2.4rem;
+        border-radius: 24px;
+        background: linear-gradient(135deg, rgba(231, 88, 26, 0.16), rgba(255, 255, 255, 0.06));
+        border: 1px solid rgba(231, 88, 26, 0.25);
+        box-shadow: 0 20px 48px rgba(0, 0, 0, 0.35);
+        backdrop-filter: blur(8px);
+    }
+    @media (max-width: 575.98px) {
+        .tarif-hero h1 {
+            font-size: 2.1rem;
+        }
+        .tarif-card {
+            padding: 2rem 1.6rem;
+        }
+        .tarif-line {
+            grid-template-columns: 1fr;
+            text-align: left;
+        }
+        .tarif-prices {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            text-align: left;
+        }
+        .tarif-price span {
+            font-size: 0.7rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<section class="tarif-canvas">
+    <div class="container tarif-shell">
+        <div class="tarif-hero">
+            <span class="tarif-ribbon">Grille 2025 - 2026</span>
+            <h1><span>BENSOPS</span> tarifs & engagements</h1>
+            <p>Adaptés aux <strong>particuliers comme aux entreprises</strong>, nos tarifs reflètent la qualité des enquêtes menées. Chaque mission d'enquête est étudiée selon sa complexité, son contexte juridique et les moyens déployés sur le terrain. Nos forfaits donnent accès à une cellule d'investigation agréée, <br>des rapports recevables et un accompagnement stratégique continu.<br> <span class="tarif-hero-highlight">Les montants ci-dessous sont exprimés hors nuit et jours fériés.</span></p>
+        </div>
+
+        <div class="tarif-legend">
+            <span><span class="tarif-dot" style="background:#ffb47d;"></span> Provence-Alpes-Côte d'Azur</span>
+            <span><span class="tarif-dot" style="background:#82c1ff;"></span> Paris / Île-de-France</span>
+        </div>
+
+        <div class="tarif-grid">
+            <article class="tarif-card">
+                <header>
+                    <span class="tarif-tag">Terrain</span>
+                    <h2>Surveillances et filatures</h2>
+                </header>
+                <ul class="tarif-lines">
+                    <li class="tarif-line">
+                        <div class="tarif-label">Forfait 1/2 journée (4 h)</div>
+                        <div class="tarif-prices">
+                            <span class="tarif-price south"><span>PACA</span>316 €</span>
+                            <span class="tarif-price idf"><span>Paris/IDF</span>380 €</span>
+                        </div>
+                    </li>
+                    <li class="tarif-line">
+                        <div class="tarif-label">Forfait journée (10 h)</div>
+                        <div class="tarif-prices">
+                            <span class="tarif-price south"><span>PACA</span>725 €</span>
+                            <span class="tarif-price idf"><span>Paris/IDF</span>870 €</span>
+                        </div>
+                    </li>
+                    <li class="tarif-line">
+                        <div class="tarif-label">Forfait 3 jours (30 h)</div>
+                        <div class="tarif-prices">
+                            <span class="tarif-price south"><span>PACA</span>2 083 €</span>
+                            <span class="tarif-price idf"><span>Paris/IDF</span>2 500 €</span>
+                        </div>
+                    </li>
+                    <li class="tarif-line">
+                        <div class="tarif-label">Heure supplémentaire</div>
+                        <div class="tarif-prices">
+                            <span class="tarif-price south"><span>PACA</span>80 €/h</span>
+                            <span class="tarif-price idf"><span>Paris/IDF</span>96 €/h</span>
+                        </div>
+                    </li>
+                </ul>
+            </article>
+
+            <article class="tarif-card">
+                <header>
+                    <span class="tarif-tag">Investigations</span>
+                    <h3>Enquêtes administratives</h3>
+                </header>
+                <ul class="tarif-lines">
+                    <li class="tarif-line">
+                        <div class="tarif-label">Recherche d'adresse (France)</div>
+                        <div class="tarif-prices">
+                            <span class="tarif-price south"><span>PACA</span>100 - 400 €</span>
+                            <span class="tarif-price idf"><span>Paris/IDF</span>120 - 480 €</span>
+                        </div>
+                    </li>
+                    <li class="tarif-line">
+                        <div class="tarif-label">Recherche d'adresse (Étranger)</div>
+                        <div class="tarif-prices">
+                            <span class="tarif-price south"><span>PACA</span>150 - 600 €</span>
+                            <span class="tarif-price idf"><span>Paris/IDF</span>180 - 720 €</span>
+                        </div>
+                    </li>
+                    <li class="tarif-line">
+                        <div class="tarif-label">Enquête de voisinage</div>
+                        <div class="tarif-prices">
+                            <span class="tarif-price south"><span>PACA</span>À partir de 316 €</span>
+                            <span class="tarif-price idf"><span>Paris/IDF</span>À partir de 380 €</span>
+                        </div>
+                    </li>
+                    <li class="tarif-line">
+                        <div class="tarif-label">Recherche d'employeur</div>
+                        <div class="tarif-prices">
+                            <span class="tarif-price south"><span>PACA</span>100 - 450 €</span>
+                            <span class="tarif-price idf"><span>Paris/IDF</span>120 - 540 €</span>
+                        </div>
+                    </li>
+                </ul>
+            </article>
+
+            <article class="tarif-card">
+                <header>
+                    <span class="tarif-tag">Analyse financière</span>
+                    <h3>Solvabilité et patrimoine</h3>
+                </header>
+                <ul class="tarif-lines">
+                    <li class="tarif-line">
+                        <div class="tarif-label">Enquête de solvabilité</div>
+                        <div class="tarif-prices">
+                            <span class="tarif-price south"><span>PACA</span>À partir de 500 €</span>
+                            <span class="tarif-price idf"><span>Paris/IDF</span>À partir de 600 €</span>
+                        </div>
+                    </li>
+                    <li class="tarif-line">
+                        <div class="tarif-label">Enquête de patrimoine</div>
+                        <div class="tarif-prices">
+                            <span class="tarif-price south"><span>PACA</span>À partir de 300 €</span>
+                            <span class="tarif-price idf"><span>Paris/IDF</span>À partir de 360 €</span>
+                        </div>
+                    </li>
+                    <li class="tarif-line">
+                        <div class="tarif-label">Enquête informatique / détection espionnage</div>
+                        <div class="tarif-prices">
+                            <span class="tarif-price south tarif-strategic-note" style="grid-column: span 2;">Rendez-vous obligatoire pour cadrage stratégique</span>
+                        </div>
+                    </li>
+                </ul>
+            </article>
+        </div>
+
+        <div class="tarif-includes">
+            <div class="tarif-bubble">
+                <strong>Prestations incluses</strong>
+                <ul>
+                    <li>Agents agréés CNAPS et coordinateur dédié,</li>
+                    <li>Repérages topographiques et logistique terrain,</li>
+                    <li>Captations photo/vidéo selon la législation,</li>
+                    <li>Rapport circonstancié utilisable en justice,</li>
+                    <li>Aucun frais kilométrique sur les 20 premiers kilomètres.</li>
+                </ul>
+            </div>
+            <div class="tarif-bubble">
+                <strong>Moyens de paiement</strong>
+                <p style="margin-bottom:1rem;">Virement bancaire, carte bancaire, chèque, espèces, Paypal. Possibilité de plan de paiement échelonné selon la mission.</p>
+                <strong style="margin-top:1.4rem;">Remboursement judiciaire</strong>
+                <p>Les honoraires peuvent être demandés au titre de l'article 700 du Code de procédure civile. Transmettez le rapport et la facture à votre conseil pour solliciter une prise en charge par la partie adverse.</p>
+            </div>
+        </div>
+
+        <p class="tarif-note">Chaque dossier fait l'objet d'un devis exhaustif après entretien confidentiel, afin d'ajuster les ressources humaines, techniques et juridiques à votre objectif.</p>
+    </div>
+</section>
+{% endblock %}

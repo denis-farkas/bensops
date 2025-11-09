@@ -1,0 +1,267 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard Admin - Chat{% endblock %}
+
+{% block body %}
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4">
+                <i class="fas fa-tachometer-alt"></i> Dashboard Administration
+            </h1>
+            
+            <!-- Statistiques -->
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <div class="card text-white bg-primary">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h4 class="mb-0">{{ totalRooms }}</h4>
+                                    <p class="mb-0">Conversations</p>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="fas fa-comments fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3">
+                    <div class="card text-white bg-success">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h4 class="mb-0">{{ totalMessages }}</h4>
+                                    <p class="mb-0">Messages Total</p>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="fas fa-envelope fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3">
+                    <div class="card text-white bg-info">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h4 class="mb-0">{{ messagesUsers }}</h4>
+                                    <p class="mb-0">Messages Visiteurs</p>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="fas fa-user fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3">
+                    <div class="card text-white bg-warning">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h4 class="mb-0">{{ messagesAdmin }}</h4>
+                                    <p class="mb-0">Vos Réponses</p>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="fas fa-user-tie fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Actions rapides -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0"><i class="fas fa-bolt"></i> Actions Admin</h5>
+                            <small class="text-muted">Gérez les conversations initiées par les visiteurs</small>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <a href="{{ path('admin_chat_rooms') }}" class="btn btn-primary btn-lg w-100">
+                                        <i class="fas fa-comments fa-2x mb-2 d-block"></i>
+                                        Gérer les Conversations
+                                        <small class="d-block mt-1">Répondre et supprimer les messages</small>
+                                    </a>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <button class="btn btn-info btn-lg w-100" onclick="window.location.reload()">
+                                        <i class="fas fa-sync fa-2x mb-2 d-block"></i>
+                                        Actualiser Dashboard
+                                        <small class="d-block mt-1">Voir les nouveaux messages</small>
+                                    </button>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <button class="btn btn-warning btn-lg w-100" onclick="showCleanupInfo()">
+                                        <i class="fas fa-broom fa-2x mb-2 d-block"></i>
+                                        Nettoyage
+                                        <small class="d-block mt-1">Supprimer les anciennes données</small>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Messages récents -->
+            {% if recentMessages|length > 0 %}
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">
+                                <i class="fas fa-clock"></i> Activité Récente (24h)
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Heure</th>
+                                            <th>Expéditeur</th>
+                                            <th>Message</th>
+                                            <th>Room</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for message in recentMessages %}
+                                        <tr class="{% if message.sender == 'Admin' %}table-success{% else %}table-light{% endif %}">
+                                            <td>
+                                                <small class="text-muted">
+                                                    {{ message.timestamp|date('d/m H:i') }}
+                                                </small>
+                                            </td>
+                                            <td>
+                                                <span class="badge {% if message.sender == 'Admin' %}bg-success{% else %}bg-primary{% endif %}">
+                                                    {% if message.sender == 'Admin' %}
+                                                        <i class="fas fa-user-tie"></i>
+                                                    {% else %}
+                                                        <i class="fas fa-user"></i>
+                                                    {% endif %}
+                                                    {{ message.sender }}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <div style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                                    {{ message.content }}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-secondary">Room #{{ message.roomId }}</span>
+                                            </td>
+                                            <td>
+                                                <a href="{{ path('chat_private', {'roomId': message.roomId}) }}" 
+                                                   class="btn btn-sm btn-outline-primary">
+                                                    <i class="fas fa-eye"></i> Voir
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+.card {
+    border: none;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    margin-bottom: 1rem;
+}
+
+.card:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.btn-lg {
+    padding: 1rem;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.btn-lg i {
+    opacity: 0.7;
+}
+
+.table-responsive {
+    max-height: 400px;
+}
+</style>
+
+<!-- Modal pour les informations de nettoyage -->
+<div class="modal fade" id="cleanupModal" tabindex="-1" aria-labelledby="cleanupModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cleanupModalLabel">
+                    <i class="fas fa-broom"></i> Nettoyage des données
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Vous pouvez nettoyer les anciennes conversations en utilisant les commandes suivantes dans un terminal :</p>
+                
+                <h6><i class="fas fa-terminal"></i> Commandes disponibles :</h6>
+                
+                <div class="alert alert-info">
+                    <strong>Test (recommandé d'abord) :</strong><br>
+                    <code>php bin/console app:clean-old-chats --dry-run --empty-rooms</code><br>
+                    <small>Affiche ce qui serait supprimé sans supprimer réellement</small>
+                </div>
+                
+                <div class="alert alert-warning">
+                    <strong>Supprimer conversations > 30 jours :</strong><br>
+                    <code>php bin/console app:clean-old-chats</code><br>
+                    <small>Supprime les messages plus anciens que 30 jours</small>
+                </div>
+                
+                <div class="alert alert-danger">
+                    <strong>Supprimer conversations > X jours + rooms vides :</strong><br>
+                    <code>php bin/console app:clean-old-chats 15 --empty-rooms</code><br>
+                    <small>Supprime les messages plus anciens que 15 jours + les conversations vides</small>
+                </div>
+                
+                <hr>
+                
+                <h6><i class="fas fa-exclamation-triangle text-warning"></i> Important :</h6>
+                <ul>
+                    <li>Ces suppressions sont <strong>définitives</strong></li>
+                    <li>Testez d'abord avec <code>--dry-run</code></li>
+                    <li>Les conversations supprimées ne peuvent pas être récupérées</li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                <a href="{{ path('admin_chat_rooms') }}" class="btn btn-primary">Aller aux conversations</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function showCleanupInfo() {
+    const modal = new bootstrap.Modal(document.getElementById('cleanupModal'));
+    modal.show();
+}
+</script>
+{% endblock %}

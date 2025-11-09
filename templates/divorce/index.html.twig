@@ -1,0 +1,612 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Enquête privée pour divorce conflictuel{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    .divorce-luxe {
+        position: relative;
+        padding: 5rem 0 6rem;
+        background: radial-gradient(circle at top left, #091b2f 0%, #041021 45%, #020710 100%);
+        color: rgba(230, 239, 255, 0.9);
+        overflow: hidden;
+    }
+    .divorce-luxe::before,
+    .divorce-luxe::after {
+        content: "";
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(12px);
+        opacity: 0.48;
+        pointer-events: none;
+    }
+    .divorce-luxe::before {
+        width: 560px;
+        height: 560px;
+        top: -220px;
+        right: -160px;
+        background: radial-gradient(circle, rgba(231, 88, 26, 0.28) 0%, rgba(231, 88, 26, 0) 70%);
+    }
+    .divorce-luxe::after {
+        width: 520px;
+        height: 520px;
+        bottom: -200px;
+        left: -160px;
+        background: radial-gradient(circle, rgba(80, 148, 255, 0.28) 0%, rgba(80, 148, 255, 0) 70%);
+    }
+    .divorce-shell {
+        position: relative;
+        z-index: 1;
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+    }
+    .divorce-hero {
+        text-align: center;
+        margin-bottom: 3.8rem;
+    }
+    .divorce-hero .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1.4rem;
+        border-radius: 999px;
+        border: 1px solid rgba(231, 88, 26, 0.45);
+        background: linear-gradient(120deg, rgba(231, 88, 26, 0.22), rgba(231, 88, 26, 0));
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        color: #ffeadd;
+        margin-bottom: 1.6rem;
+    }
+    .divorce-hero h1 {
+        font-size: 3rem;
+        font-weight: 650;
+        color: #ffffff;
+        margin-bottom: 1.3rem;
+    }
+    .divorce-hero p {
+        max-width: 760px;
+        margin: 0 auto 0.9rem;
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: rgba(230, 239, 255, 0.78);
+    }
+    .divorce-metrics {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1.2rem;
+        margin-top: 2.4rem;
+    }
+    .divorce-metric {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 1.5rem 1.3rem;
+        text-align: center;
+        box-shadow: 0 28px 45px rgba(0, 0, 0, 0.28);
+    }
+    .divorce-metric strong {
+        display: block;
+        font-size: 1.9rem;
+        color: #e7581a;
+    }
+    .divorce-metric span {
+        font-size: 0.92rem;
+        color: rgba(230, 239, 255, 0.68);
+    }
+    .divorce-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3.4rem;
+    }
+    .divorce-card {
+        position: relative;
+        padding: 2.2rem;
+        border-radius: 26px;
+        background: linear-gradient(200deg, rgba(255, 255, 255, 0.06), rgba(7, 28, 48, 0.6));
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 32px 48px rgba(0, 0, 0, 0.3);
+    }
+    .divorce-card h2 {
+        font-size: 0.95rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #ffbf99;
+        margin-bottom: 1rem;
+    }
+    .divorce-card h3 {
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: #ffffff;
+        margin-bottom: 1.1rem;
+    }
+    .divorce-card p,
+    .divorce-card li {
+        color: rgba(230, 239, 255, 0.82);
+        line-height: 1.75;
+    }
+    .divorce-card ul {
+        padding-left: 1.1rem;
+        margin-bottom: 0;
+    }
+    .divorce-scenarios {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.8rem;
+    }
+    .divorce-scenario {
+        background: rgba(0, 0, 0, 0.26);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 24px;
+        padding: 1.9rem;
+    }
+    .divorce-scenario strong {
+        display: block;
+        font-size: 1.15rem;
+        color: #ffbf99;
+        margin-bottom: 0.6rem;
+    }
+    .divorce-process {
+        margin: 4rem 0 3.6rem;
+        padding: 3rem 2.4rem;
+        border-radius: 28px;
+        background: rgba(7, 28, 48, 0.62);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow: 0 38px 60px rgba(0, 0, 0, 0.34);
+    }
+    .divorce-process h2 {
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        font-size: 0.85rem;
+        color: rgba(230, 239, 255, 0.6);
+        margin-bottom: 2rem;
+    }
+    .divorce-steps {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1.6rem;
+    }
+    .divorce-step {
+        display: flex;
+        gap: 1.2rem;
+        padding: 1.6rem 1.4rem;
+        border-radius: 20px;
+        background: rgba(0, 0, 0, 0.28);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    .divorce-step-index {
+        width: 52px;
+        height: 52px;
+        border-radius: 16px;
+        background: rgba(231, 88, 26, 0.22);
+        color: #ffe5d0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+    .divorce-step-title {
+        font-weight: 600;
+        color: #ffffff;
+        margin-bottom: 0.35rem;
+    }
+    .divorce-step-text {
+        color: rgba(235, 239, 255, 0.75);
+        line-height: 1.6;
+    }
+    .divorce-proof {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.8rem;
+        margin-bottom: 3.6rem;
+    }
+    .divorce-signet {
+        margin: 3.6rem 0;
+        padding: 2.8rem 2.2rem;
+        border-radius: 26px;
+        background: rgba(0, 0, 0, 0.32);
+        border: 1px solid rgba(166, 195, 255, 0.2);
+        box-shadow: 0 28px 48px rgba(0, 0, 0, 0.3);
+    }
+    .divorce-signet-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1.6rem;
+    }
+    .divorce-signet-item {
+        background: rgba(6, 14, 28, 0.72);
+        border-radius: 20px;
+        padding: 1.8rem;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        color: rgba(230, 239, 255, 0.78);
+    }
+    .divorce-signet-item h3 {
+        font-size: 1.15rem;
+        font-weight: 600;
+        color: #ffbf99;
+        margin-bottom: 0.6rem;
+    }
+    .divorce-proof-card {
+        padding: 2rem;
+        border-radius: 24px;
+        background: rgba(5, 10, 24, 0.74);
+        border: 1px solid rgba(166, 195, 255, 0.2);
+        box-shadow: 0 26px 45px rgba(0, 0, 0, 0.32);
+    }
+    .divorce-proof-card h3 {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #ffffff;
+        margin-bottom: 0.7rem;
+    }
+    .divorce-proof-card p {
+        color: rgba(230, 239, 255, 0.78);
+        line-height: 1.65;
+    }
+    .divorce-legal {
+        margin: 3.6rem 0;
+        padding: 3rem 2.4rem;
+        border-radius: 28px;
+        background: radial-gradient(140% 140% at 10% -20%, rgba(73, 123, 233, 0.18) 0%, rgba(3, 6, 16, 0.82) 55%, rgba(1, 3, 10, 0.9) 100%);
+        border: 1px solid rgba(166, 195, 255, 0.22);
+        box-shadow: 0 36px 58px rgba(0, 0, 0, 0.38);
+    }
+    .divorce-legal-intro {
+        max-width: 820px;
+        margin-bottom: 2.4rem;
+    }
+    .divorce-legal-intro h2 {
+        font-size: 2.1rem;
+        font-weight: 640;
+        color: #ffffff;
+        margin-bottom: 1rem;
+    }
+    .divorce-legal-intro p {
+        color: rgba(230, 239, 255, 0.82);
+        line-height: 1.75;
+    }
+    .divorce-legal-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.8rem;
+        margin-bottom: 2.6rem;
+    }
+    .divorce-legal-card {
+        padding: 2.1rem;
+        border-radius: 24px;
+        background: linear-gradient(190deg, rgba(10, 16, 32, 0.9), rgba(4, 8, 20, 0.88));
+        border: 1px solid rgba(166, 195, 255, 0.18);
+        box-shadow: 0 28px 48px rgba(0, 0, 0, 0.36);
+    }
+    .divorce-legal-card h3 {
+        font-size: 1.3rem;
+        font-weight: 620;
+        color: #e7581a;
+        margin-bottom: 0.8rem;
+    }
+    .divorce-legal-card p {
+        color: rgba(230, 239, 255, 0.8);
+        line-height: 1.7;
+        margin-bottom: 1rem;
+    }
+    .divorce-legal-list {
+        padding-left: 1.1rem;
+        margin: 0;
+        color: rgba(230, 239, 255, 0.78);
+        line-height: 1.65;
+    }
+    .divorce-legal-list li::marker {
+        color: #ffbf99;
+    }
+    .divorce-legal-footnote {
+        padding: 1.9rem 2rem;
+        border-radius: 22px;
+        background: linear-gradient(135deg, rgba(0, 67, 122, 0.28), rgba(8, 14, 32, 0.86));
+        border: 1px solid rgba(192, 136, 8, 0.38);
+        color: rgba(233, 237, 255, 0.85);
+        line-height: 1.7;
+    }
+    .divorce-legal-footnote strong {
+        color: #c08808;
+    }
+    .divorce-cta {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 1.6rem;
+        align-items: center;
+        padding: 2.6rem 2.2rem;
+        border-radius: 28px;
+        background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(7, 36, 62, 0.6));
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow: 0 32px 52px rgba(0, 0, 0, 0.32);
+    }
+    .divorce-cta h3 {
+        font-size: 1.9rem;
+        font-weight: 620;
+        color: #ffffff;
+        margin-bottom: 0.6rem;
+    }
+    .divorce-cta p {
+        color: rgba(230, 239, 255, 0.78);
+        margin-bottom: 0;
+    }
+    .divorce-cta-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    .divorce-btn-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.9rem 1.8rem;
+        border-radius: 999px;
+        background: linear-gradient(120deg, #e7581a, #c08808);
+        color: #ffffff;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-decoration: none;
+        box-shadow: 0 20px 34px rgba(231, 88, 26, 0.34);
+    }
+    .divorce-btn-primary:hover {
+        color: #ffffff;
+    }
+    .divorce-btn-secondary {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.85rem 1.6rem;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        background: rgba(0, 0, 0, 0.22);
+        color: #ffe5d0;
+        text-decoration: none;
+    }
+    .divorce-btn-secondary:hover {
+        color: #ffffff;
+    }
+    @media (max-width: 991px) {
+        .divorce-hero h1 {
+            font-size: 2.4rem;
+        }
+        .divorce-process {
+            padding: 2.4rem 1.8rem;
+        }
+    }
+    @media (max-width: 575px) {
+        .divorce-shell {
+            padding: 0 1rem;
+        }
+        .divorce-hero h1 {
+            font-size: 2.1rem;
+        }
+        .divorce-hero .badge {
+            font-size: 0.6rem; /* Réduire encore plus la taille du texte */
+            padding: 0.4rem 0.8rem; /* Réduire le padding horizontal */
+            line-height: 1.3; /* Hauteur de ligne plus compacte */
+            text-align: center; /* Centrer le texte */
+            max-width: 90%; /* Largeur adaptative */
+            width: fit-content; /* Largeur ajustée au contenu */
+            word-wrap: break-word; /* Permettre la coupure des mots si nécessaire */
+            white-space: normal; /* Permettre le retour à la ligne naturel */
+            overflow-wrap: break-word; /* Forcer la coupure si nécessaire */
+        }
+        .divorce-signet,
+        .divorce-process,
+        .divorce-legal {
+            padding: 2.2rem 1.6rem;
+        }
+        .divorce-cta {
+            grid-template-columns: 1fr;
+        }
+        .divorce-cta-actions {
+            flex-direction: column;
+            width: 100%;
+        }
+        .divorce-btn-primary,
+        .divorce-btn-secondary {
+            justify-content: center;
+            width: 100%;
+        }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .divorce-metric,
+        .divorce-card,
+        .divorce-step,
+        .divorce-proof-card,
+        .divorce-cta {
+            transition: none !important;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<section class="divorce-luxe">
+    <div class="divorce-shell">
+        <header class="divorce-hero">
+            <span class="badge">Tromper, c’est parfois perdre plus qu’un amour : tout un patrimoine.</span>
+            <h1>Enquêtes privées pour divorces ultra-conflictuels</h1>
+            <p>Nous protégeons vos intérêts patrimoniaux et familiaux lors des procédures les plus sensibles. Filatures discrètes, investigations financières, cybersurveillance légale : notre cellule dédiée fournit des preuves exploitables devant juge aux affaires familiales et tribunaux civils.</p>
+            <p>Inspirés par les standards des cabinets d’investigation premium internationaux, nous combinons task-force pluridisciplinaire, threat intelligence et restitution juridique prête à déposer.</p>
+            <div class="divorce-metrics">
+                <div class="divorce-metric">
+                    <strong>48&nbsp;h</strong>
+                    <span>Activation d'une cellule de crise dédiée à votre dossier</span>
+                </div>
+                <div class="divorce-metric">
+                    <strong>99,2%</strong>
+                    <span>Taux de satisfaction des avocats partenaires en 2024</span>
+                </div>
+                <div class="divorce-metric">
+                    <strong>15</strong>
+                    <span>Pays avec accès direct à notre réseau d'enquêteurs agréés</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="divorce-grid">
+            <article class="divorce-card">
+                <h2>Stratégie</h2>
+                <h3>Protéger le patrimoine & les enfants</h3>
+                <p>Chaque divorce conflictuel est une bataille financière et familiale. Nous déployons une stratégie à trois niveaux :</p>
+                <ul>
+                    <li><strong>Patrimoine :</strong> Détection des transferts secrets, sociétés écrans, cryptomonnaies et résidences offshore.</li>
+                    <li><strong>Enfants :</strong> Enquêtes comportementales, vérification d'entourage, attestation de mise en danger.</li>
+                    <li><strong>Preuve :</strong> Filatures, vidéo, communications et analyses financières exploitables devant le juge aux affaires familiales.</li>
+                </ul>
+            </article>
+
+            <article class="divorce-card">
+                <h2>Équipe</h2>
+                <h3>Pluridisciplinaire à l'international</h3>
+                <p>Une cellule dédiée qui fusionne enquête classique et investigations numériques modernes :</p>
+                <ul>
+                    <li><strong>Terrain :</strong> Détectives agréés CNAPS, anciens officiers de renseignement, spécialistes protection rapprochée.</li>
+                    <li><strong>Numérique :</strong> Analystes OSINT, cyber-enquêteurs, traçage de cryptomonnaies et forensique réseaux.</li>
+                    <li><strong>Juridique :</strong> Coordonnation permanente avec votre avocat, rapport certifié, appui en audience.</li>
+                </ul>
+            </article>
+
+            <article class="divorce-card">
+                <h2>Restitution</h2>
+                <h3>Preuves horodatées et productibles</h3>
+                <p>Nous livrons des rapports irréprochables au regard du Code de procédure civile :</p>
+                <ul>
+                    <li><strong>Format :</strong> Audio, vidéo, preuves numériques collectées légalement, sans fraude.</li>
+                    <li><strong>Traçabilité :</strong> Chronologies détaillées, chaîne de preuve, attestations de témoins, horodatage.</li>
+                    <li><strong>Justice :</strong> Appui lors des expertises, auditions et présence au tribunal si nécessaire.</li>
+                </ul>
+            </article>
+        </div>
+
+        <section class="divorce-scenarios" aria-label="Scénarios d'intervention">
+            <article class="divorce-scenario">
+                <strong>Suspicion d'adultère ou de double foyer</strong>
+                <p>Filatures discrètes, recueil de témoignages, preuves visuelles exploitables pour confirmer manquements au devoir de fidélité ou manœuvres frauduleuses.</p>
+            </article>
+            <article class="divorce-scenario">
+                <strong>Organisation d'insolvabilité</strong>
+                <p>Analyse de patrimoine, surveillance des comptes professionnels, suivi logistique des biens de valeur et lecture notariale pour prouver la dissipation volontaire d'actifs.</p>
+            </article>
+        </section>
+
+        <section class="divorce-signet" aria-label="Nos garanties">
+            <div class="divorce-signet-grid">
+                <div class="divorce-signet-item">
+                    <h3>Excellence & Conformité légale</h3>
+                    <p>Agrément CNAPS à jour, registre de mission certifié, traçabilité des preuves, conservation sécurisée RGPD et secret professionnel absolu.</p>
+                </div>
+                <div class="divorce-signet-item">
+                    <h3>Task-force pluridisciplinaire</h3>
+                    <p>Directeur d'enquête dédié en liaison permanente avec votre avocat, coordination avec avocats, huissiers et experts-comptables partenaires.</p>
+                </div>
+                <div class="divorce-signet-item">
+                    <h3>Réactivité 24/7</h3>
+                    <p>Déploiement d'équipes jour et nuit, alertes en temps réel, hotline confidentielle, possibilité de déclencher des opérations d'urgence immédiatement.</p>
+                </div>
+            </div>
+        </section>        <section class="divorce-process" aria-label="Processus d'accompagnement">
+            <h2>Notre méthodologie BENSOPS</h2>
+            <div class="divorce-steps">
+                <div class="divorce-step">
+                    <div class="divorce-step-index">01</div>
+                    <div>
+                        <div class="divorce-step-title">Analyse stratégique</div>
+                        <div class="divorce-step-text">Entretien confidentiel avec vous et votre avocat. Identification des objectifs, risques juridiques et plan d'action priorisé. Devis transparent et calendrier réaliste.</div>
+                    </div>
+                </div>
+                <div class="divorce-step">
+                    <div class="divorce-step-index">02</div>
+                    <div>
+                        <div class="divorce-step-title">Investigation intensifiée</div>
+                        <div class="divorce-step-text">Déploiement d'une task-force pilotée par un directeur d'enquête dédié. Filatures, analyses financières, cyber-investigations et recueil de témoignages. Rapports hebdomadaires avec recommandations.</div>
+                    </div>
+                </div>
+                <div class="divorce-step">
+                    <div class="divorce-step-index">03</div>
+                    <div>
+                        <div class="divorce-step-title">Restitution probatoire</div>
+                        <div class="divorce-step-text">Rapport circonstancié horodaté, preuves certifiées, annexes exploitables. Briefing final avec votre avocat, simulation d'audience et recommandations de négociation.</div>
+                    </div>
+                </div>
+                <div class="divorce-step">
+                    <div class="divorce-step-index">04</div>
+                    <div>
+                        <div class="divorce-step-title">Suivi post-décision</div>
+                        <div class="divorce-step-text">Contrôle d'exécution des mesures, surveillance patrimoniale continue si requis, appui en cas d'appel ou de nouvelles demandes.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="divorce-legal" aria-label="Cadre juridique BENSOPS">
+            <div class="divorce-legal-intro">
+                <h2>Cadre juridique maîtrisé par BENSOPS</h2>
+                <p>Le divorce pour faute exige des preuves irréprochables et un récit juridique cohérent. Les directeurs d’enquêtes BENSOPS interviennent aux côtés de votre conseil pour documenter chaque manquement, sécuriser la chaîne de preuve et préparer la plaidoirie, toujours dans le respect strict du Code civil et du Code de procédure civile.</p>
+            </div>
+                        <div class="divorce-legal-grid">
+                <article class="divorce-legal-card">
+                    <h3>Recevabilité de la preuve d'adultère (Cass. 2005)</h3>
+                    <p><strong>Cour de Cassation, 1ère Civ., 18 mai 2005, n° 04-13745 :</strong> La Cour admet comme recevable la preuve d'un adultère obtenue par rapport de filature d'un détective privé. Jurisprudence confirmée : nos investigations établissent preuves incontestables en justice.</p>
+                </article>
+                <article class="divorce-legal-card">
+                    <h3>Devoirs conjugaux & Adultère (Article 212 C.civ)</h3>
+                    <p><strong>Article 212 du Code civil :</strong> Les époux se doivent mutuellement respect, fidélité, secours, assistance. L'adultère constitue toujours une violation des devoirs et obligations du mariage, susceptible de justifier le divorce pour faute.</p>
+                </article>
+                <article class="divorce-legal-card">
+                    <h3>Conséquences financières maîtrisées (Art. 266, 1240 C.civ)</h3>
+                    <p><strong>Articles 266 et 1240 du Code civil :</strong> Mettre en évidence une relation adultérine permet : 1) négocier prestation compensatoire réduite/refusée, 2) obtenir dommages-intérêts pour préjudice moral et financier.</p>
+                </article>
+                <article class="divorce-legal-card">
+                    <h3>Partage des torts & Régime matrimonial (Art. 270-271 C.civ)</h3>
+                    <p><strong>Articles 270 et 271 du Code civil :</strong> En cas divorce pour faute, juge évalue gravité adultère et réciprocité. L'adultère avéré justifie refus prestation compensatoire et modulation du partage d'actifs.</p>
+                </article>
+                <article class="divorce-legal-card">
+                    <h3>Rôle stratégique du détective BENSOPS</h3>
+                    <p>Nos équipes obtiennent légalement éléments décisifs : traçabilité agendas, preuves double vie, détournement d'actifs, manquements devoirs parentaux. Préparation écritures avec avocat, appui audience, explicitation méthodologie.</p>
+                </article>
+                <article class="divorce-legal-card">
+                    <h3>Prouver sans fragiliser votre dossier (Art. 259 C.civ)</h3>
+                    <p><strong>Article 259 Code civil :</strong> Tous modes preuve licites : constats huissier, rapports BENSOPS, emails/SMS légaux. Orchestration témoignages, filatures, analyses numériques en excluant pièces contestables. Restitution certifiée.</p>
+                </article>
+            </div>
+            <div class="divorce-legal-footnote">
+                <strong>Optimisation financière :</strong> Divorce aux torts exclusifs = dommages-intérêts (article 266) + refus prestation compensatoire (article 270) + frais d'enquête amortis sur adversaire (article 700 CPC). BENSOPS sécurise votre négociation et plaidoirie.
+            </div>
+        </section>
+
+        <section class="divorce-proof" aria-label="Études de cas">
+            <article class="divorce-proof-card">
+                <h3>Protection de garde exclusive</h3>
+                <p>Dispositif de surveillance discrète et vérification des fréquentations. Présentation d'une timeline détaillée et de témoignages corroborés ayant conduit à l'octroi de la garde principale.</p>
+            </article>
+        </section>
+
+        <section class="divorce-cta" aria-label="Contact">
+            <div>
+                <h3>Confiez-nous votre dossier en toute confidentialité</h3>
+                <p>Choisissez le canal qui vous convient pour débuter votre enquête. Nous garantissons une réponse rapide et professionnelle.</p>
+            </div>
+            <div class="divorce-cta-actions">
+                <a class="divorce-btn-primary" href="mailto:sne@bensops.fr">
+                    <i class="fas fa-envelope"></i>
+                    Écrire au cabinet
+                </a>
+                <a class="divorce-btn-primary" href="tel:0465574176">
+                    <i class="fas fa-phone"></i>
+                    Ligne directe
+                </a>
+                <a class="divorce-btn-primary" href="{{ path('calendar') }}">
+                    <i class="fas fa-calendar-alt"></i>
+                    Programmer un rendez-vous
+                </a>
+            </div>
+        </section>
+    </div>
+</section>
+{% endblock %}

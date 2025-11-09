@@ -1,0 +1,713 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Audit pension alimentaire{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    .pension-luxe {
+        position: relative;
+        padding: 5rem 0 6rem;
+        background: radial-gradient(circle at top left, #091b2f 0%, #041021 45%, #020710 100%);
+        color: rgba(230, 239, 255, 0.9);
+        overflow: hidden;
+    }
+    .pension-luxe::before,
+    .pension-luxe::after {
+        content: "";
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(12px);
+        opacity: 0.48;
+        pointer-events: none;
+    }
+    .pension-luxe::before {
+        width: 560px;
+        height: 560px;
+        top: -220px;
+        right: -160px;
+        background: radial-gradient(circle, rgba(231, 88, 26, 0.28) 0%, rgba(231, 88, 26, 0) 70%);
+    }
+    .pension-luxe::after {
+        width: 520px;
+        height: 520px;
+        bottom: -200px;
+        left: -160px;
+        background: radial-gradient(circle, rgba(80, 148, 255, 0.28) 0%, rgba(80, 148, 255, 0) 70%);
+    }
+    .pension-shell {
+        position: relative;
+        z-index: 1;
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+    }
+    .pension-hero {
+        text-align: center;
+        margin-bottom: 3.8rem;
+    }
+    .pension-hero .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.55rem 1.3rem;
+        border-radius: 999px;
+        border: 1px solid rgba(231, 88, 26, 0.45);
+        background: linear-gradient(120deg, rgba(231, 88, 26, 0.22), rgba(231, 88, 26, 0));
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        color: #ffeadd;
+        margin-bottom: 1.6rem;
+    }
+    .pension-hero h1 {
+        font-size: 3rem;
+        font-weight: 640;
+        color: #ffffff;
+        margin-bottom: 1.3rem;
+    }
+    .pension-hero p {
+        max-width: 780px;
+        margin: 0 auto 0.9rem;
+        font-size: 1.08rem;
+        line-height: 1.8;
+        color: rgba(230, 239, 255, 0.78);
+    }
+    .pension-metrics {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1.2rem;
+        margin-top: 2.4rem;
+    }
+    .pension-metric {
+        background: rgba(10, 31, 28, 0.75);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 1.5rem 1.3rem;
+        text-align: center;
+        box-shadow: 0 30px 50px rgba(26, 15, 7, 0.45);
+    }
+    .pension-metric strong {
+        display: block;
+        font-size: 1.9rem;
+        color: #ffffff;
+    }
+    .pension-metric span {
+        font-size: 0.92rem;
+        color: rgba(230, 239, 255, 0.68);
+    }
+    .pension-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3.4rem;
+    }
+    .pension-grid .pension-card:nth-child(4) {
+        grid-column: 2;
+        justify-self: center;
+        max-width: 380px;
+    }
+    .pension-card {
+        position: relative;
+        padding: 2.3rem;
+        border-radius: 26px;
+        background: linear-gradient(200deg, rgba(255, 255, 255, 0.06), rgba(7, 28, 48, 0.6));
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 34px 48px rgba(0, 0, 0, 0.38);
+    }
+    .pension-card h2 {
+        font-size: 0.95rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #ffbf99;
+        margin-bottom: 1rem;
+    }
+    .pension-card h3 {
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: #ffffff;
+        margin-bottom: 1.1rem;
+    }
+    .pension-card p,
+    .pension-card li {
+        color: rgba(230, 239, 255, 0.78);
+        line-height: 1.75;
+    }
+    .pension-card ul {
+        padding-left: 1.1rem;
+        margin-bottom: 0;
+    }
+    .pension-scenarios {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.8rem;
+        margin-bottom: 3rem;
+    }
+    .pension-scenario {
+        background: rgba(13, 41, 38, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 24px;
+        padding: 1.9rem;
+        box-shadow: 0 30px 50px rgba(26, 15, 7, 0.5);
+    }
+    .pension-scenario strong {
+        display: block;
+        font-size: 1.15rem;
+        color: #ffbf99;
+        margin-bottom: 0.6rem;
+    }
+    .pension-process {
+        margin: 3.8rem 0 3.5rem;
+        padding: 2.9rem 2.4rem;
+        border-radius: 28px;
+        background: linear-gradient(140deg, rgba(255, 255, 255, 0.08), rgba(7, 36, 62, 0.6));
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow: 0 36px 60px rgba(0, 0, 0, 0.4);
+    }
+    .pension-process h2 {
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        font-size: 0.85rem;
+        color: rgba(231, 88, 26, 0.62);
+        margin-bottom: 2rem;
+    }
+    .pension-steps {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1.6rem;
+    }
+    .pension-step {
+        display: flex;
+        gap: 1.2rem;
+        padding: 1.6rem 1.4rem;
+        border-radius: 20px;
+        background: rgba(0, 0, 0, 0.32);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .pension-step-index {
+        width: 52px;
+        height: 52px;
+        border-radius: 16px;
+        background: rgba(231, 88, 26, 0.22);
+        color: #ffbf99;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+    .pension-step-title {
+        font-weight: 600;
+        color: #ffffff;
+        margin-bottom: 0.35rem;
+    }
+    .pension-step-text {
+        color: rgba(230, 239, 255, 0.72);
+        line-height: 1.6;
+    }
+    .pension-proof {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.8rem;
+        margin-bottom: 3.3rem;
+    }
+    .pension-proof-card {
+        padding: 2rem;
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 28px 48px rgba(0, 0, 0, 0.38);
+    }
+    .pension-proof-card h3 {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #ffffff;
+        margin-bottom: 0.7rem;
+    }
+    .pension-proof-card p {
+        color: rgba(230, 239, 255, 0.75);
+        line-height: 1.65;
+    }
+    .pension-legal {
+        margin: 3.6rem 0;
+        padding: 3rem 2.4rem;
+        border-radius: 28px;
+        background: linear-gradient(140deg, rgba(255, 255, 255, 0.08), rgba(7, 36, 62, 0.6));
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow: 0 36px 58px rgba(0, 0, 0, 0.42);
+    }
+    .pension-legal-intro {
+        max-width: 820px;
+        margin-bottom: 2.5rem;
+    }
+    .pension-legal-intro h2 {
+        font-size: 2.1rem;
+        font-weight: 640;
+        color: #ffffff;
+        margin-bottom: 1rem;
+    }
+    .pension-legal-intro p {
+        color: rgba(230, 239, 255, 0.8);
+        line-height: 1.75;
+    }
+    .pension-legal-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.8rem;
+        margin-bottom: 2.6rem;
+    }
+    .pension-legal-card {
+        padding: 2.1rem;
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 28px 48px rgba(0, 0, 0, 0.35);
+    }
+    .pension-legal-card h3 {
+        font-size: 1.3rem;
+        font-weight: 620;
+        color: #ffbf99;
+        margin-bottom: 0.8rem;
+    }
+    .pension-legal-card p {
+        color: rgba(230, 239, 255, 0.8);
+        line-height: 1.7;
+        margin-bottom: 1rem;
+    }
+    .pension-legal-list {
+        padding-left: 1.1rem;
+        margin: 0;
+        color: rgba(230, 239, 255, 0.78);
+        line-height: 1.65;
+    }
+    .pension-legal-footnote {
+        padding: 1.9rem 2rem;
+        border-radius: 22px;
+        background: rgba(231, 88, 26, 0.1);
+        border: 1px solid rgba(231, 88, 26, 0.28);
+        color: rgba(230, 239, 255, 0.85);
+        line-height: 1.7;
+    }
+    .pension-comp {
+        margin: 3.4rem 0;
+        padding: 3rem 2.4rem;
+        border-radius: 28px;
+        background: linear-gradient(140deg, rgba(255, 255, 255, 0.08), rgba(7, 36, 62, 0.6));
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow: 0 34px 56px rgba(0, 0, 0, 0.4);
+    }
+    .pension-comp-header {
+        max-width: 820px;
+        margin-bottom: 2.4rem;
+    }
+    .pension-comp-header h2 {
+        font-size: 2rem;
+        font-weight: 630;
+        color: #ffffff;
+        margin-bottom: 0.9rem;
+    }
+    .pension-comp-header p {
+        color: rgba(230, 239, 255, 0.8);
+        line-height: 1.75;
+    }
+    .pension-comp-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.7rem;
+    }
+    .pension-comp-card {
+        padding: 2.1rem;
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 28px 46px rgba(0, 0, 0, 0.36);
+    }
+    .pension-comp-card h3 {
+        font-size: 1.25rem;
+        font-weight: 610;
+        color: #ffbf99;
+        margin-bottom: 0.7rem;
+    }
+    .pension-comp-card p {
+        color: rgba(230, 239, 255, 0.78);
+        line-height: 1.65;
+        margin-bottom: 0.9rem;
+    }
+    .pension-comp-list {
+        padding-left: 1.1rem;
+        margin: 0;
+        color: rgba(230, 239, 255, 0.78);
+        line-height: 1.6;
+    }
+    .pension-comp-footnote {
+        margin-top: 2.4rem;
+        padding: 1.9rem 2rem;
+        border-radius: 22px;
+        background: rgba(231, 88, 26, 0.1);
+        border: 1px solid rgba(231, 88, 26, 0.28);
+        color: rgba(230, 239, 255, 0.84);
+        line-height: 1.7;
+    }
+        color: #ffffff;
+        margin-bottom: 0.7rem;
+    }
+    .pension-signet {
+        margin: 3.3rem 0;
+        padding: 2.6rem 2.2rem;
+        border-radius: 26px;
+        background: rgba(13, 41, 38, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 32px 52px rgba(0, 0, 0, 0.4);
+    }
+    .pension-signet-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1.6rem;
+    }
+    .pension-signet-item {
+        background: rgba(13, 41, 38, 0.7);
+        border-radius: 20px;
+        padding: 1.8rem;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        color: rgba(230, 239, 255, 0.78);
+    }
+    .pension-signet-item h3 {
+        font-size: 1.15rem;
+        font-weight: 600;
+        color: #ffbf99;
+        margin-bottom: 0.6rem;
+    }
+    .pension-cta {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 1.6rem;
+        align-items: center;
+        padding: 2.6rem 2.3rem;
+        border-radius: 28px;
+        background: linear-gradient(140deg, rgba(255, 255, 255, 0.08), rgba(7, 36, 62, 0.6));
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow: 0 34px 54px rgba(0, 0, 0, 0.42);
+    }
+    .pension-cta h3 {
+        font-size: 1.9rem;
+        font-weight: 620;
+        color: #ffffff;
+        margin-bottom: 0.6rem;
+    }
+    .pension-cta p {
+        color: rgba(230, 239, 255, 0.75);
+        margin-bottom: 0;
+    }
+    .pension-cta-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    .pension-btn-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.85rem 1.9rem;
+        border-radius: 999px;
+        background: linear-gradient(120deg, #e7581a, #c08808);
+        color: #fff;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-decoration: none;
+        box-shadow: 0 26px 46px rgba(231, 88, 26, 0.38);
+    }
+    .pension-btn-secondary {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.85rem 1.6rem;
+        border-radius: 999px;
+        border: 1px solid rgba(231, 88, 26, 0.24);
+        background: rgba(231, 88, 26, 0.08);
+        color: #ffbf99;
+        text-decoration: none;
+    }
+    .pension-btn-primary:hover {
+        color: #fff;
+    }
+    .pension-btn-secondary:hover {
+        color: #ffffff;
+    }
+    @media (max-width: 991px) {
+        .pension-hero h1 {
+            font-size: 2.5rem;
+        }
+        .pension-process {
+            padding: 2.4rem 1.9rem;
+        }
+    }
+    @media (max-width: 575px) {
+        .pension-shell {
+            padding: 0 1rem;
+        }
+        .pension-hero h1 {
+            font-size: 2.1rem;
+        }
+        .pension-legal {
+            padding: 2.2rem 1.6rem;
+        }
+        .pension-comp {
+            padding: 2.2rem 1.6rem;
+        }
+        .pension-cta {
+            grid-template-columns: 1fr;
+        }
+        .pension-cta-actions {
+            flex-direction: column;
+            width: 100%;
+        }
+        .pension-btn-primary,
+        .pension-btn-secondary {
+            justify-content: center;
+            width: 100%;
+        }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .pension-metric,
+        .pension-card,
+        .pension-step,
+        .pension-proof-card,
+        .pension-cta {
+            transition: none !important;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<section class="pension-luxe">
+    <div class="pension-shell">
+        <header class="pension-hero">
+            <span class="badge">Assurer le bien-être de l’enfant</span>
+            <h1>Enquêtes premium sur pension alimentaire et prestation compensatoire</h1>
+            <p>Dans la signature BENSOPS, chaque litige de pension alimentaire est traité comme un dossier de finance privée : nous restaurons la vérité patrimoniale quand les impayés, reports ou montants symboliques fragilisent votre famille.</p>
+            <p>Nos directeurs d’enquêtes coordonnent analyses bancaires, observations lifestyle et partenariats juridiques pour livrer un dossier irréprochable devant le juge aux affaires familiales.</p>
+            <div class="pension-metrics">
+                <div class="pension-metric">
+                    <strong>96%</strong>
+                    <span>Rapports intégrés aux plaidoiries devant le juge aux affaires familiales</span>
+                </div>
+                <div class="pension-metric">
+                    <strong>72&nbsp;h</strong>
+                    <span>Pour enclencher l’audit patrimonial et la surveillance ciblée</span>
+                </div>
+                <div class="pension-metric">
+                    <strong>+25</strong>
+                    <span>Correspondants fiscaux, notaires et huissiers partenaires</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="pension-grid">
+            <article class="pension-card">
+                <h2>Analyse</h2>
+                <h3>Cartographie patrimoniale exhaustive</h3>
+                <p>Nous reconstituons la véritable capacité contributive du parent débiteur comme un audit patrimonial complet :</p>
+                <ul>
+                    <li><strong>Finances :</strong> Comptes bancaires, flux récurrents, dépenses incompatibles avec déclarations fiscales.</li>
+                    <li><strong>Patrimoine :</strong> Sociétés écrans, holdings, mandats occultes, crypto, résidences multiples.</li>
+                    <li><strong>Lifestyle :</strong> Veille immobilière, véhicules de prestige, œuvres, placements mobiliers.</li>
+                </ul>
+            </article>
+
+            <article class="pension-card">
+                <h2>Investigation</h2>
+                <h3>Enquêtes financières et terrain synchronisées</h3>
+                <p>Une task-force pluridisciplinaire BENSOPS coordonne terrain et numérique :</p>
+                <ul>
+                    <li><strong>Terrain :</strong> Filatures lifestyle, observations de dépenses, preuves horodatées des habitudes.</li>
+                    <li><strong>Numérique :</strong> Cross-check OSINT, data mining, réseaux professionnels et immobiliers.</li>
+                    <li><strong>Preuves :</strong> Attestations, constats, pièces comptables démontrant la dissimulation volontaire.</li>
+                </ul>
+            </article>
+
+            <article class="pension-card">
+                <h2>Rapport</h2>
+                <h3>Argumentaire probatoire et stratégie de négociation</h3>
+                <p>Nous livrons un dossier prêt à plaider, calibré pour la négociation ou l'exécution forcée :</p>
+                <ul>
+                    <li><strong>Format :</strong> Rapports chiffrés, tableaux comparatifs, annexes certifiées illustrant les écarts.</li>
+                    <li><strong>Juridique :</strong> Briefing avocat, éléments de langage audience, projection financière besoins enfant.</li>
+                    <li><strong>Suivi :</strong> Monitoring post-jugement, alertes impayés, activation saisies, coordination huissier.</li>
+                </ul>
+            </article>
+        </div>
+
+        <section class="pension-scenarios" aria-label="Scénarios traités">
+            <article class="pension-scenario">
+                <strong>Sous-déclaration de revenus</strong>
+                <p>Analyse comptable, recoupement des revenus cash, preuve d’une activité parallèle ou dissimulée à l’étranger : nous rendons tangible la base de revalorisation.</p>
+            </article>
+            <article class="pension-scenario">
+                <strong>Train de vie incompatible</strong>
+                <p>Surveillance lifestyle, relevé de dépenses de luxe, location de biens haut de gamme : nous démontrons une solvabilité cachée incompatible avec la pension versée.</p>
+            </article>
+            <article class="pension-scenario">
+                <strong>Impaye chronique</strong>
+                <p>Veille bancaire, préparation de saisies, coordination huissier / avocat : nous activons les sanctions prévues par l’article 227-3 du Code pénal en cas de non-paiement.</p>
+            </article>
+        </section>
+
+        <section class="pension-legal" aria-label="Cadre juridique BENSOPS">
+            <div class="pension-legal-intro">
+                <h2>Cadre juridique maîtrisé par BENSOPS</h2>
+                <p>Nos analystes financiers et juridiques orchestrent la matière textuelle pour que chaque rapport BENSOPS épouse le langage du juge aux affaires familiales. Nous consolidons les preuves de ressources avec les obligations prévues par le Code civil afin d’obtenir une décision équilibrée et durable.</p>
+            </div>
+                        <div class="pension-legal-grid">
+                <article class="pension-legal-card">
+                    <h3>Pension alimentaire : définition large (Art. 205-207 CC)</h3>
+                    <p><strong>Articles 205 à 207 du Code civil :</strong> La pension alimentaire n'est pas stricto sensu réservée au divorce car tout époux, ascendant, descendant ou allié peut solliciter une pension alimentaire. Elle répond à une obligation d'entraide familiale large, au-delà des seules obligations enfant/parent.</p>
+                </article>
+                <article class="pension-legal-card">
+                    <h3>Définition et obligation alimentaire</h3>
+                    <p>La pension alimentaire demeure une contribution globale à l'entretien et l'éducation des enfants, mariés ou non. Les articles 371-2 et 373-2-2 imposent à chaque parent de participer selon ses ressources et les besoins réels de l'enfant, sans distinction depuis la loi du 4 mars 2002.</p>
+                    <p>Nos équipes valorisent chaque poste – logement, santé, scolarité, activités d'exception – pour traduire l'exigence de maintien de niveau de vie qui caractérise les familles accompagnées par BENSOPS.</p>
+                </article>
+                <article class="pension-legal-card">
+                    <h3>Calcul, indexation et revalorisation</h3>
+                    <p>En l'absence d'accord, le juge fixe la contribution selon revenus, charges et besoins. Le barème indicatif du ministère peut guider la décision sans s'imposer.</p>
+                    <p>Nous documentons revenus additionnels, concubinage, charges réelles ou frais exceptionnels, puis structurons les pièces et formulaires destinés au tribunal pour enclencher revalorisation, diminution ou recouvrement.</p>
+                    <p>Un monitoring annuel de l'indexation sur l'indice des prix nous permet d'activer en amont les demandes d'ajustement.</p>
+                </article>
+                <article class="pension-legal-card">
+                    <h3>Durée, extension et fin de l'obligation</h3>
+                    <p>La contribution subsiste tant que l'enfant demeure en formation ou dépendant financièrement, même majeur. Le juge peut néanmoins fixer une échéance — âge limite ou fin d'études — et la jurisprudence admet la cessation en cas d'absence de recherches d'emploi sérieuses.</p>
+                    <ul class="pension-legal-list">
+                        <li>Pension possible au profit d'un époux durant la séparation de corps ou la procédure de divorce.</li>
+                        <li>Contribution élargie à l'époux survivant lorsque la succession doit assurer son niveau de vie.</li>
+                        <li>Revue périodique du dispositif pour éviter un versement ad vitam et planifier la sortie lorsque l'autonomie est acquise.</li>
+                    </ul>
+                </article>
+            </div>
+            <div class="pension-legal-footnote">
+                <strong>Recouvrement et sanctions :</strong> deux mensualités impayées caractérisent l'abandon de famille (article 227-3 du Code pénal) avec peine allant jusqu'à 2 ans d'emprisonnement et 15&nbsp;000&nbsp;€. BENSOPS chiffre les frais d'enquête pour en obtenir le remboursement sur le fondement de l'article 700 du Code de procédure civile.
+            </div>
+        </section>
+
+        <section class="pension-comp" aria-label="Prestation compensatoire">
+            <div class="pension-comp-header">
+                <h2>Prestation compensatoire : signature BENSOPS</h2>
+                <p>La prestation compensatoire vise à lisser la disparité née de la rupture. Nos détectives privés et analystes restituent un dossier financier premium qui permet au juge ou à la négociation de s’appuyer sur des chiffres incontestables, que vous souhaitiez l’obtenir, la réduire ou préserver votre patrimoine.</p>
+            </div>
+            <div class="pension-comp-grid">
+                <article class="pension-comp-card">
+                    <h3>Principe & régime juridique</h3>
+                    <p>Les articles 270 à 281 du Code civil encadrent cette compensation. Elle peut être refusée si l’équité l’exige ou lorsque l’époux fautif la réclame. La demande doit impérativement être formulée devant le juge aux affaires familiales avant le prononcé du divorce.</p>
+                    <ul class="pension-comp-list">
+                        <li>Objectif : compenser la disparité de niveau de vie créée par la rupture.</li>
+                        <li>Modes : capital, rente ou montage mixte selon les besoins.</li>
+                        <li>En cocktail premium, nous anticipons les clauses de cessation (remariage, événement patrimonial).</li>
+                    </ul>
+                </article>
+                <article class="pension-comp-card">
+                    <h3>Évaluation & critères du juge</h3>
+                    <p>En l’absence d’accord, le magistrat statue à la date du divorce en appréciant ressources, besoins et perspectives. Il exige une déclaration sur l’honneur (article 272) que BENSOPS audite en profondeur.</p>
+                    <ul class="pension-comp-list">
+                        <li>Durée du mariage, âge, état de santé, situation professionnelle.</li>
+                        <li>Periods dédiées aux enfants ou à la carrière du conjoint.</li>
+                        <li>Patrimoine présent et anticipé : immobilier, retraite, capitalisation.</li>
+                    </ul>
+                </article>
+                <article class="pension-comp-card">
+                    <h3>Versement & recouvrement</h3>
+                    <p>La prestation est en principe servie en capital, éventuellement échelonné sur 8 ans. Une rente viagère est possible si l’âge ou l’état de santé le justifie ; elle peut ensuite être révisée, suspendue ou diminuée, jamais augmentée.</p>
+                    <ul class="pension-comp-list">
+                        <li>Procédure « consentement mutuel » : convention notariée, clauses de fin sur-mesure.</li>
+                        <li>En capital : paiement direct, saisies ciblées, garantie par sûretés.</li>
+                        <li>En rente : mêmes leviers qu’une pension alimentaire pour le recouvrement.</li>
+                    </ul>
+                </article>
+                <article class="pension-comp-card">
+                    <h3>Diligences BENSOPS</h3>
+                    <p>Nos enquêtes patrimoniales révèlent trésorerie cachée, activités dissimulées ou patrimoine sous-évalué. À l’inverse, nous constituons le dossier probatoire démontrant l’absence de disparité ou les fautes graves privant l’autre époux du bénéfice de la prestation.</p>
+                    <ul class="pension-comp-list">
+                        <li>Cartographie exhaustive des avoirs bancaires, immobiliers et corporates.</li>
+                        <li>Filatures lifestyle pour corroborer le niveau de vie réel.</li>
+                        <li>Assistance recouvrement : localisation d’un débiteur, solvabilité, activation des saisies.</li>
+                    </ul>
+                </article>
+            </div>
+            <div class="pension-comp-footnote">
+                Divorce par consentement mutuel, acceptation du principe ou faute : quelle que soit la procédure, BENSOPS s’assure que la convention ou le jugement reflète fidèlement les intérêts patrimoniaux des époux et des enfants, sans sous-valorisation d’actifs ni clauses défavorables dissimulées.
+            </div>
+        </section>
+
+        <section class="pension-signet" aria-label="Nos garanties">
+            <div class="pension-signet-grid">
+                <div class="pension-signet-item">
+                    <h3>Excellence & Conformité légale</h3>
+                    <p>Traçabilité intégrale des preuves, hébergement chiffré selon RGPD, procédures validées par nos juristes partenaires et agréés CNAPS.</p>
+                </div>
+                <div class="pension-signet-item">
+                    <h3>Task-force pluridisciplinaire</h3>
+                    <p>Directeurs d'enquêtes, analystes financiers, experts-comptables et avocats en coordination permanente pour stratégie cohérente et résultats probants.</p>
+                </div>
+                <div class="pension-signet-item">
+                    <h3>Réactivité permanente 24/7</h3>
+                    <p>Alertes temps réel sur mouvements bancaires, activation immédiate sur filatures urgentes, coordination huissier-avocat en mode crise.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="pension-process" aria-label="Méthodologie">
+            <h2>Notre méthodologie BENSOPS</h2>
+            <div class="pension-steps">
+                <div class="pension-step">
+                    <div class="pension-step-index">01</div>
+                    <div>
+                        <div class="pension-step-title">Analyse stratégique</div>
+                        <div class="pension-step-text">Audit confidentiel de vos dossiers existants, cartographie de la stratégie patrimoniale adverse, identification des cibles financières à documenter.</div>
+                    </div>
+                </div>
+                <div class="pension-step">
+                    <div class="pension-step-index">02</div>
+                    <div>
+                        <div class="pension-step-title">Investigation intensifiée</div>
+                        <div class="pension-step-text">Recoupement terrain et numérique en temps réel, extraction de preuves financières, filatures lifestyle en coordination avec analyses OSINT approfondies.</div>
+                    </div>
+                </div>
+                <div class="pension-step">
+                    <div class="pension-step-index">03</div>
+                    <div>
+                        <div class="pension-step-title">Restitution probatoire</div>
+                        <div class="pension-step-text">Dossier chiffré remis sous 15 jours, annexes horodatées exploitables en justice, stratégie négociation ou contentieux calibrée pour le juge aux affaires familiales.</div>
+                    </div>
+                </div>
+                <div class="pension-step">
+                    <div class="pension-step-index">04</div>
+                    <div>
+                        <div class="pension-step-title">Suivi post-décision</div>
+                        <div class="pension-step-text">Monitoring bancaire et lifestyle post-jugement, alertes impayés automatisées, activation rapide des saisies en coordination avec votre avocat et huissier.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="pension-cta" aria-label="Contact">
+            <div>
+                <h3>Faites valoir la vérité financière</h3>
+                <p>Choisissez le canal qui vous convient pour débuter votre enquête. Nous garantissons une réponse rapide et professionnelle.</p>
+            </div>
+            <div class="pension-cta-actions">
+                <a class="pension-btn-primary" href="mailto:sne@bensops.fr">
+                    <i class="fas fa-envelope"></i>
+                    Écrire au cabinet
+                </a>
+                <a class="pension-btn-primary" href="tel:0465574176">
+                    <i class="fas fa-phone"></i>
+                    Ligne directe
+                </a>
+                <a class="pension-btn-primary" href="{{ path('calendar') }}">
+                    <i class="fas fa-calendar-alt"></i>
+                    Programmer un rendez-vous
+                </a>
+            </div>
+        </section>
+    </div>
+</section>
+{% endblock %}

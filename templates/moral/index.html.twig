@@ -1,0 +1,723 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Enquête de moralité haut de gamme{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    .moral-luxe {
+        position: relative;
+        padding: 5rem 0 6rem;
+        background: radial-gradient(circle at top left, #091b2f 0%, #041021 45%, #020710 100%);
+        overflow: hidden;
+        color: rgba(230, 239, 255, 0.9);
+    }
+    .moral-luxe::before,
+    .moral-luxe::after {
+        content: "";
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(12px);
+        opacity: 0.48;
+        pointer-events: none;
+    }
+    .moral-luxe::before {
+        width: 560px;
+        height: 560px;
+        top: -220px;
+        right: -160px;
+        background: radial-gradient(circle, rgba(231, 88, 26, 0.28) 0%, rgba(231, 88, 26, 0) 70%);
+    }
+    .moral-luxe::after {
+        width: 520px;
+        height: 520px;
+        bottom: -200px;
+        left: -160px;
+        background: radial-gradient(circle, rgba(80, 148, 255, 0.28) 0%, rgba(80, 148, 255, 0) 70%);
+    }
+    .moral-shell {
+        position: relative;
+        z-index: 1;
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+    }
+    .moral-hero {
+        text-align: center;
+        margin-bottom: 3.6rem;
+    }
+    .moral-hero .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.55rem 1.3rem;
+        border-radius: 999px;
+        border: 1px solid rgba(231, 88, 26, 0.45);
+        background: linear-gradient(120deg, rgba(231, 88, 26, 0.22), rgba(231, 88, 26, 0));
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        color: #ffeadd;
+        margin-bottom: 1.6rem;
+    }
+    .moral-hero h1 {
+        font-size: 2.9rem;
+        font-weight: 640;
+        color: #ffffff;
+        margin-bottom: 1.3rem;
+    }
+    .moral-hero p {
+        max-width: 780px;
+        margin: 0 auto 0.9rem;
+        font-size: 1.08rem;
+        line-height: 1.8;
+        color: rgba(230, 239, 255, 0.75);
+    }
+    .moral-metrics {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1.2rem;
+        margin-top: 2.4rem;
+    }
+    .moral-metric {
+        background: rgba(10, 31, 28, 0.75);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 1.5rem 1.3rem;
+        text-align: center;
+        box-shadow: 0 28px 46px rgba(36, 60, 104, 0.12);
+    }
+    .moral-metric strong {
+        display: block;
+        font-size: 1.85rem;
+        color: #ffffff;
+    }
+    .moral-metric span {
+        font-size: 0.92rem;
+        color: rgba(230, 239, 255, 0.68);
+    }
+    .moral-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3.2rem;
+    }
+    .moral-card {
+        position: relative;
+        padding: 2.3rem;
+        border-radius: 26px;
+        background: linear-gradient(200deg, rgba(255, 255, 255, 0.06), rgba(7, 28, 48, 0.6));
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 32px 48px rgba(28, 46, 88, 0.1);
+    }
+    .moral-card h2 {
+        font-size: 0.95rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #ffbf99;
+        margin-bottom: 1rem;
+    }
+    .moral-card h3 {
+        font-size: 1.78rem;
+        font-weight: 600;
+        color: #ffffff;
+        margin-bottom: 1.1rem;
+    }
+    .moral-card ul {
+        padding-left: 1.1rem;
+        margin-bottom: 0;
+    }
+    .moral-card p,
+    .moral-card li {
+        color: rgba(230, 239, 255, 0.78);
+        line-height: 1.75;
+    }
+    .moral-scenarios {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.8rem;
+        margin-bottom: 3rem;
+    }
+    .moral-enquete-intro {
+        text-align: center;
+        margin: 3.6rem 0 2.8rem;
+    }
+    .moral-enquete-intro h2 {
+        font-size: 2.2rem;
+        font-weight: 640;
+        color: #ffffff;
+        margin-bottom: 1rem;
+    }
+    .moral-enquete-intro p {
+        max-width: 900px;
+        margin: 0 auto;
+        color: rgba(230, 239, 255, 0.78);
+        line-height: 1.7;
+    }
+    .moral-expertise-section {
+        margin: 4.2rem 0 3.6rem;
+        padding: 3.2rem 2.4rem;
+        border-radius: 28px;
+        background: linear-gradient(140deg, rgba(255, 255, 255, 0.08), rgba(7, 36, 62, 0.6));
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow: 0 34px 54px rgba(0, 0, 0, 0.32);
+    }
+    .moral-expertise-intro {
+        text-align: center;
+        margin-bottom: 2.8rem;
+    }
+    .moral-expertise-intro h2 {
+        font-size: 2.2rem;
+        font-weight: 640;
+        color: #ffffff;
+        margin-bottom: 1rem;
+    }
+    .moral-expertise-intro p {
+        max-width: 900px;
+        margin: 0 auto;
+        color: rgba(230, 239, 255, 0.78);
+        line-height: 1.7;
+    }
+    .moral-expertise-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 2rem;
+    }
+    .moral-expertise-card {
+        padding: 2.2rem;
+        border-radius: 26px;
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow: 0 28px 46px rgba(0, 0, 0, 0.36);
+    }
+    .moral-expertise-card i {
+        font-size: 3.2rem;
+        color: #e7581a;
+        margin-bottom: 1.4rem;
+        display: block;
+    }
+    .moral-expertise-card h3 {
+        font-size: 1.35rem;
+        font-weight: 620;
+        color: #ffffff;
+        margin-bottom: 1rem;
+    }
+    .moral-expertise-card p {
+        color: rgba(230, 239, 255, 0.78);
+        line-height: 1.65;
+        margin-bottom: 1.4rem;
+        font-size: 0.98rem;
+    }
+    .moral-expertise-legal {
+        margin-bottom: 1.4rem;
+        padding: 1.2rem;
+        background: rgba(231, 88, 26, 0.08);
+        border-left: 3px solid #e7581a;
+        border-radius: 6px;
+    }
+    .moral-expertise-legal strong {
+        display: block;
+        color: #ffbf99;
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+    }
+    .moral-expertise-legal p {
+        color: rgba(230, 239, 255, 0.75);
+        font-size: 0.9rem;
+        margin: 0;
+        line-height: 1.5;
+    }
+    .moral-expertise-legal a {
+        color: #ffbf99;
+        text-decoration: none;
+        border-bottom: 1px solid #ffbf99;
+    }
+    .moral-expertise-legal a:hover {
+        text-decoration: underline;
+    }
+    .moral-expertise-list {
+        padding-left: 1.1rem;
+        margin: 0;
+        color: rgba(230, 239, 255, 0.75);
+        line-height: 1.65;
+        font-size: 0.95rem;
+    }
+    .moral-expertise-list li::marker {
+        color: #ffbf99;
+    }
+    .moral-scenario {
+        background: rgba(13, 41, 38, 0.75);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 24px;
+        padding: 1.9rem;
+        box-shadow: 0 26px 42px rgba(36, 60, 104, 0.12);
+    }
+    .moral-scenario strong {
+        display: block;
+        font-size: 1.15rem;
+        color: #ffbf99;
+        margin-bottom: 0.6rem;
+    }
+    .moral-signet {
+        margin: 3.3rem 0;
+        padding: 2.6rem 2.2rem;
+        border-radius: 24px;
+        background: rgba(13, 41, 38, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 24px 40px rgba(36, 60, 104, 0.1);
+    }
+    .moral-signet-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1.6rem;
+    }
+    .moral-signet-item {
+        background: rgba(13, 41, 38, 0.7);
+        border-radius: 20px;
+        padding: 1.8rem;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        color: rgba(230, 239, 255, 0.78);
+    }
+    .moral-signet-item h3 {
+        font-size: 1.15rem;
+        font-weight: 600;
+        color: #ffbf99;
+        margin-bottom: 0.6rem;
+    }
+    .moral-process {
+        margin: 3.6rem 0 3.4rem;
+        padding: 2.8rem 2.3rem;
+        border-radius: 28px;
+        background: linear-gradient(140deg, rgba(255, 255, 255, 0.08), rgba(7, 36, 62, 0.6));
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        color: rgba(230, 239, 255, 0.9);
+        box-shadow: 0 32px 52px rgba(0, 0, 0, 0.24);
+    }
+    .moral-process h2 {
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        font-size: 0.85rem;
+        color: rgba(231, 88, 26, 0.62);
+        margin-bottom: 2rem;
+    }
+    .moral-steps {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1.6rem;
+    }
+    .moral-step {
+        display: flex;
+        gap: 1.2rem;
+        padding: 1.6rem 1.4rem;
+        border-radius: 20px;
+        background: rgba(0, 0, 0, 0.28);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    .moral-step-index {
+        width: 52px;
+        height: 52px;
+        border-radius: 16px;
+        background: rgba(231, 88, 26, 0.22);
+        color: #ffbf99;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+    .moral-step-title {
+        font-weight: 600;
+        color: #ffffff;
+        margin-bottom: 0.35rem;
+    }
+    .moral-step-text {
+        color: rgba(230, 239, 255, 0.78);
+        line-height: 1.6;
+    }
+    .moral-proof {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.8rem;
+        margin-bottom: 3.2rem;
+    }
+    .moral-proof-card {
+        padding: 2rem;
+        border-radius: 24px;
+        background: rgba(13, 41, 38, 0.75);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        color: rgba(230, 239, 255, 0.78);
+        box-shadow: 0 26px 42px rgba(36, 60, 104, 0.12);
+    }
+    .moral-proof-card h3 {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #ffbf99;
+        margin-bottom: 0.7rem;
+    }
+    .moral-cta {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 1.6rem;
+        align-items: center;
+        padding: 2.6rem 2.3rem;
+        border-radius: 28px;
+        background: linear-gradient(140deg, rgba(255, 255, 255, 0.08), rgba(7, 36, 62, 0.6));
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow: 0 32px 48px rgba(36, 60, 104, 0.12);
+    }
+    .moral-cta h3 {
+        font-size: 1.85rem;
+        font-weight: 620;
+        color: #ffffff;
+        margin-bottom: 0.6rem;
+    }
+    .moral-cta p {
+        color: rgba(230, 239, 255, 0.75);
+        margin-bottom: 0;
+    }
+    .moral-cta-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    .moral-btn-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.85rem 1.9rem;
+        border-radius: 999px;
+        background: linear-gradient(120deg, #e7581a, #c08808);
+        color: #fff;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-decoration: none;
+        box-shadow: 0 24px 46px rgba(231, 88, 26, 0.3);
+    }
+    .moral-btn-secondary {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.85rem 1.6rem;
+        border-radius: 999px;
+        border: 1px solid rgba(231, 88, 26, 0.24);
+        background: rgba(231, 88, 26, 0.08);
+        color: #ffbf99;
+        text-decoration: none;
+    }
+    .moral-btn-primary:hover,
+    .moral-btn-secondary:hover {
+        color: #ffffff;
+    }
+    @media (max-width: 991px) {
+        .moral-hero h1 {
+            font-size: 2.4rem;
+        }
+        .moral-process {
+            padding: 2.4rem 1.9rem;
+        }
+    }
+    @media (max-width: 575px) {
+        .moral-shell {
+            padding: 0 1rem;
+        }
+        .moral-hero h1 {
+            font-size: 2.1rem;
+        }
+        .moral-cta {
+            grid-template-columns: 1fr;
+        }
+        .moral-cta-actions {
+            flex-direction: column;
+            width: 100%;
+        }
+        .moral-btn-primary,
+        .moral-btn-secondary {
+            justify-content: center;
+            width: 100%;
+        }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .moral-metric,
+        .moral-card,
+        .moral-step,
+        .moral-proof-card,
+        .moral-cta {
+            transition: none !important;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<section class="moral-luxe">
+    <div class="moral-shell">
+        <header class="moral-hero">
+            <span class="badge">Due diligence humaine</span>
+            <h1>Enquêtes de moralité pour décisions sensibles</h1>
+            <p>Recrutement de cadres, garde d’enfants, alliances patrimoniales : nous vérifions la probité et la fiabilité d’une personne avec la précision des agences premium internationales. Nos rapports croisant intelligence humaine, OSINT et analyses juridiques éclairent vos choix.</p>
+            <p>Des investigations discrètes, légales et sur mesure, orchestrées en lien direct avec vos conseils.</p>
+            <div class="moral-metrics">
+                <div class="moral-metric">
+                    <strong>360°</strong>
+                    <span>Couverture : identité, réputation, finance, historique judiciaire</span>
+                </div>
+                <div class="moral-metric">
+                    <strong>10&nbsp;j</strong>
+                    <span>Temps moyen de livraison d’un rapport premium</span>
+                </div>
+                <div class="moral-metric">
+                    <strong>0</strong>
+                    <span>Fuite : protocole de confidentialité blindé</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="moral-grid">
+            <article class="moral-card">
+                <h2>Analyse</h2>
+                <h3>Investigation multi-sources exhaustive</h3>
+                <p>Nous recoupons des informations croisées provenant de :</p>
+                <ul>
+                    <li><strong>Publiques :</strong> Registres officiels, décisions judiciaires, fichiers professionnels, casiers.</li>
+                    <li><strong>Numériques :</strong> Réseaux sociaux, presse, dark web, deep web, présence trace-matière.</li>
+                    <li><strong>Terrain :</strong> Entretiens de voisinage, références professionnelles, cercle social, vérification d'adresses.</li>
+                </ul>
+            </article>
+
+            <article class="moral-card">
+                <h2>Investigation</h2>
+                <h3>Agents dédiés & experts sectoriels reconnus</h3>
+                <p>Pour garantir un regard objectif et impartial :</p>
+                <ul>
+                    <li><strong>Terrain :</strong> Enquêteurs CNAPS agréés, analystes OSINT certifiés, anciens officiers de renseignement.</li>
+                    <li><strong>Expertise :</strong> Juristes, fiscalistes, psychologues et experts en fraude partenaires.</li>
+                    <li><strong>Preuves :</strong> Corroboration vidéo, photographique ou sonore quand légalement autorisée, chaîne de conservation.</li>
+                </ul>
+            </article>
+
+            <article class="moral-card">
+                <h2>Rapport</h2>
+                <h3>Dossier décisionnel prêt à gouvernance</h3>
+                <p>Notre livrable répond aux standards de gouvernance d'entreprise :</p>
+                <ul>
+                    <li><strong>Synthèse :</strong> Score de fiabilité, synthèse exécutive, annexes détaillées et horodatées.</li>
+                    <li><strong>Juridique :</strong> Recommandations légales, plan d'atténuation des risques, conformité RGPD.</li>
+                    <li><strong>Suivi :</strong> Possibilité de surveillance post-rapport continue, alertes anomalies détectées.</li>
+                </ul>
+            </article>
+        </div>
+
+        <section class="moral-enquete-intro" aria-label="Enquête de moralité">
+            <h2>L'enquête de moralité : un outil essentiel pour protéger vos proches</h2>
+            <p>L'enquête de moralité regroupe plusieurs méthodes d'investigation permettant de traiter différents dossiers sensibles nécessitant une vérification approfondie du comportement et de l'honorabilité d'une personne.</p>
+        </section>
+
+        <section class="moral-expertise-section" aria-label="Nos domaines d'intervention">
+            <div class="moral-expertise-intro">
+                <h2>Nos domaines d'intervention BENSOPS</h2>
+            </div>
+            <div class="moral-expertise-grid">
+                <article class="moral-expertise-card">
+                    <h3>Enquête prénuptiale</h3>
+                    <p>Avant un mariage, une enquête prénuptiale permet de lever les doutes sur la sincérité et la fiabilité du futur conjoint(e). Elle peut révéler : dettes cachées, double vie, enfants non déclarés, ou intentions intéressées.</p>
+                    <div class="moral-expertise-legal">
+                        <strong>Cadre légal</strong>
+                        <p><a href="https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000006421979" target="_blank" rel="noopener">Art. 146 C. civ.</a> : Le mariage doit être consenti librement.</p>
+                        <p><a href="https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000027431990" target="_blank" rel="noopener">Art. 144 C. civ.</a> : Âge minimum 18 ans.</p>
+                        <p><a href="https://www.legifrance.gouv.fr/codes/id/LEGISCTA000006136137/1959-12-31/" target="_blank" rel="noopener">Art. 212 à 215 C. civ.</a> : Obligations mutuelles des époux.</p>
+                    </div>
+                    <ul class="moral-expertise-list">
+                        <li>Vérification d'antécédents judiciaires complets</li>
+                        <li>Contrôle de la situation financière et patrimoniale</li>
+                        <li>Analyse de réputation digitale et réseau social</li>
+                        <li>Rapports légaux et recevables en justice</li>
+                    </ul>
+                </article>
+
+                <article class="moral-expertise-card">
+                    <h3>Dérives sectaires</h3>
+                    <p>Nos détectives enquêtent sur les dérives sectaires dans le respect strict des lois. Une dérive sectaire est une atteinte à la liberté de pensée lorsqu'elle met en danger les droits fondamentaux ou l'intégrité de la personne.</p>
+                    <div class="moral-expertise-legal">
+                        <strong>Cadre légal</strong>
+                        <p><a href="https://www.conseil-constitutionnel.fr/le-bloc-de-constitutionnalite/declaration-des-droits-de-l-homme-et-du-citoyen-de-1789" target="_blank" rel="noopener">DDHC 1789, Art. 4, 10, 11</a> : Libertés fondamentales.</p>
+                        <p><a href="https://www.conseil-constitutionnel.fr/le-bloc-de-constitutionnalite/texte-integral-de-la-constitution-du-4-octobre-1958-en-vigueur" target="_blank" rel="noopener">Constitution 1958, Art. 1</a> : Égalité et respect de toutes croyances.</p>
+                        <p><a href="https://www.legifrance.gouv.fr/loda/id/LEGISCTA000006085398" target="_blank" rel="noopener">Loi du 9 décembre 1905</a> : Liberté de conscience et exercice des cultes.</p>
+                    </div>
+                    <ul class="moral-expertise-list">
+                        <li>Identification des signes d'emprise sectaire</li>
+                        <li>Investigations terrain et numériques coordonnées</li>
+                        <li>Documentation légale des agissements</li>
+                        <li>Preuves recevables devant juridictions compétentes</li>
+                    </ul>
+                </article>
+
+                <article class="moral-expertise-card">
+                    <h3>Déscolarisation & fréquentations</h3>
+                    <p>En France, environ 100 000 enfants sont concernés par la déscolarisation. Les fréquentations influencent directement le comportement. Parents et grands-parents peuvent enquêter pour protéger l'enfant en cas de changement suspect.</p>
+                    <div class="moral-expertise-legal">
+                        <strong>Cadre légal</strong>
+                        <p><a href="https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000038749626" target="_blank" rel="noopener">Art. 371-1 C. civ.</a> : Autorité parentale et devoir de protection.</p>
+                        <p><a href="https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000006426471" target="_blank" rel="noopener">Art. 371-3 C. civ.</a> : L'enfant ne peut quitter le domicile sans consentement parental.</p>
+                    </div>
+                    <ul class="moral-expertise-list">
+                        <li>Vérification des présences scolaires et justificatifs</li>
+                        <li>Identification des fréquentations influentes</li>
+                        <li>Détection de changements comportementaux anormaux</li>
+                        <li>Rapports légaux exploitables en justice</li>
+                    </ul>
+                </article>
+
+                <article class="moral-expertise-card">
+                    <h3>Fugue & recherches d'urgence</h3>
+                    <p>En cas de fugue, la priorité est la prévention auprès des autorités. Le détective privé complète rapidement les recherches officielles pour localiser le mineur disparu. Nos agents mobilisent réseau terrain et sources confidentielles.</p>
+                    <div class="moral-expertise-legal">
+                        <strong>Cadre légal</strong>
+                        <p><a href="https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000006426471" target="_blank" rel="noopener">Art. 371-3 C. civ.</a> : Interdiction de quitter domicile sans autorisation.</p>
+                        <p><a href="https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000032041559" target="_blank" rel="noopener">Art. 1242 C. civ.</a> : Responsabilité parentale des mineurs.</p>
+                    </div>
+                    <ul class="moral-expertise-list">
+                        <li>Activation immédiate des réseaux d'information</li>
+                        <li>Croisement de sources publiques et confidentielles</li>
+                        <li>Coordination avec forces de l'ordre</li>
+                        <li>Expertise en localisation et terrain</li>
+                    </ul>
+                </article>
+
+                <article class="moral-expertise-card">
+                    <h3>Contre-enquête pénale</h3>
+                    <p>Demandée par un justiciable, une partie civile ou un défendeur, la contre-enquête vise à vérifier une enquête déjà réalisée. Nos détectives mènent investigations terrain, filature et enquête informatique dans le respect strict de la loi.</p>
+                    <div class="moral-expertise-legal">
+                        <strong>Cadre légal</strong>
+                        <p><a href="https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000029122006" target="_blank" rel="noopener">Art. 622 C. proc. pén.</a> : Révision en cas de fait nouveau.</p>
+                        <p><a href="https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000006418645" target="_blank" rel="noopener">Art. 434-15 C. pén.</a> : Interdiction de subornation de témoins.</p>
+                    </div>
+                    <ul class="moral-expertise-list">
+                        <li>Recoupement d'informations contradictoires</li>
+                        <li>Recherche d'éléments inconnus ou oubliés</li>
+                        <li>Preuves additionnelles d'innocence potentielle</li>
+                        <li>Rapports recevables en juridictions pénales</li>
+                    </ul>
+                </article>
+
+                <article class="moral-expertise-card">
+                    <h3>Vérifications de mandataires & confiance</h3>
+                    <p>Lorsque vous devez confier responsabilité à un tiers (curateur, avocat, expert-comptable), une enquête de moralité évalue son honorabilité, sa réputation, ses passifs judiciaires et financiers potentiels.</p>
+                    <div class="moral-expertise-legal">
+                        <strong>Cadre légal</strong>
+                        <p><a href="https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000006421751" target="_blank" rel="noopener">Art. 188 C. civ.</a> : Candidature curatelle et tutelle.</p>
+                        <p><a href="https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000006417201" target="_blank" rel="noopener">Art. 121-1 C. pénal</a> : Responsabilité pénale personnelle.</p>
+                    </div>
+                    <ul class="moral-expertise-list">
+                        <li>Audit complet d'antécédents professionnels</li>
+                        <li>Vérification de diplômes et agréments officiels</li>
+                        <li>Analyse de réputation personnelle et professionnelle</li>
+                        <li>Rapports d'assurance complète avant engagement</li>
+                    </ul>
+                </article>
+            </div>
+        </section>
+
+        <section class="moral-scenarios" aria-label="Scénarios traités">
+            <article class="moral-scenario">
+                <strong>Alliance matrimoniale ou patrimoniale</strong>
+                <p>Vérification d’antécédents judiciaires, dettes, réputation, conflits d’intérêts potentiels.</p>
+            </article>
+            <article class="moral-scenario">
+                <strong>Recrutement C-level / gouvernance</strong>
+                <p>Validation de CV, diplômes, honorabilité, réputation internationale, présence sur listes de sanctions.</p>
+            </article>
+            <article class="moral-scenario">
+                <strong>Personnel de maison & nounous</strong>
+                <p>Contrôles identité, références, comportement, addictions, vérifications auprès des autorités compétentes.</p>
+            </article>
+        </section>
+
+        <section class="moral-signet" aria-label="Nos garanties">
+            <div class="moral-signet-grid">
+                <div class="moral-signet-item">
+                    <h3>Excellence & Confidentialité absolue</h3>
+                    <p>Mandat restreint, échanges chiffrés, accès exclusif client sécurisé, secret professionnel blindé.</p>
+                </div>
+                <div class="moral-signet-item">
+                    <h3>Pluridisciplinaire & légal</h3>
+                    <p>Méthodes conformes CNAPS, RGPD et droit français. Juristes, psychologues, experts en fraude reconnus.</p>
+                </div>
+                <div class="moral-signet-item">
+                    <h3>Réactivité & veille internationale</h3>
+                    <p>Partenaires dans 20 pays, capacité vérification réputations étrangères, réseaux offshore et alertes 24/7.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="moral-process" aria-label="Méthodologie">
+            <h2>Notre méthodologie BENSOPS</h2>
+            <div class="moral-steps">
+                <div class="moral-step">
+                    <div class="moral-step-index">01</div>
+                    <div>
+                        <div class="moral-step-title">Analyse stratégique</div>
+                        <div class="moral-step-text">Compréhension du contexte sensible, validation des objectifs avec vous et vos conseils, cadrage juridique.</div>
+                    </div>
+                </div>
+                <div class="moral-step">
+                    <div class="moral-step-index">02</div>
+                    <div>
+                        <div class="moral-step-title">Investigation multicanale</div>
+                        <div class="moral-step-text">Croisement sources ouvertes, confidentielles et terrain avec chaîne de conservation garantie.</div>
+                    </div>
+                </div>
+                <div class="moral-step">
+                    <div class="moral-step-index">03</div>
+                    <div>
+                        <div class="moral-step-title">Restitution & scoring</div>
+                        <div class="moral-step-text">Évaluation des risques, matrices de compatibilité, synthèse claire et actionnable pour décideurs.</div>
+                    </div>
+                </div>
+                <div class="moral-step">
+                    <div class="moral-step-index">04</div>
+                    <div>
+                        <div class="moral-step-title">Suivi continu optionnel</div>
+                        <div class="moral-step-text">Monitoring 6-12 mois possible, alertes temps réel sur changements majeurs ou contentieux émergents.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="moral-proof" aria-label="Études de cas">
+            <article class="moral-proof-card">
+                <h3>Alliance stratégique sécurisée</h3>
+                <p>Découverte d’un passif judiciaire dissimulé et de dettes personnelles : contrat prénuptial renforcé, risques maîtrisés.</p>
+            </article>
+            <article class="moral-proof-card">
+                <h3>Recrutement C-level validé</h3>
+                <p>Vérification internationale de diplômes, réputation digitale, réseau d’affaires. Décision d’embauche confirmée.</p>
+            </article>
+            <article class="moral-proof-card">
+                <h3>Personnel de maison filtré</h3>
+                <p>Analyse sociale et références multiples, absence de casier, comportement irréprochable : recrutement en toute sérénité.</p>
+            </article>
+        </section>
+
+        <section class="moral-cta" aria-label="Contact">
+            <div>
+                <h3>Prenez vos décisions avec des certitudes</h3>
+                <p>Choisissez le canal qui vous convient pour débuter votre enquête. Nous garantissons une réponse rapide et professionnelle.</p>
+            </div>
+            <div class="moral-cta-actions">
+                <a class="moral-btn-primary" href="mailto:sne@bensops.fr">
+                    <i class="fas fa-envelope"></i>
+                    Écrire au cabinet
+                </a>
+                <a class="moral-btn-primary" href="tel:0465574176">
+                    <i class="fas fa-phone"></i>
+                    Ligne directe
+                </a>
+                <a class="moral-btn-primary" href="{{ path('calendar') }}">
+                    <i class="fas fa-calendar-alt"></i>
+                    Programmer un rendez-vous
+                </a>
+            </div>
+        </section>
+    </div>
+</section>
+{% endblock %}

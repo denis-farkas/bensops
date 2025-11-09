@@ -1,0 +1,278 @@
+<section class="container my-5" id="description">
+	<h2 class="text-center mb-2 text-uppercase fw-bold">Prestations d'enquêtes les plus demandées</h2>
+	<p class="text-center text-muted mb-4">Services d'investigation fiables et compatibles avec une finalité probatoire — solutions adaptées aux particuliers et aux professionnels.</p>
+
+	<div class="row align-items-center">
+		<!-- Image -->
+        	<div class="d-flex col-12 col-md-6 mb-4 mb-md-0 justify-content-center align-items-start">
+			<a href="{{ path('app_cabinet')}}" class="img-card-wrap" aria-label="Accéder à la page Cabinet">
+				<img src="{{ asset('build/images/card.jpg') }}" alt="Logo Card" class="img-card" style="max-width: 100%; height: auto;">
+			</a>
+        	</div>
+
+		<!-- Liste des services -->
+		<div class="col-12 col-md-6">
+			<div class="row">
+				<div class="col-12 col-lg-6 mb-3">
+					<ul class="list-unstyled service-list">
+						<li class="service-item p-3 mb-2 rounded">
+							<a href="{{ path('app_mystere')}}"class="text-decoration-none text-reset d-block" aria-label="Client mystère - en savoir plus">
+								<div class="d-flex">
+									<div class="flex-shrink-0 me-3 icon-wrap">
+										<!-- icon: mask / mystery -->
+										<svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+											<path d="M12 2c3 0 6 2 6 6v3a6 6 0 0 1-12 0V8c0-4 3-6 6-6z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+											<path d="M8 12c.5-1 1.5-2 4-2s3.5 1 4 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+											<circle cx="9" cy="10" r="0.6" fill="currentColor"/>
+											<circle cx="15" cy="10" r="0.6" fill="currentColor"/>
+										</svg>
+									</div>
+									<div>
+										<div class="fw-bold">Client mystère</div>
+										<div class="text-muted small">Nos agents infiltrés évaluent anonymement la qualité de vos services et l’expérience client.</div>
+									</div>
+								</div>
+							</a>
+						</li>
+						<li class="service-item p-3 mb-2 rounded">
+							<a href="{{ path('calendar')}}"class="text-decoration-none text-reset d-block" aria-label="Contre-enquête pénale - rendez-vous obligatoire">
+								<div class="d-flex">
+									<div class="flex-shrink-0 me-3 icon-wrap">
+										<!-- icon: magnifier -->
+										<svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+											<circle cx="11" cy="11" r="5.2" stroke="currentColor" stroke-width="1.6"/>
+											<path d="M20 20l-3.8-3.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+										</svg>
+									</div>
+									<div>
+										<div class="fw-bold">Contre-enquête pénale</div>
+										<div class="text-muted small">Nous collectons et analysons preuves et témoignages pour contester les conclusions de l’enquête initiale.<span class="hover-note" aria-hidden="true">Rendez‑vous obligatoire</span></div>
+									</div>
+								</div>
+							</a>
+						</li>
+						<li class="service-item p-3 mb-2 rounded">
+							<a href="{{ path('app_divorce')}}" class="text-decoration-none text-reset d-block" aria-label="Adultère - en savoir plus">
+								<div class="d-flex">
+									<div class="flex-shrink-0 me-3 icon-wrap">
+										<!-- icon: heart -->
+										<svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+											<path d="M12 21s-7-4.8-9-7.3C1.6 10.8 3.4 6 7 5.1 9 4.5 11 6 12 7c1-1 3-2.5 5-1.9 3.6.9 5.4 5.7 4 8.6-2 2.5-9 7.3-9 7.3z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+										</svg>
+									</div>
+									<div>
+										<div class="fw-bold">Adultère</div>
+										<div class="text-muted small">Investigations discrètes visant à confirmer ou infirmer les soupçons d’infidélité en toute confidentialité.</div>
+									</div>
+								</div>
+							</a>
+						</li>
+						<li class="service-item p-3 mb-2 rounded">
+							<a href="{{ path('app_concurrence')}}" class="text-decoration-none text-reset d-block" aria-label="Concurrence déloyale - en savoir plus">
+								<div class="d-flex">
+									<div class="flex-shrink-0 me-3 icon-wrap">
+										<!-- icon: scales / justice -->
+										<svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+											<path d="M3 20h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+											<path d="M8 10c2 0 4-1 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+											<path d="M16 10c-2 0-4-1-4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+											<path d="M8 10v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+											<path d="M16 10v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+										</svg>
+									</div>
+									<div>
+										<div class="fw-bold">Concurrence déloyale</div>
+										<div class="text-muted small">Enquêtes sur pratiques illégales de concurrents pour protéger vos intérêts et votre réputation.</div>
+									</div>
+								</div>
+							</a>
+						</li>
+					</ul>
+				</div>
+
+				<div class="col-12 col-lg-6 mb-3">
+					<ul class="list-unstyled service-list">
+						<li class="service-item p-3 mb-2 rounded">
+							<a href="{{ path('calendar')}}" class="text-decoration-none text-reset d-block" aria-label="Fraude à l'assurance - rendez-vous obligatoire">
+								<div class="d-flex">
+									<div class="flex-shrink-0 me-3 icon-wrap">
+										<!-- icon: shield-check (fraud) -->
+										<svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+											<path d="M12 2l7 3v4.5c0 4.1-2.9 8.1-7 10-4.1-1.9-7-5.9-7-10V5l7-3z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+											<path d="M9.2 12.5l1.8 1.8L15 10.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+										</svg>
+									</div>
+									<div>
+										<div class="fw-bold">Fraude à l’assurance</div>
+										<div class="text-muted small">Nous traquons anomalies et relevons preuves terrain pour démasquer les fraudes aux assureurs.<span class="hover-note" aria-hidden="true">Rendez‑vous obligatoire</span></div>
+									</div>
+								</div>
+							</a>
+						</li>
+						<li class="service-item p-3 mb-2 rounded">
+							<a href="{{ path('app_maladie')}}" class="text-decoration-none text-reset d-block" aria-label="Arrêt maladie abusif - en savoir plus">
+								<div class="d-flex">
+									<div class="flex-shrink-0 me-3 icon-wrap">
+										<!-- icon: medical / brief cross -->
+										<svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+											<path d="M12 7v10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+											<path d="M7 12h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+											<circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.2"/>
+										</svg>
+									</div>
+									<div>
+										<div class="fw-bold">Arrêt maladie abusif</div>
+										<div class="text-muted small">Vérification de la réalité des arrêts de travail pour déceler les abus et préserver vos droits.</div>
+									</div>
+								</div>
+							</a>
+						</li>
+							<li class="service-item p-3 mb-2 rounded">
+								<a href="{{ path('app_personnel')}}" class="text-decoration-none text-reset d-block" aria-label="Suspicion du personnel - en savoir plus">
+									<div class="d-flex">
+											<div class="flex-shrink-0 me-3 icon-wrap">
+												<!-- icon: person -->
+												<svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+													<circle cx="12" cy="8" r="3" stroke="currentColor" stroke-width="1.4"/>
+													<path d="M5 20c1.8-3 5-5 7-5s5.2 2 7 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+												</svg>
+											</div>
+										<div>
+											<div class="fw-bold">Suspicion du personnel</div>
+											<div class="text-muted small">Enquête discrète sur le comportement et activités des employés en cas de soupçons (vol, conflit d’intérêt, non-respect des procédures).</div>
+										</div>
+									</div>
+								</a>
+							</li>
+							<li class="service-item p-3 mb-2 rounded">
+								<a href="{{ path('app_antecedent')}}" class="text-decoration-none text-reset d-block" aria-label="Analyse des antécédents - en savoir plus">
+									<div class="d-flex">
+											<div class="flex-shrink-0 me-3 icon-wrap">
+												<!-- icon: file/text -->
+												<svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+													<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+													<path d="M14 2v6h6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+													<path d="M8 12h8M8 16h8" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
+												</svg>
+											</div>
+										<div>
+											<div class="fw-bold">Analyse des antécédents</div>
+											<div class="text-muted small">Vérification approfondie des antécédents professionnels et judiciaires pour évaluer risques et fiabilité.</div>
+										</div>
+									</div>
+								</a>
+							</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<style>
+		/* Harmonisation visuelle des services : style cards */
+		.service-list { padding: 0; margin: 0; }
+		.service-item {
+			background: #ffffff;
+			border: 1px solid rgba(17,58,99,0.06);
+			box-shadow: 0 2px 6px rgba(17,58,99,0.04);
+			transition: transform 220ms ease, box-shadow 220ms ease;
+		}
+		.service-item:hover {
+			transform: translateY(-6px);
+			box-shadow: 0 10px 30px rgba(17,58,99,0.12);
+		}
+		.service-item .icon-wrap { width: 44px; height: 44px; display:flex; align-items:center; justify-content:center; border-radius:6px; background: rgba(17,58,99,0.04); color: #113a63; }
+		.service-item .fw-bold { color: #0b2b46; }
+		.service-item .text-muted { color: rgba(11,43,70,0.7); }
+
+		/* spacing adjustments */
+		@media (min-width: 768px) {
+			.service-item { padding: 1rem; }
+		}
+
+		/* subtle transparency for the hero/service image */
+		.img-card-wrap { 
+			display: flex !important; 
+			justify-content: center; 
+			align-items: center; 
+			padding: 0.6rem; 
+			border-radius: 12px; 
+			background: linear-gradient(180deg, rgba(255,255,255,0.88), rgba(245,247,250,0.88)); 
+			box-shadow: 0 6px 22px rgba(11,43,70,0.06); 
+			transition: box-shadow 260ms ease, transform 260ms ease; 
+			max-width: 100%; 
+			text-decoration: none;
+		}
+		.img-card { 
+			opacity: 0.88; 
+			filter: grayscale(6%); 
+			border-radius: 8px; 
+			display: block; 
+			width: 90%; 
+			height: auto; 
+			max-width: 560px; 
+			transition: opacity 320ms ease, filter 320ms ease, transform 320ms ease; 
+		}
+		.img-card-wrap:hover { transform: translateY(-4px); box-shadow: 0 14px 40px rgba(11,43,70,0.09); }
+		.img-card-wrap:focus { outline: 3px solid rgba(11,43,70,0.08); outline-offset: 4px; }
+		.img-card:hover, .img-card:focus { opacity: 1; filter: grayscale(0%); transform: scale(1.01); }
+
+		@media (max-width: 575px) {
+			.img-card-wrap { 
+				display: flex; 
+				justify-content: center; 
+				align-items: center; 
+				padding: 0.35rem; 
+				border-radius: 8px; 
+				margin: 0 auto; 
+				width: 100%; 
+			}
+			.img-card { width: 95%; max-width: 360px; }
+		}
+
+		@media (min-width: 768px) {
+			/* allow the image to grow on medium+ screens */
+			.img-card { width: 100%; max-width: 720px; }
+			.img-card-wrap { max-width: 740px; }
+		}
+
+		/* inline badge placed at the end of the sentence; appears on hover/focus */
+		.service-item .hover-note {
+			display: inline-block;
+			background: #c62828; /* deep red for attention */
+			color: #fff;
+			font-size: 0.75rem;
+			padding: 0.12rem 0.45rem;
+			border-radius: 3px;
+			margin-left: 0.5rem;
+			opacity: 0;
+			transform: translateY(0.15rem) scale(0.98);
+			transition: opacity 160ms ease, transform 160ms ease;
+        	vertical-align: middle;
+        	line-height: 1.2;
+        	position: relative;
+        	top: -1px;
+		}
+
+		.service-item:hover .hover-note,
+		.service-item:focus-within .hover-note {
+			opacity: 1;
+			transform: translateY(0) scale(1);
+		}
+
+        /* Affichage permanent du badge sur mobile (<768px) */
+        @media (max-width: 767px) {
+            .service-item .hover-note {
+                opacity: 1 !important;
+                transform: translateY(0) scale(1) !important;
+            }
+        }
+
+
+
+		/* reduced motion */
+		@media (prefers-reduced-motion: reduce) {
+			.service-item { transition: none !important; transform: none !important; box-shadow: none !important; }
+		}
+	</style>
+</section>

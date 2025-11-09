@@ -1,0 +1,464 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Enquêteurs privés en France - BENSOPS{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    .resource-canvas {
+        position: relative;
+        padding: 5rem 0 5.5rem;
+        background: radial-gradient(circle at 15% 20%, rgba(231, 88, 26, 0.15), transparent 45%),
+                    radial-gradient(circle at 85% 10%, rgba(255, 255, 255, 0.08), transparent 55%),
+                    linear-gradient(160deg, #001a2f 0%, #012341 45%, #001220 100%);
+        overflow: hidden;
+    }
+    .resource-canvas::before,
+    .resource-canvas::after {
+        content: '';
+        position: absolute;
+        width: 420px;
+        height: 420px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(231, 88, 26, 0.32) 0%, rgba(231, 88, 26, 0) 65%);
+        filter: blur(6px);
+        opacity: 0.55;
+        z-index: 0;
+    }
+    .resource-canvas::before {
+        top: -180px;
+        right: -120px;
+    }
+    .resource-canvas::after {
+        bottom: -160px;
+        left: -160px;
+    }
+    .resource-shell {
+        position: relative;
+        z-index: 1;
+        color: rgba(245, 249, 255, 0.92);
+    }
+    .resource-hero {
+        max-width: 900px;
+        margin: 0 auto 3.5rem;
+        text-align: center;
+    }
+    .resource-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.5rem 1.3rem;
+        border-radius: 999px;
+        border: 1px solid rgba(231, 88, 26, 0.35);
+        background: linear-gradient(90deg, rgba(231, 88, 26, 0.22), rgba(231, 88, 26, 0));
+        font-size: 0.8rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #ffd7c2;
+        margin-bottom: 1.5rem;
+    }
+    .resource-hero h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        color: #ffffff;
+        margin-bottom: 1.2rem;
+        letter-spacing: 0.02em;
+    }
+    .resource-hero p {
+        font-size: 1.15rem;
+        line-height: 1.8;
+        margin-bottom: 0.8rem;
+        color: rgba(229, 239, 255, 0.85);
+    }
+    .resource-ribbon {
+        margin-top: 1.6rem;
+        display: inline-flex;
+        gap: 0.75rem;
+        padding: 0.65rem 1.2rem;
+        border-radius: 999px;
+        background: rgba(1, 18, 33, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(6px);
+        font-size: 0.9rem;
+    }
+    .resource-layout {
+        display: grid;
+        grid-template-columns: minmax(240px, 320px) 1fr;
+        gap: 2.8rem;
+    }
+    .resource-nav {
+        position: sticky;
+        top: 120px;
+        align-self: start;
+        background: rgba(3, 20, 36, 0.72);
+        border-radius: 20px;
+        padding: 2rem 1.8rem;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 24px 44px rgba(0, 0, 0, 0.28);
+        backdrop-filter: blur(10px);
+    }
+        .resource-nav h2 {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: #92b5ff;
+        margin-bottom: 1.5rem;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+    }
+    .resource-nav ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.85rem;
+    }
+    .resource-nav a {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        color: rgba(232, 241, 255, 0.82);
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.3s ease, transform 0.3s ease;
+    }
+    .resource-nav a::before {
+        content: '\2022';
+        font-size: 1.2rem;
+        color: rgba(231, 88, 26, 0.6);
+        transition: color 0.3s ease;
+    }
+    .resource-nav a:hover {
+        color: #ffffff;
+        transform: translateX(6px);
+    }
+    .resource-nav a:hover::before {
+        color: #e7581a;
+    }
+    .resource-content {
+        display: flex;
+        flex-direction: column;
+        gap: 2.6rem;
+    }
+    .resource-block {
+        position: relative;
+        padding: 2.6rem;
+        border-radius: 26px;
+        background: linear-gradient(200deg, rgba(255, 255, 255, 0.06), rgba(9, 34, 58, 0.55));
+        border: 1px solid rgba(255, 255, 255, 0.09);
+        box-shadow: 0 30px 44px rgba(0, 0, 0, 0.24);
+        scroll-margin-top: 140px;
+        overflow: hidden;
+    }
+    .resource-block::after {
+        content: '';
+        position: absolute;
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(231, 88, 26, 0.24) 0%, rgba(231, 88, 26, 0) 70%);
+        top: -80px;
+        right: -80px;
+        pointer-events: none;
+    }
+    .resource-title {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.8rem;
+        font-size: 1rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #92b5ff;
+        margin-bottom: 1.4rem;
+    }
+    .resource-title span {
+        display: inline-block;
+        width: 42px;
+        height: 2px;
+        background: linear-gradient(90deg, rgba(231, 88, 26, 0.6), rgba(255, 255, 255, 0));
+    }
+    .resource-heading {
+        font-size: 1.85rem;
+        font-weight: 600;
+        margin-bottom: 1.2rem;
+        color: #ffffff;
+    }
+    .resource-text,
+    .resource-text li {
+        color: rgba(229, 239, 255, 0.85);
+        line-height: 1.75;
+    }
+    .resource-highlight {
+        background: linear-gradient(200deg, rgba(255, 255, 255, 0.07), rgba(0, 28, 47, 0.35));
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 20px;
+        padding: 1.8rem;
+        backdrop-filter: blur(8px);
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+    }
+    .resource-grid-columns {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 1.8rem;
+    }
+    .resource-card {
+        background: linear-gradient(200deg, rgba(255, 255, 255, 0.07), rgba(0, 28, 47, 0.35));
+        border-radius: 20px;
+        padding: 1.8rem;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(8px);
+        box-shadow: 0 20px 34px rgba(0, 0, 0, 0.3);
+        height: 100%;
+    }
+    .resource-card h3 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: #92b5ff;
+    }
+    .resource-note {
+        margin-top: 1.5rem;
+        font-size: 0.95rem;
+        color: rgba(245, 249, 255, 0.85);
+        display: flex;
+        gap: 0.6rem;
+    }
+    .resource-note::before {
+        content: '\2605';
+        color: rgba(231, 88, 26, 0.8);
+    }
+    .resource-list {
+        padding-left: 1.1rem;
+    }
+    .resource-list li {
+        margin-bottom: 0.65rem;
+    }
+    .resource-links a {
+        color: #ffb47d;
+        text-decoration: underline;
+    }
+    .resource-links a:hover {
+        color: #ffd7c2;
+    }
+    .source-link {
+        color: #ffb47d;
+        text-decoration: underline;
+    }
+    .source-link:hover {
+        color: #ffd7c2;
+    }
+    .resource-cta {
+        margin-top: 1.2rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.8rem;
+        padding: 0.85rem 1.5rem;
+        border-radius: 999px;
+        background: linear-gradient(120deg, #e7581a, #c08808);
+        color: #fff;
+        text-decoration: none;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+    }
+    .resource-cta:hover {
+        color: #fff;
+        box-shadow: 0 18px 32px rgba(231, 88, 26, 0.35);
+    }
+    .resource-footer {
+        margin-top: 4rem;
+        padding: 2.5rem 2.8rem;
+        border-radius: 26px;
+        background: linear-gradient(160deg, rgba(231, 88, 26, 0.15), rgba(1, 30, 50, 0.6));
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        flex-direction: column;
+        gap: 1.2rem;
+        backdrop-filter: blur(8px);
+    }
+    .resource-footer h3 {
+        font-size: 1.6rem;
+        font-weight: 600;
+        color: #ffffff;
+    }
+    .resource-footer a {
+        color: #ffb47d;
+        text-decoration: underline;
+        font-weight: 600;
+    }
+    .resource-footer a:hover {
+        color: #ffd7c2;
+    }
+    @media (max-width: 991.98px) {
+        .resource-layout {
+            grid-template-columns: 1fr;
+        }
+        .resource-nav {
+            position: static;
+            order: -1;
+            margin-bottom: 1.5rem;
+        }
+    }
+    @media (max-width: 575.98px) {
+        .resource-canvas {
+            padding: 4rem 0;
+        }
+        .resource-hero h1 {
+            font-size: 2.3rem;
+        }
+        .resource-block {
+            padding: 2rem;
+        }
+        .resource-grid-columns {
+            gap: 1.3rem;
+        }
+        .resource-ribbon {
+            display: block;
+            text-align: center;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<section class="resource-canvas">
+    <div class="container resource-shell">
+        <header class="resource-hero">
+            <span class="resource-badge">Cadre légal et bonnes pratiques 2025 - 2026</span>
+            <h1>Ressources pour comprendre le rôle des enquêteurs privés</h1>
+            <p>Profession réglementée par le Code de la sécurité intérieure, l'enquête privée accompagne entreprises, particuliers et avocats dans la défense légitime de leurs intérêts.</p>
+            <p>Ce guide rassemble le cadre légal, les contrôles du CNAPS, les principes déontologiques et les missions types afin de recourir à un détective privé en toute confiance.</p>
+            <div class="resource-ribbon">
+                <span>Statut réglementé - </span>
+                <span>Garanties déontologiques - </span>
+                <span>Preuves recevables</span>
+            </div>
+        </header>
+
+        <div class="resource-layout">
+            <nav class="resource-nav" aria-label="Plan des sections">
+                <h2>Itinéraire</h2>
+                <ul>
+                    <li><a href="#statut">Statut réglementé</a></li>
+                    <li><a href="#cnaps">Contrôles du CNAPS</a></li>
+                    <li><a href="#deontologie">Déontologie</a></li>
+                    <li><a href="#missions">Missions</a></li>
+                    <li><a href="#collaboration">Choisir son cabinet</a></li>
+                    <li><a href="#rgpd">Protection des données</a></li>
+                </ul>
+            </nav>
+
+            <div class="resource-content">
+                <article class="resource-block" id="statut">
+                    <div class="resource-title"><span></span> Statut réglementé</div>
+                    <h2 class="resource-heading">Un cadre strict pour exercer</h2>
+                    <div class="resource-grid-columns">
+                        <div class="resource-highlight resource-text">
+                            <p>L'article <a class="source-link" href="https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000025506411" target="_blank" rel="noopener">L621-1 du Code de la sécurité intérieure</a> définit l'agent de recherches privées comme un professionnel libéral autorisé à recueillir des renseignements pour le compte de tiers, en vue de la défense de leurs intérêts légitimes. Toute mission doit donc s'inscrire dans ce cadre.</p>
+                            <p>Cette activité ne confère aucune prérogative de puissance publique : l'article <a class="source-link" href="https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000025506223" target="_blank" rel="noopener">L612-14 du même Code</a> rappelle que le détective privé agit sans pouvoir coercitif, dans le respect du droit commun et des libertés individuelles.</p>
+                        </div>
+                        <div class="resource-card resource-text">
+                            <h3>Textes de référence</h3>
+                            <ul class="resource-list mb-0">
+                                <li><a class="source-link" href="https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000025506411" target="_blank" rel="noopener">Article L621-1 CSI</a> - Définition de l'agent de recherches privées</li>
+                                <li><a class="source-link" href="https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000025506223" target="_blank" rel="noopener">Article L612-14 CSI</a> - Absence de prérogatives de puissance publique</li>
+                                <li><a class="source-link" href="https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000025503132/LEGISCTA000029656360/" target="_blank" rel="noopener">Articles R631-28 à R631-31 CSI</a> - Obligations déontologiques des recherches privées</li>
+                                <li><a class="source-link" href="https://www.cnaps.interieur.gouv.fr/Actualites/La-reforme-de-la-formation-aux-activites-privees-de-securite" target="_blank" rel="noopener">Ordonnance n°2023-374 du 16 mai 2023</a> - Réforme de la formation</li>
+                            </ul>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="resource-block" id="cnaps">
+                    <div class="resource-title"><span></span> Contrôles du CNAPS</div>
+                    <h2 class="resource-heading">Une autorité de régulation active</h2>
+                    <div class="resource-grid-columns">
+                        <div class="resource-card resource-text">
+                            <h3>Autorité de régulation</h3>
+                            <p>Le Conseil National des Activités Privées de Sécurité (CNAPS) est un établissement public administratif placé sous la tutelle du ministère de l'Intérieur. Il « procède à l'examen des conditions d'accès à la profession, assure la discipline de la profession et contribue à la formation des professionnels », garantissant ainsi la conformité des acteurs aux exigences légales<a class="source-link" href="https://www.cnaps.gouv.fr/Le-CNAPS/Les-missions-du-CNAPS" target="_blank" rel="noopener">.</a></p>
+                        </div>
+                        <div class="resource-card resource-text">
+                            <h3>Contrôles et garanties</h3>
+                            <p>Le CNAPS délivre les autorisations d'exercice, cartes professionnelles et agréments des dirigeants. Il conduit également des inspections sur le terrain afin de vérifier le respect des obligations réglementaires et du code de déontologie, protégeant ainsi le public contre toute dérive.</p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="resource-block" id="deontologie">
+                    <div class="resource-title"><span></span> Déontologie</div>
+                    <h2 class="resource-heading">Confidentialité et loyauté absolues</h2>
+                    <div class="resource-highlight resource-text">
+                        <p>Le code de déontologie des activités privées de sécurité (<a class="source-link" href="https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000025503132/LEGISCTA000029656360/" target="_blank" rel="noopener">articles R631-1 à R631-33 du CSI</a>) impose impartialité, proportionnalité des moyens employés et confidentialité absolue des informations traitées. Les investigations doivent rester loyales : récolte de preuves licites, respect du secret professionnel, traitement conforme au RGPD.</p>
+                        <p>Avant toute mission, un contrat écrit précise l'objectif, le cadre juridique et les modalités de restitution. Cette transparence protège le mandant et l'enquêteur, tout en facilitant la recevabilité des éléments collectés.</p>
+                    </div>
+                </article>
+
+                <article class="resource-block" id="missions">
+                    <div class="resource-title"><span></span> Missions couvertes</div>
+                    <h2 class="resource-heading">Trois univers d'intervention</h2>
+                    <div class="resource-grid-columns">
+                        <div class="resource-card resource-text">
+                            <h3>Domaine civil et familial</h3>
+                            <p>Vérification d'éléments dans le cadre de procédures familiales, enquêtes de moralité ou de solvabilité, assistance à la protection des personnes vulnérables.</p>
+                        </div>
+                        <div class="resource-card resource-text">
+                            <h3>Protection des entreprises</h3>
+                            <p>Lutte contre la concurrence déloyale, la fraude interne ou la contrefaçon, contrôle du respect de clauses contractuelles.</p>
+                        </div>
+                        <div class="resource-card resource-text">
+                            <h3>Appui aux avocats</h3>
+                            <p>Collecte de renseignements utiles à un contentieux civil ou pénal, recherche de témoins, constitution de dossiers admissibles en justice.</p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="resource-block" id="collaboration">
+                    <div class="resource-title"><span></span> Collaboration</div>
+                    <h2 class="resource-heading">Bien choisir son cabinet</h2>
+                    <div class="resource-card resource-text">
+                        <ul class="resource-list mb-0">
+                            <li>Vérifiez l'autorisation d'exercice, l'agrément dirigeant et la carte professionnelle délivrés par le CNAPS.</li>
+                            <li>Demandez un devis et une lettre de mission détaillant le cadre juridique, les limites et le calendrier de l'intervention.</li>
+                            <li>Privilégiez un cabinet qui documente la traçabilité des actions menées et la sécurisation des données.</li>
+                            <li>Assurez-vous que les conclusions sont remises dans un rapport circonstancié, exploitable par votre conseil juridique.</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article class="resource-block" id="rgpd">
+                    <div class="resource-title"><span></span> Protection des données</div>
+                    <h2 class="resource-heading">S'aligner sur le RGPD</h2>
+                    <div class="resource-grid-columns">
+                        <div class="resource-highlight resource-text">
+                            <p>Les traitements d'informations menés par un enquêteur doivent respecter le Règlement général sur la protection des données (RGPD) et les recommandations de la Commission nationale de l'informatique et des libertés (CNIL). Les données collectées doivent rester pertinentes, limitées à l'objectif de la mission et sécurisées pendant toute leur conservation.</p>
+                            <p>Le client doit être informé des modalités de traitement, des destinataires et de la durée de conservation. En cas de doute sur la conformité, <Br>consultez <a class="source-link" href="https://www.economie.gouv.fr/entreprises/gerer-son-entreprise-au-quotidien/assurer-sa-cybersecurite-et-la-protection-de-ses/le" target="_blank" rel="noopener">le guide gouvernemental sur la protection des données.</br></a></p>
+                        </div>
+                        <div class="resource-card resource-text">
+                            <h3>Points de vigilance</h3>
+                            <ul class="resource-list mb-0">
+                                <li>S'assurer de la traçabilité des supports numériques.</li>
+                                <li>Mettre en place des clauses de confidentialité réciproques.</li>
+                                <li>Prévoir un plan de destruction sécurisée en fin de mission.</li>
+                                <li>Vérifier que l'enquêteur dispose d'une assurance responsabilité civile.</li>
+                                <li>Exiger un rapport détaillé avec justificatifs.</li>
+                                <li>Demander les modalités de stockage et d'accès aux fichiers.</li>
+                                <li>Clarifier les droits d'accès aux données après la mission.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </article>
+
+                <div class="resource-footer">
+                    <h3>Besoin d'un accompagnement sur-mesure ?</h3>
+                    <p class="resource-text">Le cabinet BENSOPS met à votre disposition un détective privé agréé, respectant le cadre légal français et les standards déontologiques. Contactez-nous pour une analyse confidentielle de votre situation.</p>
+                    <div class="resource-links">
+                        <a href="tel:0465574176">04.65.57.41.76</a> &nbsp;|&nbsp;
+                        <a href="mailto:sne@bensops.fr">sne@bensops.fr</a> &nbsp;|&nbsp;
+                        <a href="{{ path('calendar') }}">Programmer un rendez-vous</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

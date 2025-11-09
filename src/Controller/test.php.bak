@@ -1,0 +1,68 @@
+<?php
+$host = 'smtp.ionos.fr';
+$port = 587;
+$username = 'sne@bensops.fr';
+$password = '15noudep29Jo!';
+$from = 'sne@bensops.fr';
+$to = 'dfarkas960@gmail.com';
+$subject = 'Test SMTP IONOS depuis votre VPS';
+$message = "Bonjour, voici un mail de test du serveur VPS";
+
+function send_command($socket, $cmd, $expect = null) {
+    if ($cmd !== null) {
+        fputs($socket, $cmd . "\r\n");
+    }
+    $response = '';
+    while ($str = fgets($socket, 515)) {
+        $response .= $str;
+        if (substr($str, 3, 1) == ' ') break;
+    }
+    if ($expect && strpos($response, $expect) !== 0) {
+        die("Erreur SMTP après commande [$cmd] : $response\n");
+    }
+    return $response;
+}
+
+$socket = fsockopen($host, $port, $errno, $errstr, 10);
+if (!$socket) {
+    die("Connexion échouée : $errno - $errstr\n");
+}
+
+send_command($socket, null, "220");
+send_command($socket, "EHLO localhost", "250");
+send_command($socket, "STARTTLS", "220");
+
+if (!stream_socket_enable_crypto($socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT)) {
+    die("Échec de l'établissement TLS\n");
+}
+
+send_command($socket, "EHLO localhost", "250");
+send_command($socket, "AUTH LOGIN", "334");
+send_command($socket, base64_encode($username), "334");
+send_command($socket, base64_encode($password), "235");
+
+send_command($socket, "MAIL FROM:<$from>", "250");
+send_command($socket, "RCPT TO:<$to>", "250");
+send_command($socket, "DATA", "354");
+
+$headers  = "From: $from\r\n";
+$headers .= "To: $to\r\n";
+$headers .= "Subject: $subject\r\n";
+$headers .= "Content-Type: text/plain; charset=utf-8\r\n";
+$body = $headers . "\r\n" . $message . "\r\n.\r\n";
+
+fputs($socket, $body);
+$response = '';
+while ($str = fgets($socket, 515)) {
+    $response .= $str;
+    if (substr($str, 3, 1) == ' ') break;
+}
+if (strpos($response, "250") !== 0) {
+    die("Erreur SMTP après DATA : $response\n");
+}
+
+send_command($socket, "QUIT", "221");
+
+fclose($socket);
+?>
+

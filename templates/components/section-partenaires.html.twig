@@ -1,0 +1,187 @@
+<section class="container my-5">
+    <h5 class="presentation-text slide-left-delay-2" style="margin-bottom:2.2rem;">Nos partenaires français.</h5>
+    <div class="row justify-content-center align-items-center" style="row-gap: 3.5rem; column-gap: 3rem; flex-wrap:wrap;">
+        <!-- Première ligne : 3 logos -->
+        <div class="col-6 col-sm-4 col-md-3 d-flex justify-content-center">
+            <div class="partner-box">
+                <a href="https://formations.unimes.fr/fr/catalogue/licence-professionnelle-DP/droit-economie-gestion-DEG/licence-professionnelle-agent-de-recherches-privees-hnd01wuq.html" target="_blank" rel="noopener noreferrer" aria-label="Lien vers formation Unimes - agent de recherches privées">
+                    <img src="{{ asset('build/images/log3.png') }}" alt="nimes" class="partner-img slide-in-element slide-left-delay-2" loading="lazy" />
+                </a>
+            </div>
+        </div>
+        <div class="col-6 col-sm-4 col-md-3 d-flex justify-content-center">
+            <div class="partner-box">
+                <a href="https://www.alfa.asso.fr/qui-sommes-nous/" target="_blank" rel="noopener noreferrer" aria-label="Lien vers ALFA - Qui sommes-nous">
+                    <img src="{{ asset('build/images/alfa.png') }}" alt="ALFA partenaire" class="partner-img slide-in-element slide-left-delay-2" loading="lazy" />
+                </a>
+            </div>
+        </div>
+        <div class="col-6 col-sm-4 col-md-3 d-flex justify-content-center">
+            <div class="partner-box">
+                <a href="https://www.huissiers3a.com/actualites/quelle-valeur-juridique-pour-les-preuves-rapportees-par-un-detective-prive-28.html" target="_blank" rel="noopener noreferrer" aria-label="Article sur la valeur juridique des preuves rapportées par un détective privé (Huissiers 3A)">
+                    <img src="{{ asset('build/images/logo-commissaire-justice.jpg') }}" alt="commissaire de justice" class="partner-img slide-in-element slide-left-delay-2" loading="lazy" />
+                </a>
+            </div>
+        </div>
+        <!-- Deuxième ligne : 3 logos -->
+        <div class="col-6 col-sm-4 col-md-3 d-flex justify-content-center">
+            <div class="partner-box">
+                <a href="https://www.assas-universite.fr/fr/formations/offre-de-formation/diplome-duniversite-denqueteur-prive" target="_blank" rel="noopener noreferrer" aria-label="Lien vers formation Assas - détective privé">
+                    <img src="{{ asset('build/images/log1.png') }}" alt="assas" class="partner-img slide-in-element slide-left-delay-2" loading="lazy" />
+                </a>
+            </div>
+        </div>
+        <div class="col-6 col-sm-4 col-md-3 d-flex justify-content-center">
+            <div class="partner-box">
+                <a href="https://www.cnaps.interieur.gouv.fr/Le-CNAPS/Qui-sommes-nous/Qui-sommes-nous" target="_blank" rel="noopener noreferrer" aria-label="Lien vers CNAPS - Qui sommes-nous">
+                    <img src="{{ asset('build/images/log2.jpg') }}" alt="cnaps" class="partner-img slide-in-element slide-left-delay-2" loading="lazy" />
+                </a>
+            </div>
+        </div>
+        <div class="col-6 col-sm-4 col-md-3 d-flex justify-content-center">
+            <div class="partner-box">
+                <a href="https://www.cnb.avocat.fr/fr" target="_blank" rel="noopener noreferrer" aria-label="Lien vers le site du CNDB">
+                    <img src="{{ asset('build/images/cndb.jpg') }}" alt="CNDB partenaire" class="partner-img slide-in-element slide-left-delay-2" loading="lazy" />
+                </a>
+            </div>
+        </div>
+    </div>
+
+        <style>
+                    .partner-box {
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            padding: 0.12rem;
+                            background: #fff;
+                            border: 2.5px solid #e5e5e5;
+                            border-radius: 18px;
+                            box-shadow: 0 4px 18px rgba(11,43,70,0.12);
+                            flex: 0 0 auto;
+                            margin: 0 auto;
+                            overflow: hidden;
+                            width: 160px;
+                            height: 100px;
+                            transition: box-shadow 260ms ease, transform 260ms ease;
+                            margin-right: 0;
+                            margin-left: 0;
+                        }
+            @media (min-width: 576px) {
+                .partner-box { width: 200px; height: 120px; }
+            }
+            @media (min-width: 992px) {
+                .partner-box { width: 240px; height: 140px; }
+            }
+            .partner-box > a { 
+                display: flex !important; 
+                align-items: center; 
+                justify-content: center; 
+                width: 100% !important; 
+                height: 100% !important; 
+                padding: 0.5rem;
+            }
+                .partner-img {
+                        width: 100% !important;
+                        height: 100% !important;
+                        object-fit: contain;
+                        display: block;
+                        margin: 0 auto;
+                        border-radius: 12px;
+                        box-shadow: 0 2px 8px rgba(11,43,70,0.04);
+                        opacity: 1;
+                        filter: none;
+                        background: #fff;
+                        transition: transform 320ms cubic-bezier(.2,.9,.2,1), box-shadow 320ms ease, opacity 320ms ease, filter 320ms ease;
+                    }
+
+            /* Hover et focus - rendre le logo pleinement visible et mis en relief */
+            .partner-box:hover .partner-img,
+            .partner-box:focus-within .partner-img {
+                 transform: scale(1.06);
+                 box-shadow: 0 10px 28px rgba(11,43,70,0.14);
+                 opacity: 1;
+                 filter: grayscale(0%) brightness(1.06) drop-shadow(0 4px 10px rgba(0,0,0,0.06));
+            }
+
+            /* Permettre l'interaction tactile et éviter que les logos restent trop petits sur mobile */
+            @media (max-width: 575px) {
+                .partner-box { 
+                    width: 110px; 
+                    height: 100px; 
+                    margin: 0 auto;
+                }
+                .partner-img { 
+                    width: 100% !important; 
+                    height: 100% !important; 
+                }
+                .partner-box > a {
+                    padding: 0.3rem;
+                }
+                
+                /* Réduire l'espacement sur mobile */
+                .row.justify-content-center {
+                    row-gap: 1.5rem !important;
+                    column-gap: 1rem !important;
+                }
+            }
+
+            .slide-in-element {
+                transform: translateY(24px) scale(.98);
+                opacity: 0;
+                transition: transform 1600ms cubic-bezier(.2,.9,.2,1), opacity 1600ms ease-out, box-shadow 400ms ease;
+                will-change: transform, opacity, box-shadow;
+            }
+            .slide-in-element.slide-left-delay-2 {
+                transform: translateX(-18px) translateY(18px) scale(.98);
+            }
+            .slide-in-element.in-view {
+                transform: translateX(0) translateY(0) scale(1);
+                opacity: 1;
+                box-shadow: 0 8px 24px rgba(11,43,70,0.12);
+                border-radius: 12px;
+            }
+            @media (prefers-reduced-motion: reduce) {
+                    .slide-in-element {
+                        transition: none !important;
+                        transform: none !important;
+                        opacity: 1 !important;
+                        box-shadow: none !important;
+                    }
+            }
+        </style>
+
+        <script>
+            (function() {
+                if (typeof window === 'undefined') return;
+
+                const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
+                const observer = new IntersectionObserver((entries, obs) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('in-view');
+                            obs.unobserve(entry.target);
+                        }
+                    });
+                }, observerOptions);
+
+                document.addEventListener('DOMContentLoaded', () => {
+                    const els = Array.from(document.querySelectorAll('.slide-in-element'));
+                    els.forEach((el, i) => {
+                        // si la classe slide-left-delay-2 est présente, on décale davantage son délai
+                        let idx = i;
+                        if (el.classList.contains('slide-left-delay-2')) idx = i + 2; // décale plus
+
+                        // n'ajoute pas de délai si l'utilisateur préfère réduire les animations
+                        if (!prefersReduced) {
+                            // augmenter le multiplicateur pour ralentir l'apparition entre éléments
+                            el.style.transitionDelay = (idx * 360) + 'ms';
+                        } else {
+                            el.style.transitionDelay = '0ms';
+                        }
+                        observer.observe(el);
+                    });
+                });
+            })();
+        </script>
+</section>

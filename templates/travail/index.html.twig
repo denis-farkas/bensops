@@ -1,0 +1,488 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Violations du droit du travail{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    .travail-luxe {
+        position: relative;
+        padding: 5rem 0 6rem;
+        background: radial-gradient(circle at top left, #091b2f 0%, #041021 45%, #020710 100%);
+        color: rgba(230, 239, 255, 0.9);
+        overflow: hidden;
+    }
+    .travail-luxe::before,
+    .travail-luxe::after {
+        content: "";
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(12px);
+        opacity: 0.48;
+        pointer-events: none;
+    }
+    .travail-luxe::before {
+        width: 560px;
+        height: 560px;
+        top: -220px;
+        right: -160px;
+        background: radial-gradient(circle, rgba(231, 88, 26, 0.28) 0%, rgba(231, 88, 26, 0) 70%);
+    }
+    .travail-luxe::after {
+        width: 520px;
+        height: 520px;
+        bottom: -200px;
+        left: -160px;
+        background: radial-gradient(circle, rgba(80, 148, 255, 0.28) 0%, rgba(80, 148, 255, 0) 70%);
+    }
+    .travail-shell {
+        position: relative;
+        z-index: 1;
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+    }
+    .travail-hero {
+        text-align: center;
+        margin-bottom: 3.6rem;
+    }
+    .travail-hero .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.55rem 1.3rem;
+        border-radius: 999px;
+        border: 1px solid rgba(231, 88, 26, 0.45);
+        background: linear-gradient(120deg, rgba(231, 88, 26, 0.22), rgba(231, 88, 26, 0));
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        color: #ffeadd;
+        margin-bottom: 1.6rem;
+    }
+    .travail-hero h1 {
+        font-size: 2.9rem;
+        font-weight: 640;
+        color: #ffffff;
+        margin-bottom: 1.3rem;
+    }
+    .travail-hero p {
+        max-width: 780px;
+        margin: 0 auto 0.9rem;
+        font-size: 1.08rem;
+        line-height: 1.8;
+        color: rgba(230, 239, 255, 0.75);
+    }
+    .travail-metrics {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1.2rem;
+        margin-top: 2.4rem;
+    }
+    .travail-metric {
+        background: rgba(10, 31, 28, 0.72);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 1.5rem 1.3rem;
+        text-align: center;
+        box-shadow: 0 32px 50px rgba(2, 7, 12, 0.45);
+    }
+    .travail-metric strong {
+        display: block;
+        font-size: 1.9rem;
+        color: #ffffff;
+    }
+    .travail-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3.4rem;
+    }
+    .travail-card {
+        position: relative;
+        padding: 2.3rem;
+        border-radius: 26px;
+        background: linear-gradient(200deg, rgba(255, 255, 255, 0.06), rgba(7, 28, 48, 0.6));
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 34px 48px rgba(0, 0, 0, 0.38);
+    }
+    .travail-card h2 {
+        font-size: 0.95rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #ffbf99;
+        margin-bottom: 1rem;
+    }
+    .travail-card h3 {
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: #ffffff;
+        margin-bottom: 1.1rem;
+    }
+    .travail-card ul {
+        padding-left: 1.1rem;
+        margin-bottom: 0;
+    }
+    .travail-card p,
+    .travail-card li {
+        color: rgba(230, 239, 255, 0.78);
+        line-height: 1.75;
+    }
+    .travail-scenarios {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.8rem;
+        margin-bottom: 3rem;
+    }
+    .travail-scenario {
+        background: rgba(13, 41, 38, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 24px;
+        padding: 1.9rem;
+        box-shadow: 0 30px 50px rgba(0, 0, 0, 0.45);
+    }
+    .travail-scenario strong {
+        display: block;
+        font-size: 1.15rem;
+        color: #ffbf99;
+        margin-bottom: 0.6rem;
+    }
+    .travail-process {
+        margin: 3.8rem 0 3.5rem;
+        padding: 2.9rem 2.4rem;
+        border-radius: 28px;
+        background: linear-gradient(140deg, rgba(255, 255, 255, 0.08), rgba(7, 36, 62, 0.6));
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow: 0 36px 60px rgba(0, 0, 0, 0.42);
+    }
+    .travail-process h2 {
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        font-size: 0.85rem;
+        color: rgba(231, 88, 26, 0.62);
+        margin-bottom: 2rem;
+    }
+    .travail-steps {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1.6rem;
+    }
+    .travail-step {
+        display: flex;
+        gap: 1.2rem;
+        padding: 1.6rem 1.4rem;
+        border-radius: 20px;
+        background: rgba(3, 9, 16, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .travail-step-index {
+        width: 52px;
+        height: 52px;
+        border-radius: 16px;
+        background: rgba(231, 88, 26, 0.22);
+        color: #ffbf99;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+    .travail-step-title {
+        font-weight: 600;
+        color: #ffffff;
+        margin-bottom: 0.35rem;
+    }
+    .travail-step-text {
+        color: rgba(230, 239, 255, 0.72);
+        line-height: 1.6;
+    }
+    .travail-proof {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.8rem;
+        margin-bottom: 3.3rem;
+    }
+    .travail-proof-card {
+        padding: 2rem;
+        border-radius: 24px;
+        background: rgba(6, 17, 26, 0.72);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
+    }
+    .travail-proof-card h3 {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #ffbf99;
+        margin-bottom: 0.7rem;
+    }
+    .travail-signet {
+        margin: 3.3rem 0;
+        padding: 2.6rem 2.2rem;
+        border-radius: 26px;
+        background: rgba(13, 41, 38, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 34px 52px rgba(0, 0, 0, 0.4);
+    }
+    .travail-signet-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1.6rem;
+    }
+    .travail-signet-item {
+        background: rgba(13, 41, 38, 0.75);
+        border-radius: 20px;
+        padding: 1.8rem;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        color: rgba(230, 239, 255, 0.78);
+    }
+    .travail-signet-item h3 {
+        font-size: 1.15rem;
+        font-weight: 600;
+        color: #ffbf99;
+        margin-bottom: 0.6rem;
+    }
+    .travail-cta {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 1.6rem;
+        align-items: center;
+        padding: 2.6rem 2.3rem;
+        border-radius: 28px;
+        background: linear-gradient(140deg, rgba(255, 255, 255, 0.08), rgba(7, 36, 62, 0.6));
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow: 0 34px 54px rgba(0, 0, 0, 0.42);
+    }
+    .travail-cta h3 {
+        font-size: 1.9rem;
+        font-weight: 620;
+        color: #ffffff;
+        margin-bottom: 0.6rem;
+    }
+    .travail-cta p {
+        color: rgba(230, 239, 255, 0.75);
+        margin-bottom: 0;
+    }
+    .travail-cta-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    .travail-btn-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.85rem 1.9rem;
+        border-radius: 999px;
+        background: linear-gradient(120deg, #e7581a, #c08808);
+        color: #fff;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-decoration: none;
+        box-shadow: 0 26px 46px rgba(231, 88, 26, 0.4);
+    }
+    .travail-btn-secondary {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.85rem 1.6rem;
+        border-radius: 999px;
+        border: 1px solid rgba(231, 88, 26, 0.24);
+        background: rgba(231, 88, 26, 0.08);
+        color: #ffbf99;
+        text-decoration: none;
+    }
+    .travail-btn-primary:hover {
+        color: #fff;
+    }
+    .travail-btn-secondary:hover {
+        color: #ffffff;
+    }
+    @media (max-width: 991px) {
+        .travail-hero h1 {
+            font-size: 2.4rem;
+        }
+        .travail-process {
+            padding: 2.4rem 1.9rem;
+        }
+    }
+    @media (max-width: 575px) {
+        .travail-shell {
+            padding: 0 1rem;
+        }
+        .travail-hero h1 {
+            font-size: 2.1rem;
+        }
+        .travail-cta {
+            grid-template-columns: 1fr;
+        }
+        .travail-cta-actions {
+            flex-direction: column;
+            width: 100%;
+        }
+        .travail-btn-primary,
+        .travail-btn-secondary {
+            justify-content: center;
+            width: 100%;
+        }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .travail-metric,
+        .travail-card,
+        .travail-step,
+        .travail-proof-card,
+        .travail-cta {
+            transition: none !important;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<section class="travail-luxe">
+    <div class="travail-shell">
+        <header class="travail-hero">
+            <span class="badge">Justice sociale</span>
+            <h1>Enquêtes sur violations du droit du travail</h1>
+            <p>Harcèlement, travail dissimulé, non-paiement d’heures supplémentaires : nous documentons les abus patronaux avec la même exigence que les agences de référence internationales. Nos dossiers combinent investigation terrain, éclairage juridique et preuves numériques exploitables devant les conseils de prud’hommes.</p>
+            <p>Un directeur d’enquête pilote la mission en lien avec votre avocat ou syndicat, dans un cadre strictement confidentiel.</p>
+            <div class="travail-metrics">
+                <div class="travail-metric">
+                    <strong>87%</strong>
+                    <span>De nos rapports intégrés aux conclusions prud’homales</span>
+                </div>
+                <div class="travail-metric">
+                    <strong>15&nbsp;j</strong>
+                    <span>Durée moyenne d’un audit complet (terrain + OSINT)</span>
+                </div>
+                <div class="travail-metric">
+                    <strong>3</strong>
+                    <span>Experts mobilisables : juriste social, analyste data, enquêteur terrain</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="travail-grid">
+            <article class="travail-card">
+                <h2>Analyse</h2>
+                <h3>Cartographie probatoire exhaustive</h3>
+                <p>Nous identifions tous les indices révélateurs de l'infraction dans le cadre légal :</p>
+                <ul>
+                    <li><strong>Preuves temporelles :</strong> Planning réel vs déclaré, badges d'accès, géolocalisations, horodatages emails.</li>
+                    <li><strong>Témoignages :</strong> Collègues, intervenants externes, clients, experts en ergonomie du travail.</li>
+                    <li><strong>Documentation financière :</strong> Bulletins de paie, virements, notes de frais, contrats réels vs affichés.</li>
+                </ul>
+            </article>
+
+            <article class="travail-card">
+                <h2>Investigation</h2>
+                <h3>Recueil de preuves discrètes et légales</h3>
+                <p>Notre task-force déploie des techniques encadrées par le droit du travail :</p>
+                <ul>
+                    <li><strong>Terrain :</strong> Filatures ciblées, constats d'huissier, enregistrements d'ambiance autorisés.</li>
+                    <li><strong>Numérique :</strong> Veille OSINT, open data, analyse des réseaux professionnels et avis publics.</li>
+                    <li><strong>Traçabilité :</strong> Communications (SMS, messageries) avec chaîne de conservation sécurisée CNAPS.</li>
+                </ul>
+            </article>
+
+            <article class="travail-card">
+                <h2>Rapport</h2>
+                <h3>Dossier probatoire prêt à plaider</h3>
+                <p>Nous livrons un argumentaire juridique irréprochable :</p>
+                <ul>
+                    <li><strong>Format :</strong> Rapport structuré, annexes horodatées et témoignages formalisés exploitables en prud'hommes.</li>
+                    <li><strong>Stratégie :</strong> Préparation de la conciliation, éléments de langage audience, contre-arguments prévisibles.</li>
+                    <li><strong>Exécution :</strong> Suivi post-jugement, coordination avec inspecteurs du travail, monitorage des astreintes.</li>
+                </ul>
+            </article>
+        </div>
+
+        <section class="travail-scenarios" aria-label="Scénarios traités">
+            <article class="travail-scenario">
+                <strong>Travail dissimulé</strong>
+                <p>Preuve d'heures supplémentaires non payées, double comptabilité, recours abusif aux statuts indépendants. <br>En savoir plus sur <a href="https://travail-emploi.gouv.fr/le-travail-dissimule" target="_blank" rel="noopener">le travail dissimulé selon le Ministère du Travail</a>.</p>
+            </article>
+            <article class="travail-scenario">
+                <strong>Harcèlement moral</strong>
+                <p>Collecte d'emails, messages, témoignages, enregistrements autorisés pour caractériser les agissements répétés. <br>En savoir plus sur <a href="https://travail-emploi.gouv.fr/le-harcelement-moral" target="_blank" rel="noopener">le harcèlement moral selon le Ministère du Travail</a>.</p>
+            </article>
+            <article class="travail-scenario">
+                <strong>Discrimination / inégalités salariales</strong>
+                <p>Analyse de parité, comparaison de grilles, reconstitution de carrière démontrant l'atteinte au principe d'égalité. <br>En savoir plus sur <a href="https://travail-emploi.gouv.fr/la-protection-contre-les-discriminations" target="_blank" rel="noopener">la protection contre les discriminations selon le Ministère du Travail</a>.</p>
+            </article>
+        </section>
+
+        <section class="travail-signet" aria-label="Nos garanties">
+            <div class="travail-signet-grid">
+                <div class="travail-signet-item">
+                    <h3>Excellence & Conformité légale</h3>
+                    <p>Respect intégral du droit du travail et du droit de la preuve, autorisations CNAPS validées, chaîne de conservation réglementaire.</p>
+                </div>
+                <div class="travail-signet-item">
+                    <h3>Task-force pluridisciplinaire</h3>
+                    <p>Juristes droit social, avocats prud'hommes partenaires, enquêteurs terrain agréés, ergonomes et psychologues du travail reconnus.</p>
+                </div>
+                <div class="travail-signet-item">
+                    <h3>Réactivité permanente 24/7</h3>
+                    <p>Interventions urgentes, alertes temps réel sur anomalies détectées, coordination immédiate avec votre avocat ou syndicat.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="travail-process" aria-label="Méthodologie">
+            <h2>Notre méthodologie BENSOPS</h2>
+            <div class="travail-steps">
+                <div class="travail-step">
+                    <div class="travail-step-index">01</div>
+                    <div>
+                        <div class="travail-step-title">Analyse stratégique</div>
+                        <div class="travail-step-text">Entretien sécurisé avec vous et votre avocat, collecte des pièces existantes, cadrage juridique prud'hommal.</div>
+                    </div>
+                </div>
+                <div class="travail-step">
+                    <div class="travail-step-index">02</div>
+                    <div>
+                        <div class="travail-step-title">Investigation intensifiée</div>
+                        <div class="travail-step-text">Filatures, constats d'huissier, interceptions légales d'informations et recueil de témoignages formalisés.</div>
+                    </div>
+                </div>
+                <div class="travail-step">
+                    <div class="travail-step-index">03</div>
+                    <div>
+                        <div class="travail-step-title">Restitution probatoire</div>
+                        <div class="travail-step-text">Dossier structuré, analyses comparatives horodatées, annexes prêtes à produire devant les prud'hommes.</div>
+                    </div>
+                </div>
+                <div class="travail-step">
+                    <div class="travail-step-index">04</div>
+                    <div>
+                        <div class="travail-step-title">Suivi post-décision</div>
+                        <div class="travail-step-text">Préparation audience avec conseils, présence possible le jour J, suivi exécution jugement et coordination inspecteurs du travail.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="travail-cta" aria-label="Contact">
+            <div>
+                <h3>Faites valoir vos droits avec un dossier irréprochable</h3>
+                <p>Choisissez le canal qui vous convient pour débuter votre enquête. Nous garantissons une réponse rapide et professionnelle.</p>
+            </div>
+            <div class="travail-cta-actions">
+                <a class="travail-btn-primary" href="mailto:sne@bensops.fr">
+                    <i class="fas fa-envelope"></i>
+                    Écrire au cabinet
+                </a>
+                <a class="travail-btn-primary" href="tel:0465574176">
+                    <i class="fas fa-phone"></i>
+                    Ligne directe
+                </a>
+                <a class="travail-btn-primary" href="{{ path('calendar') }}">
+                    <i class="fas fa-calendar-alt"></i>
+                    Programmer un rendez-vous
+                </a>
+            </div>
+        </section>
+    </div>
+</section>
+{% endblock %}
